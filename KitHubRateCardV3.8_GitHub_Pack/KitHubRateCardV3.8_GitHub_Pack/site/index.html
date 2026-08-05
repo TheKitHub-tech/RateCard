@@ -173,6 +173,8 @@
     .filters { display: grid; grid-template-columns: 1fr 1fr; gap: .7rem; }
     .date-range { display: grid; grid-template-columns: 1fr 1fr; gap: .65rem; align-items: end; }
     .date-range .booking-helper { grid-column: 1 / -1; margin: -.15rem 0 0; color: var(--muted); font-size: .78rem; font-weight: 650; }
+    .equipment-weekend-note { grid-column: 1 / -1; margin: .05rem 0 0; padding: .65rem .75rem; border-left: 4px solid var(--mdx-red); background: #fff4f4; color: #3f3841; font-size: .78rem; line-height: 1.45; }
+    .equipment-weekend-note strong { color: var(--mdx-red); }
     .or-days-row {
       grid-column: 1 / -1;
       display: grid;
@@ -1102,88 +1104,7 @@
       .rate-info-list dd { font-size: .86rem; }
     }
   </style>
-
-  <style id="desktop-request-drawer-v31">
-    .desktop-basket-tab { display: none; }
-
-    @media (min-width: 1080px) {
-      main.shell {
-        grid-template-columns: minmax(0, 1fr) !important;
-        padding-right: 4.25rem;
-      }
-
-      .basket-toggle { display: inline-flex !important; }
-
-      .desktop-basket-tab {
-        position: fixed;
-        z-index: 19;
-        right: 0;
-        top: 42%;
-        display: flex;
-        align-items: center;
-        gap: .55rem;
-        min-height: 52px;
-        padding: .75rem .65rem;
-        border: 0;
-        border-radius: 3px 0 0 3px !important;
-        background: var(--mdx-red);
-        color: var(--mdx-white);
-        font-family: var(--font-ui);
-        font-weight: 700;
-        cursor: pointer;
-        writing-mode: vertical-rl;
-        transform: rotate(180deg);
-        box-shadow: 0 3px 12px rgba(0,0,0,.18);
-        transition: right .24s ease, background .18s ease;
-      }
-
-      .desktop-basket-tab .count {
-        display: inline-grid;
-        place-items: center;
-        min-width: 1.65rem;
-        height: 1.65rem;
-        padding: 0 .3rem;
-        border-radius: 999px !important;
-        background: var(--mdx-indigo);
-        color: var(--mdx-white);
-        writing-mode: horizontal-tb;
-        transform: rotate(180deg);
-        font-size: .8rem;
-      }
-
-      .desktop-basket-tab:hover { background: #b80707; }
-
-      aside#basketPanel {
-        position: fixed !important;
-        z-index: 18;
-        top: 76px !important;
-        right: 0;
-        bottom: 0;
-        left: auto;
-        width: min(420px, calc(100vw - 4rem));
-        max-height: none !important;
-        border: 0 !important;
-        border-left: 1px solid var(--neutral-border) !important;
-        border-radius: 0 !important;
-        background: var(--mdx-white);
-        transform: translateX(100%) !important;
-        transition: transform .24s ease;
-        overflow: hidden;
-        box-shadow: -10px 0 28px rgba(47,37,82,.16) !important;
-      }
-
-      aside#basketPanel.open { transform: translateX(0) !important; }
-      aside#basketPanel .basket-body { max-height: calc(100vh - 150px) !important; }
-      aside#basketPanel .mobile-close { display: inline-flex !important; }
-
-      body:has(aside#basketPanel.open) .desktop-basket-tab {
-        right: min(420px, calc(100vw - 4rem));
-      }
-    }
-  </style>
-
-
-  <style id="asset-information-popovers-v32">
+<style id="asset-information-popovers-v32">
     .card {
       position: relative;
       overflow: visible;
@@ -1386,6 +1307,481 @@
     }
   </style>
 
+
+  <style id="workspace-tabs-v39">
+    html { scroll-behavior: auto; }
+
+    .workspace-tabs-wrap {
+      position: sticky;
+      top: 76px;
+      z-index: 11;
+      padding: .55rem 0;
+      border-bottom: 1px solid var(--neutral-border);
+      background: rgba(255, 255, 255, .96);
+      box-shadow: 0 5px 16px rgba(47, 37, 82, .08);
+      backdrop-filter: blur(10px);
+    }
+
+    .workspace-tabs {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: .45rem;
+    }
+
+    .workspace-tab {
+      min-height: 46px;
+      padding: .65rem .8rem;
+      border: 2px solid var(--mdx-indigo);
+      border-radius: 3px !important;
+      background: var(--mdx-white);
+      color: var(--mdx-indigo);
+      font-family: var(--font-ui);
+      font-size: .95rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem;
+    }
+
+    .workspace-tab:hover {
+      background: var(--mdx-indigo-tint);
+    }
+
+    .workspace-tab[aria-selected="true"] {
+      background: var(--mdx-indigo);
+      color: var(--mdx-white);
+    }
+
+    .workspace-tab .count {
+      min-width: 1.65rem;
+      height: 1.65rem;
+      padding: 0 .35rem;
+      border-radius: 999px !important;
+      display: inline-grid;
+      place-items: center;
+      background: var(--mdx-red);
+      color: var(--mdx-white);
+      font-size: .8rem;
+      line-height: 1;
+    }
+
+    .workspace-view[hidden] {
+      display: none !important;
+    }
+
+    .equipment-main {
+      grid-template-columns: minmax(0, 1fr) !important;
+      padding-right: 0 !important;
+    }
+
+    .rooms-page,
+    .basket-page {
+      padding-top: 1rem;
+      padding-bottom: 6rem;
+    }
+
+    .rooms-placeholder {
+      min-height: 330px;
+      padding: clamp(1.4rem, 4vw, 2.5rem);
+      border: 1px solid var(--neutral-border);
+      border-left: 8px solid var(--mdx-red);
+      background: var(--mdx-white);
+      display: grid;
+      align-content: center;
+      gap: .55rem;
+    }
+
+    .rooms-kicker {
+      margin: 0;
+      color: var(--mdx-red);
+      font-family: var(--font-display);
+      font-size: .95rem;
+      font-weight: 900;
+      letter-spacing: .06em;
+    }
+
+    .rooms-placeholder h2 {
+      margin: 0;
+      color: var(--mdx-indigo);
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5vw, 4rem);
+      line-height: .95;
+      letter-spacing: .035em;
+    }
+
+    .rooms-placeholder p:not(.rooms-kicker) {
+      max-width: 65ch;
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .basket-page {
+      display: block;
+    }
+
+    .basket-page .basket-head,
+    .basket-page .basket-body {
+      width: min(980px, 100%);
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .basket-page .basket-head {
+      min-height: 74px;
+      padding: .95rem 1rem;
+      border: 0;
+    }
+
+    .basket-page .basket-body {
+      padding: 1rem;
+      border: 1px solid var(--neutral-border);
+      border-top: 0;
+      background: var(--mdx-white);
+      overflow: visible;
+      max-height: none;
+    }
+
+    .basket-page .basket-list {
+      gap: .75rem;
+    }
+
+    .basket-page .basket-item {
+      padding: .85rem;
+    }
+
+    #equipmentView .category-title {
+      top: 145px;
+    }
+
+    @media (max-width: 760px) {
+      .workspace-tabs-wrap {
+        top: 61px;
+        padding: .4rem 0;
+      }
+
+      .workspace-tabs {
+        gap: .3rem;
+      }
+
+      .workspace-tab {
+        min-height: 43px;
+        padding: .55rem .35rem;
+        font-size: .84rem;
+      }
+
+      .workspace-tab .count {
+        min-width: 1.5rem;
+        height: 1.5rem;
+        font-size: .74rem;
+      }
+
+      #equipmentView .category-title {
+        top: 116px;
+      }
+
+      .rooms-page,
+      .basket-page {
+        padding-top: .65rem;
+      }
+
+      .basket-page .basket-head,
+      .basket-page .basket-body {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .workspace-tab {
+        font-size: .78rem;
+      }
+    }
+  </style>
+
+
+  <style id="rooms-and-spaces-v40">
+    .global-request-warning {
+      background: var(--mdx-red);
+      color: var(--mdx-white);
+      border-bottom: 1px solid #b80707;
+    }
+    .global-request-warning .shell {
+      padding-top: .72rem;
+      padding-bottom: .72rem;
+      font-size: .9rem;
+      line-height: 1.4;
+    }
+
+    .rooms-page { display: block; }
+    .room-title-block {
+      margin-bottom: .85rem;
+      padding: clamp(1.3rem, 3vw, 2.25rem);
+      border-left: 10px solid var(--mdx-red);
+      background: var(--mdx-indigo);
+      color: var(--mdx-white);
+    }
+    .room-title-block .rooms-kicker,
+    .room-controls-kicker,
+    .request-status-kicker {
+      margin: 0 0 .35rem;
+      font-family: var(--font-display);
+      font-size: .9rem;
+      font-weight: 900;
+      letter-spacing: .06em;
+    }
+    .room-title-block .rooms-kicker { color: var(--mdx-white); }
+    .room-title-block h2 {
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5.5vw, 4.4rem);
+      line-height: .95;
+      letter-spacing: .035em;
+    }
+    .room-title-block > p:last-child {
+      max-width: 70ch;
+      margin: .75rem 0 0;
+      font-weight: 700;
+    }
+    .room-request-warning {
+      margin-bottom: .85rem;
+      padding: .85rem 1rem;
+      border: 1px solid var(--neutral-border);
+      border-left: 7px solid var(--mdx-red);
+      background: var(--mdx-white);
+    }
+    .room-controls {
+      margin-bottom: 1rem;
+      padding: 1rem;
+      border: 1px solid var(--neutral-border);
+      border-top: 5px solid var(--mdx-indigo);
+      background: var(--mdx-indigo-tint);
+    }
+    .room-controls-heading {
+      display: grid;
+      grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr);
+      gap: 1rem;
+      align-items: end;
+      margin-bottom: .9rem;
+    }
+    .room-controls-heading h3 {
+      margin: 0;
+      color: var(--mdx-indigo);
+      font-size: 1.15rem;
+    }
+    .room-controls-heading p:last-child {
+      margin: 0;
+      color: var(--muted);
+      font-size: .88rem;
+    }
+    .room-controls-kicker { color: var(--mdx-red); }
+    .room-date-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: .7rem;
+    }
+    .room-date-grid input,
+    .room-date-grid select,
+    .room-search-row input,
+    .room-search-row select,
+    .service-hours-input {
+      width: 100%;
+      min-height: 46px;
+      border: 1px solid #aaa9b4;
+      background: var(--mdx-white);
+      color: var(--ink);
+      padding: .68rem .75rem;
+    }
+    .room-window-result {
+      margin-top: .75rem;
+      padding: .7rem .8rem;
+      border-left: 5px solid var(--mdx-teal);
+      background: var(--mdx-white);
+      color: var(--ink);
+      font-size: .88rem;
+      font-weight: 700;
+    }
+    .room-window-result.is-error {
+      border-left-color: var(--mdx-red);
+      background: var(--mdx-red-tint);
+      color: #8d0505;
+    }
+    .room-window-result.is-warning {
+      border-left-color: var(--mdx-yellow);
+      background: #fff7df;
+    }
+    .room-search-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(220px, .7fr) auto;
+      gap: .7rem;
+      align-items: end;
+      margin-top: .75rem;
+    }
+    .room-search-row .secondary { min-height: 46px; }
+    .room-meta-row { margin-top: .75rem; }
+    .rooms-catalogue { min-width: 0; }
+    .room-card .item-description { min-height: 2.3em; }
+    .room-card .room-area {
+      color: var(--mdx-indigo);
+      font-weight: 700;
+    }
+    .room-card .rate-info-list { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+    .room-card .room-note,
+    .room-card .mandatory-support-note,
+    .service-card .room-note {
+      margin: .55rem 0 0;
+      padding: .58rem .65rem;
+      border-left: 4px solid var(--mdx-indigo);
+      background: var(--mdx-indigo-tint);
+      font-size: .8rem;
+      line-height: 1.4;
+    }
+    .room-card .mandatory-support-note {
+      border-left-color: var(--mdx-red);
+      background: var(--mdx-red-tint);
+    }
+    .room-calculated-line {
+      display: grid;
+      gap: .18rem;
+      margin: .75rem 0;
+      padding: .65rem;
+      border-left: 5px solid var(--mdx-teal);
+      background: var(--mdx-teal-tint);
+      font-size: .82rem;
+    }
+    .room-calculated-line.is-error {
+      border-left-color: var(--mdx-red);
+      background: var(--mdx-red-tint);
+    }
+    .room-calculated-line strong { color: var(--mdx-indigo); }
+    .room-add-row { margin-top: auto; }
+    .room-add-row .add { width: 100%; }
+    .room-service-controls {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: .55rem;
+      align-items: end;
+      margin-top: auto;
+    }
+    .service-contact-link {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 44px;
+      padding: .7rem .9rem;
+      border: 2px solid var(--mdx-indigo);
+      background: var(--mdx-white);
+      color: var(--mdx-indigo);
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .service-contact-link:hover { background: var(--mdx-indigo); color: var(--mdx-white); }
+    .service-card .rate-info-list { grid-template-columns: 1fr; }
+    .basket-group + .basket-group { margin-top: 1rem; }
+    .basket-group-title {
+      margin: 0 0 .55rem;
+      padding: .65rem .75rem;
+      background: var(--mdx-indigo);
+      color: var(--mdx-white);
+      font-family: var(--font-display);
+      font-size: .9rem;
+      letter-spacing: .045em;
+    }
+    .basket-item.room-basket-item { border-left: 5px solid var(--mdx-red); }
+    .basket-item.service-basket-item { border-left: 5px solid var(--mdx-teal); }
+    .room-basket-breakdown {
+      display: grid;
+      gap: .3rem;
+      margin-top: .55rem;
+      padding: .55rem .65rem;
+      background: var(--mdx-indigo-tint);
+      font-size: .78rem;
+    }
+    .room-basket-breakdown div { display: flex; justify-content: space-between; gap: .75rem; }
+    .room-basket-breakdown strong { text-align: right; }
+    .service-basket-controls {
+      display: grid;
+      grid-template-columns: 110px 1fr 40px;
+      gap: .45rem;
+      align-items: end;
+      margin-top: .6rem;
+    }
+    .request-only-basket-note {
+      border-left: 5px solid var(--mdx-red);
+      padding: .65rem .7rem;
+      background: var(--mdx-red-tint);
+    }
+    .request-status-dialog {
+      width: min(540px, calc(100vw - 2rem));
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: var(--ink);
+    }
+    .request-status-dialog::backdrop { background: rgba(18, 14, 36, .72); }
+    .request-status-dialog-inner {
+      padding: 1.25rem;
+      border-top: 8px solid var(--mdx-red);
+      background: var(--mdx-white);
+      box-shadow: 0 18px 50px rgba(0,0,0,.3);
+    }
+    .request-status-kicker { color: var(--mdx-red); }
+    .request-status-dialog h2 {
+      margin: 0 0 .7rem;
+      color: var(--mdx-indigo);
+      font-family: var(--font-display);
+      font-size: clamp(1.45rem, 4vw, 2.2rem);
+      line-height: 1;
+    }
+    .request-status-dialog p { margin: .55rem 0; }
+    .request-status-dialog .primary { width: 100%; margin-top: .75rem; }
+    .request-status-dialog.dialog-fallback {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: grid;
+      place-items: center;
+      width: 100%;
+      max-width: none;
+      height: 100%;
+      margin: 0;
+      padding: 1rem;
+      background: rgba(18, 14, 36, .72);
+    }
+    .request-status-dialog.dialog-fallback .request-status-dialog-inner { width: min(540px, calc(100vw - 2rem)); }
+    .ui-dialog-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: .65rem;
+      margin-top: .9rem;
+    }
+    .ui-dialog-actions button { width: auto; min-width: 120px; margin-top: 0 !important; }
+    .room-date-grid .room-or-days-row,
+    .room-date-grid .room-booking-helper { grid-column: 1 / -1; }
+    .room-booking-helper { margin: -.1rem 0 0; color: #4a4854; font-size: .82rem; font-weight: 650; }
+
+    @media (max-width: 900px) {
+      .room-controls-heading { grid-template-columns: 1fr; }
+      .room-date-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .room-search-row { grid-template-columns: 1fr 1fr; }
+      .room-search-row .secondary { grid-column: 1 / -1; }
+      .room-card .rate-info-list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .room-card .rate-info-list div:nth-child(4) { border-left: 0; border-top: 1px solid var(--neutral-border); }
+      .room-card .rate-info-list div:nth-child(5) { border-top: 1px solid var(--neutral-border); }
+    }
+    @media (max-width: 560px) {
+      .room-title-block { border-left-width: 7px; padding: 1.15rem 1rem; }
+      .room-date-grid, .room-search-row { grid-template-columns: 1fr; }
+      .room-search-row .secondary { grid-column: auto; }
+      .room-card .rate-info-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .room-card .rate-info-list div:nth-child(3),
+      .room-card .rate-info-list div:nth-child(5) { border-left: 0; }
+      .room-card .rate-info-list div:nth-child(n+3) { border-top: 1px solid var(--neutral-border); }
+      .room-service-controls, .service-basket-controls { grid-template-columns: 1fr; }
+      .service-basket-controls .remove { width: 100%; }
+    }
+  </style>
+
 </head>
 <body>
   <a class="skip-link" href="#items">Skip to rate card</a>
@@ -1398,32 +1794,50 @@
           <small>External hire service</small>
         </div>
       </div>
-      <button class="basket-toggle" type="button" id="mobileBasketButton" aria-expanded="false" aria-controls="basketPanel">
-        Basket <span class="count" id="mobileCount">0</span>
-      </button>
-    </div>
+</div>
   </header>
 
+  <nav class="workspace-tabs-wrap" id="workspaceTabs" aria-label="Rate card sections">
+    <div class="shell workspace-tabs" role="tablist" aria-label="Equipment, rooms and spaces, and basket">
+      <button class="workspace-tab" id="equipmentTab" type="button" role="tab" aria-selected="true" aria-controls="equipmentView" data-workspace-view="equipment">
+        Equipment
+      </button>
+      <button class="workspace-tab" id="roomsTab" type="button" role="tab" aria-selected="false" aria-controls="roomsView" data-workspace-view="rooms">
+        Rooms &amp; Spaces
+      </button>
+      <button class="workspace-tab" id="basketTab" type="button" role="tab" aria-selected="false" aria-controls="basketPanel" data-workspace-view="basket">
+        Basket <span class="count" id="mobileCount" aria-label="Items in basket">0</span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="global-request-warning" role="note" aria-label="Booking request status">
+    <div class="shell">
+      <strong>Submitting a request does not confirm a booking.</strong> All equipment and room requests are subject to availability, staffing, technical approval and written confirmation from the Kit Hub. A booking is only confirmed when the Kit Hub confirms it in writing.
+    </div>
+  </div>
+
+  <div class="workspace-view is-active" id="equipmentView" role="tabpanel" aria-labelledby="equipmentTab">
   <section class="shell hero" aria-label="Important pricing information">
     <div class="mdx-title-block">
       <p class="mdx-title-kicker">THE KIT HUB</p>
       <h1>EXTERNAL HIRE RATE CARD</h1>
-      <p>Browse indicative equipment hire prices, add equipment to your basket, and create an Excel request list for an official quote.</p>
+      <p>Browse indicative equipment hire prices, add equipment to your basket, and create an Excel booking request for an official quote.</p>
     </div>
     <div class="notice">
-      <p class="important"><strong>Prices are exclusive of VAT and indicative only.</strong> This page does not process bookings or confirm availability. Build your basket, export the request list, and email it to the Kit Hub. We will then provide the official quote.</p>
+      <p class="important"><strong>Prices are exclusive of VAT and indicative only.</strong> This page does not process bookings or confirm availability. Build your basket, export the booking request, and email it to the Kit Hub. We will then provide the official quote.</p>
     </div>
 
     <div class="how-to" aria-label="How to use this rate card">
       <div>
         <h2>How to use this rate card</h2>
         <ol>
-          <li>Choose your intended collection and return dates, or enter a set number of chargeable days.</li>
+          <li>Choose your intended collection and return dates, or enter a set number of chargeable days. Weekend equipment use is automatically adjusted to Friday collection and Monday return.</li>
           <li>Search or filter the rate card, then add items to your basket.</li>
-          <li>Enter the client and production contact details, then download the Excel request list and start an email to the Kit Hub.</li>
+          <li>Enter the client and production contact details, then download the Excel booking request and start an email to the Kit Hub.</li>
         </ol>
       </div>
-      <p class="contact-note"><strong>Sending your request:</strong> the final button downloads the Excel request list and opens a draft email to the Kit Hub. For browser security, you will still need to attach the downloaded file manually.</p>
+      <p class="contact-note"><strong>Sending your request:</strong> the final button downloads the Excel booking request and opens a draft email to the Kit Hub. For browser security, you will still need to attach the downloaded file manually.</p>
     </div>
 
 
@@ -1504,6 +1918,7 @@
             </label>
           </div>
           <p class="booking-helper" id="bookingHelper">Choose both dates, or enter a number of days, to calculate the hire period. The estimate uses the 1 day rate until a period is selected.</p>
+          <p class="equipment-weekend-note" id="equipmentWeekendNote"><strong>Weekend equipment hire:</strong> The Kit Hub is closed on Saturdays and Sundays. Equipment needed at any point over a weekend must be collected on Friday and returned on Monday, and is therefore charged as a four-day hire at minimum. Weekend dates are adjusted automatically.</p>
         </div>
       </div>
       <div class="filters">
@@ -1532,33 +1947,84 @@
     </div>
   </section>
 
-  <main class="shell">
+  <main class="shell equipment-main">
     <section class="rate-list" id="items" aria-live="polite"></section>
+  </main>
+  </div>
 
-    <button class="desktop-basket-tab" type="button" id="desktopBasketTab"
-      aria-expanded="false" aria-controls="basketPanel">
-      <span>Basket</span>
-      <span class="count" id="desktopCount">0</span>
-    </button>
+  <section class="shell workspace-view rooms-page" id="roomsView" role="tabpanel" aria-labelledby="roomsTab" hidden>
+    <div class="room-title-block">
+      <p class="rooms-kicker">THE KIT HUB</p>
+      <h2>ROOMS &amp; SPACES</h2>
+      <p>Choose one shared date and whole-hour time window, then add rooms to the same booking request as your equipment.</p>
+    </div>
 
-    <aside id="basketPanel" aria-label="Basket">
+    <div class="room-request-warning" role="note">
+      <strong>This is a booking request only.</strong> Room availability, staffing and technical requirements must be confirmed in writing by the Kit Hub.
+    </div>
+
+    <section class="room-controls" aria-labelledby="roomWindowHeading">
+      <div class="room-controls-heading">
+        <div>
+          <p class="room-controls-kicker">ROOM REQUEST WINDOW</p>
+          <h3 id="roomWindowHeading">Choose dates and whole-hour times</h3>
+        </div>
+        <p>One room window applies to every room and optional support line in this booking request. A different time window must be submitted as a separate request.</p>
+      </div>
+
+      <div class="room-date-grid">
+        <label>Start date<input id="roomStartDate" type="date" /></label>
+        <label>Start time<select id="roomStartTime" aria-label="Room start time"></select></label>
+        <label>End date<input id="roomEndDate" type="date" /></label>
+        <label>End time<select id="roomEndTime" aria-label="Room end time"></select></label>
+        <div class="or-days-row room-or-days-row">
+          <span class="or-days-badge" aria-hidden="true">OR</span>
+          <label>Number of days
+            <input id="roomNumberOfDays" type="number" min="1" step="1" inputmode="numeric" placeholder="e.g. 5" />
+          </label>
+        </div>
+        <p class="booking-helper room-booking-helper" id="roomBookingHelper">Choose both dates, or enter a number of days. Start and end times must use whole-hour slots.</p>
+      </div>
+
+      <div class="room-window-result" id="roomWindowResult" role="status" aria-live="polite">
+        Choose both dates, or enter a number of days, and select whole-hour times to calculate room prices.
+      </div>
+
+      <div class="room-search-row">
+        <label>Search rooms<input id="roomSearch" type="search" placeholder="Search by room, category, area or description" autocomplete="off" /></label>
+        <label>Room category<select id="roomCategorySelect"><option value="">All room categories</option></select></label>
+        <button class="secondary" id="resetRoomFilters" type="button">Reset room filters</button>
+      </div>
+
+      <div class="meta-row room-meta-row">
+        <span class="pill"><span id="roomResultCount">0</span> visible rooms</span>
+        <span class="pill"><span id="roomTotalCount">0</span> rooms and spaces</span>
+        <span class="pill">Whole-hour requests only</span>
+        <span class="pill">Prices ex VAT</span>
+      </div>
+    </section>
+
+    <main class="rooms-catalogue" id="roomsCatalogue" aria-live="polite"></main>
+  </section>
+
+<section class="shell workspace-view basket-page" id="basketPanel" role="tabpanel" aria-labelledby="basketTab" aria-label="Basket" hidden>
       <div class="basket-head">
         <div>
           <h2>Basket</h2>
           <div class="item-meta"><span id="basketCount">0 items</span></div>
         </div>
         <div class="basket-head-actions">
-          <button class="secondary mobile-close" type="button" id="closeBasketPanel">Close</button>
           <button class="secondary danger" type="button" id="clearBasketTop">Clear basket</button>
         </div>
       </div>
       <div class="basket-body">
-        <p class="basket-empty" id="basketEmpty">Your basket is empty. Add items from the rate card, then create an Excel request list and email it to the Kit Hub for an official quote.</p>
+        <p class="basket-empty" id="basketEmpty">Your basket is empty. Add items from the rate card, then create an Excel booking request and email it to the Kit Hub for an official quote.</p>
         <div class="basket-list" id="basketList"></div>
 
         <div class="booking-summary" aria-label="Intended booking summary">
-          <div><span>Intended booking</span><strong id="bookingDatesSummary">Dates not selected</strong></div>
-          <div><span>Hire period used</span><strong id="hirePeriodSummary">1 day rate</strong></div>
+          <div><span>Equipment booking</span><strong id="bookingDatesSummary">Dates not selected</strong></div>
+          <div><span>Equipment hire period</span><strong id="hirePeriodSummary">1 day rate</strong></div>
+          <div><span>Room booking</span><strong id="roomBookingSummary">No rooms selected</strong></div>
         </div>
 
         <div class="vat-row">
@@ -1577,7 +2043,7 @@
           <div class="summary-row"><span>Estimated VAT</span><strong id="vatTotal">£0.00</strong></div>
           <div class="summary-row total"><span>Estimated total, inc VAT</span><strong id="grandTotal">£0.00</strong></div>
         </div>
-        <p class="small-note">Estimate only. Prices are exclusive of VAT and subject to official confirmation, availability and the final quote from the Kit Hub.</p>
+        <p class="small-note request-only-basket-note"><strong>Booking request only.</strong> Prices are exclusive of VAT and indicative. Nothing in this basket reserves equipment or rooms. A booking is only confirmed when the Kit Hub confirms it in writing.</p>
 
         <div class="request-details" aria-labelledby="requestContactDetailsHeading">
           <p id="requestContactDetailsHeading" style="margin:0 0 .65rem;color:var(--mdx-indigo);font-size:.9rem;font-weight:800;">Client and production details</p>
@@ -1599,29 +2065,50 @@
               <input id="requestClientPhone" type="tel" maxlength="50" autocomplete="tel" placeholder="Optional" />
             </label>
           </div>
-          <p>Enter at least a client name or company / production. These details will be included in the request list and imported automatically into the quote builder.</p>
+          <p>Enter at least a client name or company / production. These details will be included in the booking request and imported automatically into the quote builder.</p>
         </div>
 
-        <p class="privacy-note"><strong>Privacy:</strong> Your details are not stored by this website. The request list is generated on your device and is only shared with the Kit Hub when you attach and send it by email.</p>
+        <p class="privacy-note"><strong>Privacy:</strong> Your details are not stored by this website. The booking request is generated on your device and is only shared with the Kit Hub when you attach and send it by email.</p>
 
         <div class="actions">
-          <button class="primary" id="emailRequest" type="button">Download request list and start email</button>
-          <button class="secondary" id="downloadExcel" type="button">Download Excel request list only</button>
+          <button class="primary" id="emailRequest" type="button">Download booking request and start email</button>
+          <button class="secondary" id="downloadExcel" type="button">Download Excel booking request only</button>
         </div>
         <p class="small-note email-attachment-note">Your email app will open with the recipient, subject and message filled in. For browser security, attach the downloaded Excel file manually before sending.</p>
       </div>
-    </aside>
-  </main>
+    </section>
 
   <footer class="site-footer" aria-label="Rate card version and contact information">
     <div class="shell footer-inner">
-      <span>KitHubRateCardV3.8</span>
-      <span>Last updated: July 2026</span>
+      <span>KitHubRateCardV4.3</span>
+      <span>Last updated: August 2026</span>
       <span>The Kit Hub, Middlesex University</span>
       <span><a href="mailto:thekithub@mdx.ac.uk">thekithub@mdx.ac.uk</a></span>
       <span>Indicative prices only, subject to availability and official confirmation</span>
     </div>
   </footer>
+
+  <dialog class="request-status-dialog" id="requestStatusDialog" aria-labelledby="requestStatusTitle">
+    <div class="request-status-dialog-inner">
+      <p class="request-status-kicker">IMPORTANT</p>
+      <h2 id="requestStatusTitle">This is not a confirmed booking</h2>
+      <p>Your Excel booking request has been created. Equipment and rooms remain subject to availability, staffing, technical approval and written confirmation from the Kit Hub.</p>
+      <p><strong>Do not make arrangements on the assumption that the booking is confirmed.</strong></p>
+      <button class="primary" id="requestStatusConfirm" type="button">I understand</button>
+    </div>
+  </dialog>
+
+  <dialog class="request-status-dialog ui-message-dialog" id="uiMessageDialog" aria-labelledby="uiMessageTitle" aria-describedby="uiMessageText">
+    <div class="request-status-dialog-inner">
+      <p class="request-status-kicker" id="uiMessageKicker">NOTICE</p>
+      <h2 id="uiMessageTitle">Please check</h2>
+      <p id="uiMessageText"></p>
+      <div class="ui-dialog-actions">
+        <button class="secondary" id="uiMessageCancel" type="button" hidden>Cancel</button>
+        <button class="primary" id="uiMessageConfirm" type="button">OK</button>
+      </div>
+    </div>
+  </dialog>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
@@ -1639,6 +2126,7 @@
       endDate: document.getElementById('endDate'),
       numberOfDays: document.getElementById('numberOfDays'),
       bookingHelper: document.getElementById('bookingHelper'),
+      equipmentWeekendNote: document.getElementById('equipmentWeekendNote'),
       periodPill: document.getElementById('periodPill'),
       bookingDatesSummary: document.getElementById('bookingDatesSummary'),
       hirePeriodSummary: document.getElementById('hirePeriodSummary'),
@@ -1653,10 +2141,11 @@
       basketEmpty: document.getElementById('basketEmpty'),
       basketCount: document.getElementById('basketCount'),
       mobileCount: document.getElementById('mobileCount'),
-      mobileBasketButton: document.getElementById('mobileBasketButton'),
-      desktopBasketTab: document.getElementById('desktopBasketTab'),
-      desktopCount: document.getElementById('desktopCount'),
-      closeBasketPanel: document.getElementById('closeBasketPanel'),
+      equipmentTab: document.getElementById('equipmentTab'),
+      roomsTab: document.getElementById('roomsTab'),
+      basketTab: document.getElementById('basketTab'),
+      equipmentView: document.getElementById('equipmentView'),
+      roomsView: document.getElementById('roomsView'),
       clearBasketTop: document.getElementById('clearBasketTop'),
       subtotal: document.getElementById('subtotal'),
       vatRate: document.getElementById('vatRate'),
@@ -2305,20 +2794,30 @@
     function addImportedToBasket(replace = false) {
       const imported = selectedImportedBasketRows();
       if (!imported.length) return;
-      if (replace && basket.length && !confirm('Replace the current basket with the selected imported items?')) return;
-      if (replace) basket = [];
-      imported.forEach(importedRow => {
-        const existing = basket.find(row => row.id === importedRow.id);
-        if (existing) existing.qty += importedRow.qty;
-        else basket.push(importedRow);
-      });
-      saveBasket();
-      renderBasket();
-      showToast(`${imported.length} matched item${imported.length === 1 ? '' : 's'} ${replace ? 'loaded into' : 'added to'} the basket`);
-      if (window.matchMedia('(max-width: 1079px)').matches) {
-        els.basketPanel.classList.add('open');
-        els.mobileBasketButton.setAttribute('aria-expanded', 'true');
+      const applyImportedItems = () => {
+        if (replace) basket = [];
+        imported.forEach(importedRow => {
+          const existing = basket.find(row => row.id === importedRow.id);
+          if (existing) existing.qty += importedRow.qty;
+          else basket.push(importedRow);
+        });
+        saveBasket();
+        renderBasket();
+        showToast(`${imported.length} matched item${imported.length === 1 ? '' : 's'} ${replace ? 'loaded into' : 'added to'} the basket`);
+        if (window.matchMedia('(max-width: 1079px)').matches) switchWorkspaceView('basket');
+      };
+      if (replace && basket.length) {
+        showUiMessage({
+          title: 'Replace the current basket?',
+          message: 'This will remove the current basket contents and replace them with the selected imported equipment items.',
+          kicker: 'CONFIRM',
+          confirmLabel: 'Replace basket',
+          cancelLabel: 'Keep current basket',
+          onConfirm: applyImportedItems
+        });
+        return;
       }
+      applyImportedItems();
     }
 
     function clearImportedReview() {
@@ -2392,6 +2891,46 @@
       return date ? date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric', timeZone: 'UTC' }) : '';
     }
 
+    function formatUtcDateForInput(date) {
+      if (!(date instanceof Date) || Number.isNaN(date.getTime())) return '';
+      return `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, '0')}-${String(date.getUTCDate()).padStart(2, '0')}`;
+    }
+
+    function addUtcDays(date, days) {
+      const adjusted = new Date(date.getTime());
+      adjusted.setUTCDate(adjusted.getUTCDate() + days);
+      return adjusted;
+    }
+
+    function adjustEquipmentWeekendDate(date, boundary) {
+      if (!(date instanceof Date) || Number.isNaN(date.getTime())) return date;
+      const day = date.getUTCDay();
+      if (boundary === 'start') {
+        if (day === 6) return addUtcDays(date, -1);
+        if (day === 0) return addUtcDays(date, -2);
+      }
+      if (boundary === 'end') {
+        if (day === 6) return addUtcDays(date, 2);
+        if (day === 0) return addUtcDays(date, 1);
+      }
+      return date;
+    }
+
+    function normaliseEquipmentWeekendInput(input, boundary) {
+      const originalValue = input.value;
+      input.removeAttribute('data-weekend-original');
+      const original = parseDateOnly(originalValue);
+      if (!original) return false;
+      const adjusted = adjustEquipmentWeekendDate(original, boundary);
+      const adjustedValue = formatUtcDateForInput(adjusted);
+      if (adjustedValue && adjustedValue !== originalValue) {
+        input.dataset.weekendOriginal = originalValue;
+        input.value = adjustedValue;
+        return true;
+      }
+      return false;
+    }
+
     function pluralDays(days) { return `${days} day${days === 1 ? '' : 's'}`; }
 
     function getDurationMultiplier(days) {
@@ -2415,8 +2954,12 @@
     }
 
     function getBookingInfo() {
-      const start = parseDateOnly(els.startDate.value);
-      const end = parseDateOnly(els.endDate.value);
+      const selectedStartValue = els.startDate.value;
+      const selectedEndValue = els.endDate.value;
+      const requestedStartValue = els.startDate.dataset.weekendOriginal || selectedStartValue;
+      const requestedEndValue = els.endDate.dataset.weekendOriginal || selectedEndValue;
+      const requestedStart = parseDateOnly(selectedStartValue);
+      const requestedEnd = parseDateOnly(selectedEndValue);
       const manualRaw = textValue(els.numberOfDays.value);
       let days = 1;
       let hasValidDates = false;
@@ -2425,17 +2968,25 @@
       let invalid = false;
       let manualInvalid = false;
       let source = 'default';
+      let adjustedStart = requestedStart;
+      let adjustedEnd = requestedEnd;
+      let weekendAdjusted = false;
 
       let dateDays = null;
-      if (start && end) {
-        const diff = Math.round((end.getTime() - start.getTime()) / 86400000) + 1;
-        if (diff >= 1) {
-          dateDays = diff;
-          hasValidDates = true;
+      if (requestedStart && requestedEnd) {
+        const requestedDiff = Math.round((requestedEnd.getTime() - requestedStart.getTime()) / 86400000) + 1;
+        if (requestedDiff >= 1) {
+          adjustedStart = adjustEquipmentWeekendDate(requestedStart, 'start');
+          adjustedEnd = adjustEquipmentWeekendDate(requestedEnd, 'end');
+          weekendAdjusted = Boolean(els.startDate.dataset.weekendOriginal || els.endDate.dataset.weekendOriginal)
+            || adjustedStart.getTime() !== requestedStart.getTime()
+            || adjustedEnd.getTime() !== requestedEnd.getTime();
+          dateDays = Math.round((adjustedEnd.getTime() - adjustedStart.getTime()) / 86400000) + 1;
+          hasValidDates = dateDays >= 1;
         } else {
           dateInvalid = true;
         }
-      } else if (start || end) {
+      } else if (requestedStart || requestedEnd) {
         incompleteDates = true;
       }
 
@@ -2461,12 +3012,19 @@
       const priceKey = '1 day';
       const hasSelectedPeriod = source === 'manual' || source === 'dates';
       const periodLabel = hasSelectedPeriod && !invalid ? pluralDays(days) : '1 day';
+      const adjustedStartValue = adjustedStart ? formatUtcDateForInput(adjustedStart) : els.startDate.value;
+      const adjustedEndValue = adjustedEnd ? formatUtcDateForInput(adjustedEnd) : els.endDate.value;
+      const adjustedStartDisplay = adjustedStart ? formatDateForDisplay(adjustedStartValue) : '';
+      const adjustedEndDisplay = adjustedEnd ? formatDateForDisplay(adjustedEndValue) : '';
+      const weekendDetail = weekendAdjusted
+        ? ` Weekend use has been adjusted to Friday collection (${adjustedStartDisplay}) and Monday return (${adjustedEndDisplay}).`
+        : '';
       const periodDetail = manualInvalid
         ? 'Number of days must be a whole number starting from 1'
         : source === 'manual'
           ? `${pluralDays(days)} entered manually, using the ${bandLabel}`
           : source === 'dates' && !invalid
-            ? `${pluralDays(days)} using the ${bandLabel}`
+            ? `${pluralDays(days)} using the ${bandLabel}.${weekendDetail}`
             : dateInvalid
               ? 'Return date must be after the collection date'
               : '1 day rate until dates or a number of days are selected';
@@ -2484,10 +3042,15 @@
         invalid,
         manualInvalid,
         source,
-        startValue: els.startDate.value,
-        endValue: els.endDate.value,
-        startDisplay: formatDateForDisplay(els.startDate.value),
-        endDisplay: formatDateForDisplay(els.endDate.value)
+        weekendAdjusted,
+        requestedStartValue,
+        requestedEndValue,
+        requestedStartDisplay: formatDateForDisplay(requestedStartValue),
+        requestedEndDisplay: formatDateForDisplay(requestedEndValue),
+        startValue: adjustedStartValue,
+        endValue: adjustedEndValue,
+        startDisplay: adjustedStartDisplay,
+        endDisplay: adjustedEndDisplay
       };
     }
 
@@ -2520,9 +3083,21 @@
       } else if (info.incompleteDates) {
         els.bookingHelper.textContent = 'Choose both collection and return dates, or enter a number of days, to calculate the estimate.';
       } else if (info.hasValidDates) {
-        els.bookingHelper.textContent = `Estimate is based on ${info.periodDetail}. This follows the Kit Hub quote formula.`;
+        els.bookingHelper.textContent = info.weekendAdjusted
+          ? `Weekend equipment hire adjusted automatically to ${info.startDisplay} collection and ${info.endDisplay} return. The estimate is based on ${pluralDays(info.days)}.`
+          : `Estimate is based on ${info.periodDetail}. This follows the Kit Hub quote formula.`;
       } else {
         els.bookingHelper.textContent = 'Choose both dates, or enter a number of days, to calculate the hire period. The estimate uses the 1 day rate until a period is selected.';
+      }
+
+      if (els.equipmentWeekendNote) {
+        if (info.weekendAdjusted && info.hasValidDates) {
+          els.equipmentWeekendNote.innerHTML = `<strong>Weekend dates adjusted:</strong> Equipment must be collected on ${escapeHtml(info.startDisplay)} and returned on ${escapeHtml(info.endDisplay)} because the Kit Hub is closed at weekends. This request is charged as ${escapeHtml(pluralDays(info.days))}.`;
+        } else if (info.source === 'manual') {
+          els.equipmentWeekendNote.innerHTML = '<strong>Weekend equipment hire:</strong> Number of days is treated as the number of chargeable days. Enter at least 4 days for equipment collected on Friday and returned on Monday.';
+        } else {
+          els.equipmentWeekendNote.innerHTML = '<strong>Weekend equipment hire:</strong> The Kit Hub is closed on Saturdays and Sundays. Equipment needed at any point over a weekend must be collected on Friday and returned on Monday, and is therefore charged as a four-day hire at minimum. Weekend dates are adjusted automatically.';
+        }
       }
 
       els.periodPill.textContent = `Hire period: ${periodText}`;
@@ -2935,23 +3510,23 @@
 </Relationships>`,
         'docProps/core.xml': `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dcmitype="http://purl.org/dc/dcmitype/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <dc:title>KitHubRateCardV3.8 Request List</dc:title>
-  <dc:creator>KitHubRateCardV3.8</dc:creator>
-  <cp:lastModifiedBy>KitHubRateCardV3.8</cp:lastModifiedBy>
+  <dc:title>KitHubRateCardV4.3 Booking Request</dc:title>
+  <dc:creator>KitHubRateCardV4.3</dc:creator>
+  <cp:lastModifiedBy>KitHubRateCardV4.3</cp:lastModifiedBy>
   <dcterms:created xsi:type="dcterms:W3CDTF">${now}</dcterms:created>
   <dcterms:modified xsi:type="dcterms:W3CDTF">${now}</dcterms:modified>
 </cp:coreProperties>`,
         'docProps/app.xml': `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Properties xmlns="http://schemas.openxmlformats.org/officeDocument/2006/extended-properties" xmlns:vt="http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes">
-  <Application>KitHubRateCardV3.8</Application>
+  <Application>KitHubRateCardV4.3</Application>
   <DocSecurity>0</DocSecurity>
   <ScaleCrop>false</ScaleCrop>
   <HeadingPairs><vt:vector size="2" baseType="variant"><vt:variant><vt:lpstr>Worksheets</vt:lpstr></vt:variant><vt:variant><vt:i4>1</vt:i4></vt:variant></vt:vector></HeadingPairs>
-  <TitlesOfParts><vt:vector size="1" baseType="lpstr"><vt:lpstr>Request List</vt:lpstr></vt:vector></TitlesOfParts>
+  <TitlesOfParts><vt:vector size="1" baseType="lpstr"><vt:lpstr>Booking Request</vt:lpstr></vt:vector></TitlesOfParts>
 </Properties>`,
         'xl/workbook.xml': `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">
-  <sheets><sheet name="Request List" sheetId="1" r:id="rId1"/></sheets>
+  <sheets><sheet name="Booking Request" sheetId="1" r:id="rId1"/></sheets>
 </workbook>`,
         'xl/_rels/workbook.xml.rels': `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
@@ -3116,13 +3691,13 @@
       return `${year}-${month}-${day}`;
     }
 
-    function getRequestListFilename() {
+    function getBookingRequestFilename() {
       const details = getRequestDetails();
       const nameParts = [details.company, details.clientName]
         .filter(Boolean)
         .map(value => safeFilenamePart(value, 50));
       const name = (nameParts.join('_') || 'unnamed').slice(0, 110);
-      return `${name}_requestlist_${localDateStamp()}.xlsx`;
+      return `${name}_booking_request_${localDateStamp()}.xlsx`;
     }
 
     function validateRequestExport() {
@@ -3143,10 +3718,10 @@
       return true;
     }
 
-    function triggerRequestListDownload(showConfirmation = true) {
+    function triggerBookingRequestDownload(showConfirmation = true) {
       if (!validateRequestExport()) return null;
       const blob = makeZip(buildWorkbookFiles());
-      const filename = getRequestListFilename();
+      const filename = getBookingRequestFilename();
       const link = document.createElement('a');
       const objectUrl = URL.createObjectURL(blob);
       link.href = objectUrl;
@@ -3155,22 +3730,22 @@
       link.click();
       link.remove();
       setTimeout(() => URL.revokeObjectURL(objectUrl), 1000);
-      if (showConfirmation) showToast('Excel request list downloaded');
+      if (showConfirmation) showToast('Excel booking request downloaded');
       return { filename, requestDetails: getRequestDetails() };
     }
 
     function downloadExcelFile() {
-      triggerRequestListDownload(true);
+      triggerBookingRequestDownload(true);
     }
 
-    function buildRequestEmailUrl(filename = getRequestListFilename()) {
+    function buildRequestEmailUrl(filename = getBookingRequestFilename()) {
       const details = getRequestDetails();
       const requestName = getRequestDisplayName();
       const booking = getBookingInfo();
       const bookingSummary = booking.hasValidDates
         ? `${booking.startDisplay} to ${booking.endDisplay}`
         : booking.periodDetail;
-      const subject = `Equipment hire request: ${requestName}`;
+      const subject = `Equipment booking request: ${requestName}`;
       const contactLines = [
         details.clientName ? `Client name: ${details.clientName}` : '',
         details.company ? `Company / production: ${details.company}` : '',
@@ -3180,12 +3755,12 @@
       const body = [
         'Hello the Kit Hub team,',
         '',
-        'Please find my equipment hire request list attached.',
+        'Please find my equipment hire booking request attached.',
         '',
         ...contactLines,
         `Intended booking: ${bookingSummary}`,
         `Hire period used: ${booking.periodDetail}`,
-        `Request list file: ${filename}`,
+        `Booking request file: ${filename}`,
         '',
         'Please could you confirm availability and provide an official quote?',
         '',
@@ -3197,9 +3772,9 @@
     }
 
     function downloadAndStartEmail() {
-      const result = triggerRequestListDownload(false);
+      const result = triggerBookingRequestDownload(false);
       if (!result) return;
-      showToast('Request list downloaded. Opening email app');
+      showToast('Booking request downloaded. Opening email app');
       const mailtoUrl = buildRequestEmailUrl(result.filename);
       setTimeout(() => {
         window.location.href = mailtoUrl;
@@ -3220,16 +3795,47 @@
 
     function clearBasket() {
       if (!basket.length) return;
-      if (!confirm('Clear the current basket?')) return;
-      basket = [];
-      saveBasket();
-      renderBasket();
+      showUiMessage({
+        title: 'Clear the current basket?',
+        message: 'This will remove all equipment, rooms and optional services from the booking request.',
+        kicker: 'CONFIRM',
+        confirmLabel: 'Clear basket',
+        cancelLabel: 'Keep basket',
+        onConfirm: () => {
+          basket = [];
+          saveBasket();
+          renderBasket();
+          if (typeof renderRooms === 'function') renderRooms();
+          showToast('Basket cleared');
+        }
+      });
     }
 
-    function closeBasketPanel() {
-      els.basketPanel.classList.remove('open');
-      els.mobileBasketButton.setAttribute('aria-expanded', 'false');
-      if (els.desktopBasketTab) els.desktopBasketTab.setAttribute('aria-expanded', 'false');
+    function switchWorkspaceView(viewName, options = {}) {
+      const views = {
+        equipment: els.equipmentView,
+        rooms: els.roomsView,
+        basket: els.basketPanel
+      };
+      const tabs = {
+        equipment: els.equipmentTab,
+        rooms: els.roomsTab,
+        basket: els.basketTab
+      };
+      const selectedView = views[viewName] || views.equipment;
+
+      Object.entries(views).forEach(([name, view]) => {
+        const active = view === selectedView;
+        view.hidden = !active;
+        view.classList.toggle('is-active', active);
+        tabs[name].setAttribute('aria-selected', String(active));
+        tabs[name].tabIndex = active ? 0 : -1;
+      });
+
+      if (options.focusTab) tabs[viewName]?.focus();
+      if (options.scroll !== false) {
+        window.scrollTo(0, 0);
+      }
     }
 
     function showToast(message) {
@@ -3238,6 +3844,807 @@
       clearTimeout(showToast.timer);
       showToast.timer = setTimeout(() => els.toast.classList.remove('show'), 1900);
     }
+
+
+
+    /* Rooms & Spaces full implementation, V4.0 */
+    const ROOMS = [{"id":"ROOM-001","category":"Production Studios","sourceName":"Studio A","name":"TV Studio A","area":"147m2","description":"Sound isolated and double height production space","rates":{"hourly":420.0,"halfDay":null,"oneDay":2856.0,"threeDay":8064.0,"fiveDay":11760.0},"notes":"","mandatorySupport":false},{"id":"ROOM-002","category":"Production Studios","sourceName":"Studio B","name":"Studio B","area":"57m2","description":"For Interviews and smaller productions","rates":{"hourly":80.0,"halfDay":320.0,"oneDay":544.0,"threeDay":1536.0,"fiveDay":2240.0},"notes":"","mandatorySupport":false},{"id":"ROOM-003","category":"Production Studios","sourceName":"Motion Capture Studio","name":"Motion Capture Studio","area":"64m2","description":"Delivers high-fidelity performance animation, real-time camera tracking for VP, and dynamic pre-visualization for games and film.","rates":{"hourly":187.5,"halfDay":750.0,"oneDay":1275.0,"threeDay":3600.0,"fiveDay":5250.0},"notes":"","mandatorySupport":false},{"id":"ROOM-004","category":"Production Studios","sourceName":"Stop Motion Animation Studio","name":"Stop Motion Animation Studio","area":"10m2","description":"Private space for stop motion projects with access to Dragon Frame.","rates":{"hourly":10.0,"halfDay":40.0,"oneDay":68.0,"threeDay":192.0,"fiveDay":280.0},"notes":"","mandatorySupport":false},{"id":"ROOM-005","category":"Production Studios","sourceName":"Podcast Studio A","name":"Podcast Studio A","area":"14m2","description":"Fully integrated audio set up. Video podcast environment and furnishings. Camera and lighting available separately (media hire)","rates":{"hourly":25.0,"halfDay":100.0,"oneDay":170.0,"threeDay":480.0,"fiveDay":700.0},"notes":"","mandatorySupport":false},{"id":"ROOM-006","category":"Production Studios","sourceName":"Podcast Studio B","name":"Podcast Studio B","area":"9m2","description":"Fully integrated audio set up. Audio only.","rates":{"hourly":25.0,"halfDay":100.0,"oneDay":170.0,"threeDay":480.0,"fiveDay":700.0},"notes":"","mandatorySupport":false},{"id":"ROOM-007","category":"Performance Studios/Theatres","sourceName":"Studio 1","name":"Studio 1","area":"98m2","description":"Blackbox studio with generic lighting, PA and projection screen.","rates":{"hourly":35.0,"halfDay":140.0,"oneDay":238.0,"threeDay":672.0,"fiveDay":980.0},"notes":"Full blackout projector available separately","mandatorySupport":false},{"id":"ROOM-008","category":"Performance Studios/Theatres","sourceName":"Studio 2","name":"Studio 2","area":"94m2","description":"Blackbox studio with comprehensive lighting, PA and projection screen.","rates":{"hourly":35.0,"halfDay":140.0,"oneDay":238.0,"threeDay":672.0,"fiveDay":980.0},"notes":"Full blackout projector available separately","mandatorySupport":false},{"id":"ROOM-009","category":"Performance Studios/Theatres","sourceName":"Studio 3","name":"Studio 3","area":"98m2","description":"Whitebox studio with LED lighting, PA and AV network.","rates":{"hourly":35.0,"halfDay":140.0,"oneDay":238.0,"threeDay":672.0,"fiveDay":980.0},"notes":"","mandatorySupport":false},{"id":"ROOM-010","category":"Performance Studios/Theatres","sourceName":"Studio 4","name":"Studio 4","area":"100m2","description":"Blackbox studio with comprehensive lighting, PA and projection screen.","rates":{"hourly":35.0,"halfDay":140.0,"oneDay":238.0,"threeDay":672.0,"fiveDay":980.0},"notes":"Full blackout projector available separately","mandatorySupport":false},{"id":"ROOM-011","category":"Performance Studios/Theatres","sourceName":"Ritterman Dance Studio","name":"Ritterman Dance Studio","area":"160m2","description":"Dance Studio with mirrored wall.","rates":{"hourly":50.0,"halfDay":200.0,"oneDay":340.0,"threeDay":960.0,"fiveDay":1400.0},"notes":"Dry hire (min 1 hour staff time)","mandatorySupport":true},{"id":"ROOM-012","category":"Performance Studios/Theatres","sourceName":"Ravensfield Theatre","name":"Ravensfield Theatre","area":"126m2","description":"Comprehensive LED lighting, PA and projection screen. Extensive staging and seating options.","rates":{"hourly":50.0,"halfDay":200.0,"oneDay":340.0,"threeDay":960.0,"fiveDay":1400.0},"notes":"Dry Hire / 1 hour staff time minimum / Full Blackout projector available separately","mandatorySupport":true},{"id":"ROOM-013","category":"Performance Studios/Theatres","sourceName":"Grove Dance Theatre","name":"Grove Dance Theatre","area":"","description":"Comprehensive LED lighting, PA and projection screen with projector Full Blackout with seating options.","rates":{"hourly":65.0,"halfDay":260.0,"oneDay":442.0,"threeDay":1248.0,"fiveDay":1820.0},"notes":"Dry Hire / 1 hour staff time minimum","mandatorySupport":true},{"id":"ROOM-014","category":"Photography","sourceName":"Infinity Cove Studio","name":"Infinity Cove Studio","area":"57m2","description":"Curved white studio with changeable backdrop options, containing industry standard flash and continuous lighting.","rates":{"hourly":90.0,"halfDay":360.0,"oneDay":612.0,"threeDay":1728.0,"fiveDay":2520.0},"notes":"","mandatorySupport":false},{"id":"ROOM-015","category":"Photography","sourceName":"Flexi Studio","name":"Flexi Studio","area":"55m2","description":"Flexible studio space with changeable backdrop options, containing industry standard flash and continuous lighting.","rates":{"hourly":75.0,"halfDay":300.0,"oneDay":510.0,"threeDay":1440.0,"fiveDay":2100.0},"notes":"","mandatorySupport":false},{"id":"ROOM-016","category":"Photography","sourceName":"Portrait Studio","name":"Portrait Studio","area":"30m2","description":"Intimate studio space with changeable backdrop options, containing industry standard flash and continuous lighting.","rates":{"hourly":50.0,"halfDay":200.0,"oneDay":340.0,"threeDay":960.0,"fiveDay":1400.0},"notes":"","mandatorySupport":false},{"id":"ROOM-017","category":"Music","sourceName":"Music Studio A","name":"Music Studio A","area":"","description":"Hybrid music recording studio with dedicated Control/Live/Dead rooms. Full back line and comprehensive outboard gear.","rates":{"hourly":65.0,"halfDay":260.0,"oneDay":442.0,"threeDay":1248.0,"fiveDay":1820.0},"notes":"","mandatorySupport":false},{"id":"ROOM-018","category":"Music","sourceName":"Music Studio B","name":"Music Studio B","area":"","description":"Small Recording Studio/Edit suite for Music Production.","rates":{"hourly":40.0,"halfDay":160.0,"oneDay":272.0,"threeDay":768.0,"fiveDay":1120.0},"notes":"","mandatorySupport":false},{"id":"ROOM-019","category":"Music","sourceName":"Concert Room","name":"Concert Room","area":"","description":"100 capacity concert hall with stage and full PA system, containing grand pianos, drum set, guitar/bass amps.","rates":{"hourly":50.0,"halfDay":200.0,"oneDay":340.0,"threeDay":960.0,"fiveDay":1400.0},"notes":"","mandatorySupport":false},{"id":"ROOM-020","category":"Music","sourceName":"Practice Room","name":"Practice Room","area":"","description":"Small practice room with upright piano, multipurpose amp, bass amp.","rates":{"hourly":6.25,"halfDay":25.0,"oneDay":42.5,"threeDay":120.0,"fiveDay":175.0},"notes":"","mandatorySupport":false},{"id":"ROOM-021","category":"Music","sourceName":"Band Room","name":"Band Room","area":"","description":"Band rehearsal room with drum set, guitar/bass amps, upright piano, PA.","rates":{"hourly":8.75,"halfDay":35.0,"oneDay":59.5,"threeDay":168.0,"fiveDay":245.0},"notes":"","mandatorySupport":false},{"id":"ROOM-022","category":"Music","sourceName":"Ensemble Room 1","name":"Ensemble Room 1","area":"","description":"Rehearsal room with drum set, upright pianos, guitar/bass amps, PA, AV system.","rates":{"hourly":11.25,"halfDay":45.0,"oneDay":76.5,"threeDay":216.0,"fiveDay":315.0},"notes":"","mandatorySupport":false},{"id":"ROOM-023","category":"Music","sourceName":"Ensemble Room 2","name":"Ensemble Room 2","area":"","description":"Rehearsal room with drum set, grand piano, upright piano, guitar/bass amps, PA, AV system.","rates":{"hourly":12.5,"halfDay":50.0,"oneDay":85.0,"threeDay":240.0,"fiveDay":350.0},"notes":"","mandatorySupport":false},{"id":"ROOM-024","category":"Post Production","sourceName":"Video Editing Suite (offline)","name":"Video Editing Suite (offline)","area":"7m2","description":"Self contained offline video editing suite with comprehensive software packages from Avid, DaVinci Resolve and Adobe.","rates":{"hourly":33.75,"halfDay":135.0,"oneDay":229.5,"threeDay":648.0,"fiveDay":945.0},"notes":"","mandatorySupport":false},{"id":"ROOM-025","category":"Post Production","sourceName":"Video Editing Suite (online)","name":"Video Editing Suite (online)","area":"7m2","description":"Self contained online video editing suite with comprehensive software packages from Avid, DaVinci Resolve and Adobe - including scopes.","rates":{"hourly":67.5,"halfDay":270.0,"oneDay":459.0,"threeDay":1296.0,"fiveDay":1890.0},"notes":"","mandatorySupport":false},{"id":"ROOM-026","category":"Post Production","sourceName":"DaVinci Resolve Suite 2","name":"DaVinci Resolve Suite 2","area":"12m2","description":"DaVinci Resolve Studio complete with DaVinci Resolve Advanced panel and scopes.","rates":{"hourly":96.25,"halfDay":385.0,"oneDay":654.5,"threeDay":1848.0,"fiveDay":2695.0},"notes":"","mandatorySupport":false},{"id":"ROOM-027","category":"Post Production","sourceName":"Sound Editing Suite","name":"Sound Editing Suite","area":"7m2","description":"Self contained offline audio editing suite with comprehensive software packages from Avid, Apple and Ableton and sound libraries.","rates":{"hourly":33.75,"halfDay":135.0,"oneDay":229.5,"threeDay":648.0,"fiveDay":945.0},"notes":"","mandatorySupport":false},{"id":"ROOM-028","category":"Post Production","sourceName":"Pro Tool C24 Suite","name":"Pro Tool C24 Suite","area":"7m2","description":"5.1 surround sound suite for Pro Tools using the Avid C24 control surface.","rates":{"hourly":57.5,"halfDay":230.0,"oneDay":391.0,"threeDay":1104.0,"fiveDay":1610.0},"notes":"","mandatorySupport":false},{"id":"ROOM-029","category":"Post Production","sourceName":"Sound Studio","name":"Sound Studio","area":"43m2","description":"7.1.4 Sound isolated Dolby Atmos mixing and foley recording studio with Avid S6 console.","rates":{"hourly":185.0,"halfDay":740.0,"oneDay":1258.0,"threeDay":3552.0,"fiveDay":5180.0},"notes":"","mandatorySupport":false},{"id":"ROOM-030","category":"Labs","sourceName":"DMW1 - Music","name":"DMW1 - Music","area":"80m2","description":"14 capacity teaching/production iMac lab with AV, dedicated to music/sound post production.","rates":{"hourly":98.0,"halfDay":392.0,"oneDay":666.4,"threeDay":1881.6,"fiveDay":2744.0},"notes":"","mandatorySupport":false},{"id":"ROOM-031","category":"Labs","sourceName":"DMW2 - Film and Media Production","name":"DMW2 - Film and Media Production","area":"80m2","description":"20 capacity teaching/production Mac Studio lab with AV, dedicated to video/media post production.","rates":{"hourly":140.0,"halfDay":560.0,"oneDay":952.0,"threeDay":2688.0,"fiveDay":3920.0},"notes":"","mandatorySupport":false},{"id":"ROOM-032","category":"Labs","sourceName":"DMW3/4 - Film and Media Production","name":"DMW3/4 - Film and Media Production","area":"128m2","description":"35 capacity teaching/production Mac Studio lab with AV, dedicated to video/media post production.","rates":{"hourly":350.0,"halfDay":1400.0,"oneDay":2380.0,"threeDay":6720.0,"fiveDay":9800.0},"notes":"","mandatorySupport":false},{"id":"ROOM-033","category":"Labs","sourceName":"DMW 5 - Games Design and Media Production","name":"DMW5 - Games Design and Media Production","area":"85m2","description":"25 capacity teaching/production NVIDIA PC lab with AV, dedicated to Games Design and Media Post Production","rates":{"hourly":175.0,"halfDay":700.0,"oneDay":1190.0,"threeDay":3360.0,"fiveDay":4900.0},"notes":"","mandatorySupport":false},{"id":"ROOM-034","category":"Labs","sourceName":"DMW6a/b - 3D Animation and Media Production","name":"DMW6a/b - 3D Animation and Media Production","area":"200m2","description":"40 capacity teaching/production NVIDIA PC lab with AV -dedicated to 3D Animation and Games Design.","rates":{"hourly":400.0,"halfDay":1600.0,"oneDay":2720.0,"threeDay":7680.0,"fiveDay":11200.0},"notes":"","mandatorySupport":false},{"id":"ROOM-035","category":"Labs","sourceName":"DMW7 - 3D Animation and Media Production","name":"DMW7 - 3D Animation and Media Production","area":"70m2","description":"20 capacity teaching/production NVIDIA PC lab with AV - dedicated to 3D Animation.","rates":{"hourly":140.0,"halfDay":560.0,"oneDay":952.0,"threeDay":2688.0,"fiveDay":3920.0},"notes":"","mandatorySupport":false},{"id":"ROOM-036","category":"Labs","sourceName":"Animation Studio","name":"Animation Studio","area":"137m2","description":"28 capacity teaching/production iMac lab with AV , dedicated to Animation.","rates":{"hourly":196.0,"halfDay":784.0,"oneDay":1332.8,"threeDay":3763.2,"fiveDay":5488.0},"notes":"","mandatorySupport":false},{"id":"ROOM-037","category":"Labs","sourceName":"The Cottage","name":"The Cottage","area":"73m2","description":"26 capacity teaching/production Mac Studio lab with AV, dedicated to Photography, Graphic Design and Illustration.","rates":{"hourly":168.0,"halfDay":672.0,"oneDay":1142.4,"threeDay":3225.6,"fiveDay":4704.0},"notes":"","mandatorySupport":false}];
+    const ROOM_BY_ID = new Map(ROOMS.map(room => [room.id, room]));
+    const ROOM_CATEGORIES = [...new Set(ROOMS.map(room => room.category))];
+    const ROOM_STORAGE_KEY = 'kitHubExternalHireBasket_v4';
+    const ROOM_CONFIGURED_YEARS = new Set([2026, 2027, 2028]);
+    const ENGLAND_WALES_BANK_HOLIDAYS = new Set([
+      '2026-01-01','2026-04-03','2026-04-06','2026-05-04','2026-05-25','2026-08-31','2026-12-25','2026-12-28',
+      '2027-01-01','2027-03-26','2027-03-29','2027-05-03','2027-05-31','2027-08-30','2027-12-27','2027-12-28',
+      '2028-01-03','2028-04-14','2028-04-17','2028-05-01','2028-05-29','2028-08-28','2028-12-25','2028-12-26'
+    ]);
+
+    function dateStampFromDate(date) {
+      const y = date.getFullYear();
+      const m = String(date.getMonth() + 1).padStart(2, '0');
+      const d = String(date.getDate()).padStart(2, '0');
+      return `${y}-${m}-${d}`;
+    }
+
+    function buildCampusClosureDates() {
+      const dates = new Set(ENGLAND_WALES_BANK_HOLIDAYS);
+      [2026, 2027, 2028].forEach(year => {
+        const start = new Date(year, 11, 24);
+        const end = new Date(year + 1, 0, 2);
+        for (let cursor = new Date(start); cursor <= end; cursor.setDate(cursor.getDate() + 1)) {
+          dates.add(dateStampFromDate(cursor));
+        }
+      });
+      return dates;
+    }
+
+    const CAMPUS_CLOSED_DATES = buildCampusClosureDates();
+
+    Object.assign(els, {
+      roomStartDate: document.getElementById('roomStartDate'),
+      roomStartTime: document.getElementById('roomStartTime'),
+      roomEndDate: document.getElementById('roomEndDate'),
+      roomEndTime: document.getElementById('roomEndTime'),
+      roomNumberOfDays: document.getElementById('roomNumberOfDays'),
+      roomBookingHelper: document.getElementById('roomBookingHelper'),
+      roomWindowResult: document.getElementById('roomWindowResult'),
+      roomSearch: document.getElementById('roomSearch'),
+      roomCategory: document.getElementById('roomCategorySelect'),
+      resetRoomFilters: document.getElementById('resetRoomFilters'),
+      roomResultCount: document.getElementById('roomResultCount'),
+      roomTotalCount: document.getElementById('roomTotalCount'),
+      roomsCatalogue: document.getElementById('roomsCatalogue'),
+      roomBookingSummary: document.getElementById('roomBookingSummary'),
+      requestStatusDialog: document.getElementById('requestStatusDialog'),
+      requestStatusConfirm: document.getElementById('requestStatusConfirm'),
+      uiMessageDialog: document.getElementById('uiMessageDialog'),
+      uiMessageKicker: document.getElementById('uiMessageKicker'),
+      uiMessageTitle: document.getElementById('uiMessageTitle'),
+      uiMessageText: document.getElementById('uiMessageText'),
+      uiMessageCancel: document.getElementById('uiMessageCancel'),
+      uiMessageConfirm: document.getElementById('uiMessageConfirm')
+    });
+
+    function normaliseStoredBasketRow(row) {
+      if (!row || typeof row !== 'object') return null;
+      if (row.type === 'room' || row.type === 'service') {
+        if (row.roomBooking && typeof row.roomBooking === 'object') {
+          if (!row.roomBooking.source) row.roomBooking.source = 'dates';
+          if (typeof row.roomBooking.hasValidDates !== 'boolean') {
+            row.roomBooking.hasValidDates = Boolean(row.roomBooking.startValue && row.roomBooking.endValue);
+          }
+        }
+        return row;
+      }
+      const id = String(row.id || '');
+      if (!id) return null;
+      return { key: id, id, qty: Math.max(1, parseInt(row.qty, 10) || 1), type: 'equipment' };
+    }
+
+    function loadBasket() {
+      try {
+        const current = JSON.parse(sessionStorage.getItem(ROOM_STORAGE_KEY) || '[]');
+        if (Array.isArray(current) && current.length) return current.map(normaliseStoredBasketRow).filter(Boolean);
+      } catch {}
+      try {
+        const legacy = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+        return Array.isArray(legacy) ? legacy.map(normaliseStoredBasketRow).filter(Boolean) : [];
+      } catch { return []; }
+    }
+
+    function saveBasket() {
+      try { sessionStorage.setItem(ROOM_STORAGE_KEY, JSON.stringify(basket)); } catch {}
+      try { localStorage.removeItem(STORAGE_KEY); } catch {}
+    }
+
+    function populateWholeHourTimes() {
+      const startOptions = [];
+      const endOptions = [];
+      for (let hour = 9; hour <= 22; hour++) startOptions.push(`${String(hour).padStart(2, '0')}:00`);
+      for (let hour = 10; hour <= 23; hour++) endOptions.push(`${String(hour).padStart(2, '0')}:00`);
+      els.roomStartTime.innerHTML = startOptions.map(value => `<option value="${value}">${value}</option>`).join('');
+      els.roomEndTime.innerHTML = endOptions.map(value => `<option value="${value}">${value}</option>`).join('');
+      els.roomStartTime.value = '09:00';
+      els.roomEndTime.value = '10:00';
+    }
+
+    function parseHour(value) { return Number(String(value || '').split(':')[0]); }
+
+    function roomDateRange(start, end) {
+      const dates = [];
+      for (let cursor = new Date(start); cursor <= end; cursor.setDate(cursor.getDate() + 1)) {
+        dates.push(dateStampFromDate(cursor));
+      }
+      return dates;
+    }
+
+    function roomWindowLabel(booking) {
+      if (!booking) return 'Room dates not selected';
+      if (booking.source === 'manual' && !booking.hasValidDates) {
+        return `${booking.days} booking day${booking.days === 1 ? '' : 's'} entered manually, ${booking.startTime} to ${booking.endTime}`;
+      }
+      if (!booking.startValue || !booking.endValue) return 'Room dates not selected';
+      const suffix = booking.source === 'manual' ? `, ${booking.days} booking day${booking.days === 1 ? '' : 's'} entered manually` : '';
+      return `${booking.startDisplay} ${booking.startTime} to ${booking.endDisplay} ${booking.endTime}${suffix}`;
+    }
+
+    function getRoomBookingInfo() {
+      const startValue = els.roomStartDate.value;
+      const endValue = els.roomEndDate.value;
+      const startTime = els.roomStartTime.value;
+      const endTime = els.roomEndTime.value;
+      const manualRaw = textValue(els.roomNumberOfDays.value);
+      const start = parseDateOnly(startValue);
+      const end = parseDateOnly(endValue);
+      const result = {
+        valid: false,
+        error: '',
+        warning: '',
+        source: manualRaw ? 'manual' : 'dates',
+        manualInvalid: false,
+        hasValidDates: false,
+        incompleteDates: Boolean(start || end) && !(start && end),
+        startValue,
+        endValue,
+        startTime,
+        endTime,
+        startDisplay: formatDateForDisplay(startValue),
+        endDisplay: formatDateForDisplay(endValue),
+        days: 0,
+        durationHours: 0,
+        signature: ''
+      };
+      if (!startTime || !endTime) {
+        result.error = 'Choose whole-hour start and end times.';
+        return result;
+      }
+
+      let calendarDays = 0;
+      if (start && end) {
+        if (end < start) {
+          if (!manualRaw) {
+            result.error = 'The room end date cannot be earlier than the start date.';
+            return result;
+          }
+        } else {
+          result.hasValidDates = true;
+          calendarDays = Math.round((end.getTime() - start.getTime()) / 86400000) + 1;
+          const closed = roomDateRange(start, end).filter(date => CAMPUS_CLOSED_DATES.has(date));
+          if (closed.length) {
+            result.error = `Room hire is unavailable on a campus closure date: ${closed.map(formatDateForDisplay).join(', ')}.`;
+            return result;
+          }
+        }
+      }
+
+      if (manualRaw) {
+        const manualDays = Number(manualRaw);
+        if (!Number.isFinite(manualDays) || manualDays < 1 || !Number.isInteger(manualDays)) {
+          result.manualInvalid = true;
+          result.error = 'Number of days must be a whole number starting from 1.';
+          return result;
+        }
+        result.days = manualDays;
+      } else {
+        if (!result.hasValidDates) {
+          result.error = 'Choose both room dates, or enter a whole number of days.';
+          return result;
+        }
+        result.days = calendarDays;
+      }
+
+      const startHour = parseHour(startTime);
+      const endHour = parseHour(endTime);
+      if (result.days === 1) {
+        const duration = endHour - startHour;
+        if (duration < 1) {
+          result.error = 'For a one-day request, the end time must be at least one hour after the start time.';
+          return result;
+        }
+        result.durationHours = duration;
+      }
+
+      const warningParts = [];
+      if (result.source === 'manual' && !result.hasValidDates) {
+        warningParts.push('Dates have not been selected, so campus closure and weekend checks cannot be applied until the Kit Hub reviews the request.');
+      }
+      if (result.hasValidDates) {
+        const years = roomDateRange(start, end).map(value => Number(value.slice(0, 4)));
+        if (years.some(year => !ROOM_CONFIGURED_YEARS.has(year))) {
+          warningParts.push('This request uses a year beyond the currently configured closure calendar and will require additional confirmation.');
+        }
+      }
+      result.warning = warningParts.join(' ');
+      result.signature = result.source === 'manual'
+        ? `manual|${result.days}|${startValue}|${startTime}|${endValue}|${endTime}`
+        : `${startValue}|${startTime}|${endValue}|${endTime}`;
+      result.valid = true;
+      return result;
+    }
+
+    function mandatorySupportRate(booking) {
+      const start = parseDateOnly(booking.startValue);
+      const weekend = start && (start.getDay() === 0 || start.getDay() === 6);
+      return weekend || parseHour(booking.startTime) >= 18 ? 75 : 37;
+    }
+
+    function calculateRoomHire(room, booking = getRoomBookingInfo()) {
+      if (!room || !booking.valid) return { available: false, roomCharge: 0, mandatorySupport: 0, total: 0, basis: '', explanation: booking.error || 'Choose a valid room window.' };
+      let roomCharge = 0;
+      let basis = '';
+      let explanation = '';
+      if (booking.days === 1) {
+        const hours = booking.durationHours;
+        if (hours <= 3) {
+          roomCharge = room.rates.hourly * hours;
+          basis = `${hours}-hour hire`;
+          explanation = `${hours} × ${price(room.rates.hourly)} hourly rate`;
+        } else if (hours === 4 && typeof room.rates.halfDay === 'number') {
+          roomCharge = room.rates.halfDay;
+          basis = 'Half day, 4 hours';
+          explanation = 'Listed half-day rate';
+        } else {
+          roomCharge = room.rates.oneDay;
+          basis = hours === 4 ? 'One day, no half-day rate available' : 'One day';
+          explanation = hours === 4 ? 'Four-hour request charged at the listed one-day rate' : 'Five hours or more uses the listed one-day rate';
+        }
+      } else if (booking.days === 2) {
+        roomCharge = room.rates.oneDay * 2;
+        basis = '2-day hire';
+        explanation = `2 × listed one-day rate`;
+      } else if (booking.days === 3) {
+        roomCharge = room.rates.threeDay;
+        basis = '3-day hire';
+        explanation = 'Listed three-day package rate';
+      } else if (booking.days === 4) {
+        roomCharge = (room.rates.threeDay / 3) * 4;
+        basis = '4-day hire';
+        explanation = 'Three-day tier daily value × 4';
+      } else if (booking.days === 5) {
+        roomCharge = room.rates.fiveDay;
+        basis = '5-day hire';
+        explanation = 'Listed five-day package rate';
+      } else {
+        roomCharge = (room.rates.fiveDay / 5) * booking.days;
+        basis = `${booking.days}-day hire`;
+        explanation = `Five-day tier daily value × ${booking.days}`;
+      }
+      roomCharge = Math.round((roomCharge + Number.EPSILON) * 100) / 100;
+      const mandatorySupport = room.mandatorySupport ? mandatorySupportRate(booking) : 0;
+      return {
+        available: true,
+        roomCharge,
+        mandatorySupport,
+        total: roomCharge + mandatorySupport,
+        basis,
+        explanation,
+        supportLabel: mandatorySupport === 75 ? 'Out-of-hours mandatory technical support' : mandatorySupport === 37 ? 'Standard-hours mandatory technical support' : ''
+      };
+    }
+
+    function snapshotRoomBooking(booking) {
+      return {
+        startValue: booking.startValue,
+        endValue: booking.endValue,
+        startTime: booking.startTime,
+        endTime: booking.endTime,
+        startDisplay: booking.startDisplay,
+        endDisplay: booking.endDisplay,
+        days: booking.days,
+        durationHours: booking.durationHours,
+        source: booking.source || 'dates',
+        hasValidDates: Boolean(booking.hasValidDates),
+        signature: booking.signature,
+        warning: booking.warning || ''
+      };
+    }
+
+    function existingRoomWindowSignature() {
+      const row = basket.find(candidate => (candidate.type === 'room' || candidate.type === 'service') && candidate.roomBooking?.signature);
+      return row?.roomBooking?.signature || '';
+    }
+
+    function currentRoomWindowCompatible(booking = getRoomBookingInfo()) {
+      const existing = existingRoomWindowSignature();
+      return !existing || !booking.valid || existing === booking.signature;
+    }
+
+    function roomRateCells(room) {
+      const rates = [
+        ['Hourly', room.rates.hourly],
+        ['Half day', room.rates.halfDay],
+        ['1 day', room.rates.oneDay],
+        ['3 days', room.rates.threeDay],
+        ['5 days', room.rates.fiveDay]
+      ];
+      return rates.map(([label, value]) => `<div class="${typeof value === 'number' ? '' : 'missing'}"><dt>${label}</dt><dd>${price(value)}</dd></div>`).join('');
+    }
+
+    function roomSearchMatches(room, search) {
+      if (!search) return true;
+      const haystack = normaliseSearchText([room.name, room.sourceName, room.category, room.area, room.description, room.notes].join(' '));
+      return getSearchTokens(search).every(token => haystack.includes(token));
+    }
+
+    function renderRoomCard(room, booking) {
+      const calc = calculateRoomHire(room, booking);
+      const compatible = currentRoomWindowCompatible(booking);
+      const disabled = !calc.available || !compatible;
+      const calculationHtml = calc.available
+        ? `<div><strong>${escapeHtml(calc.basis)}: ${price(calc.roomCharge)}</strong></div><div>${escapeHtml(calc.explanation)}</div>${calc.mandatorySupport ? `<div>${escapeHtml(calc.supportLabel)}: ${price(calc.mandatorySupport)}</div><div><strong>Room total: ${price(calc.total)} ex VAT</strong></div>` : ''}`
+        : `<div>${escapeHtml(calc.explanation)}</div>`;
+      const restriction = room.id === 'ROOM-001' ? '<p class="room-note"><strong>TV Studio A:</strong> no half-day rate is available. A four-hour request uses the one-day rate.</p>' : '';
+      const notes = room.notes ? `<p class="room-note"><strong>Notes:</strong> ${escapeHtml(room.notes)}</p>` : '';
+      const mandatory = room.mandatorySupport ? '<p class="mandatory-support-note"><strong>Mandatory support:</strong> one minimum technical-support hour is included once for this room, irrespective of booking length. The charge covers setup and handover.</p>' : '';
+      return `<article class="card room-card" data-room-id="${escapeHtml(room.id)}">
+        <div class="card-head"><div><h3 class="item-title">${escapeHtml(room.name)}</h3><div class="item-meta"><span>${escapeHtml(room.category)}</span>${room.area ? `<span class="room-area">${escapeHtml(room.area)}</span>` : ''}</div></div></div>
+        <p class="item-description">${escapeHtml(room.description)}</p>
+        ${restriction}${notes}${mandatory}
+        <div class="rate-info" aria-label="Room rates for ${escapeHtml(room.name)}"><p class="rate-info-label">Published room rates, ex VAT</p><dl class="rate-info-list">${roomRateCells(room)}</dl></div>
+        <div class="room-calculated-line ${calc.available ? '' : 'is-error'}">${calculationHtml}${booking.warning ? `<div>${escapeHtml(booking.warning)}</div>` : ''}${!compatible ? '<div><strong>The basket already contains a different room window. Submit a separate booking request for different dates or times.</strong></div>' : ''}</div>
+        <div class="room-add-row"><button class="add" type="button" data-add-room="${escapeHtml(room.id)}" ${disabled ? 'disabled' : ''}>Add room to basket</button></div>
+      </article>`;
+    }
+
+    function renderRoomServices(booking) {
+      const compatible = currentRoomWindowCompatible(booking);
+      const rate = booking.valid ? mandatorySupportRate(booking) : 37;
+      const rateLabel = rate === 75 ? 'Out-of-hours technical support' : 'Standard-hours technical support';
+      return `<section class="category-block" aria-label="Technical support services">
+        <h2 class="category-title"><span>Technical Support Services</span><small>Additional support and consultation</small></h2>
+        <div class="cards">
+          <article class="card service-card">
+            <div class="card-head"><div><h3 class="item-title">Additional Technical Support</h3><div class="item-meta"><span>${escapeHtml(rateLabel)}</span></div></div></div>
+            <p class="item-description">Request additional technician hours separately from any mandatory setup and handover charge included with a room.</p>
+            <div class="rate-info"><p class="rate-info-label">Current hourly rate, ex VAT</p><dl class="rate-info-list"><div><dt>${rate === 75 ? 'Out of hours' : 'Standard hours'}</dt><dd>${price(rate)}</dd></div></dl></div>
+            <p class="room-note">The rate is derived from the current room start date and time. Weekends and starts at or after 18:00 use the out-of-hours rate.</p>
+            <div class="room-service-controls">
+              <label>Hours<input class="service-hours-input" id="optionalSupportHours" type="number" min="1" step="1" value="1" inputmode="numeric" /></label>
+              <button class="add" id="addOptionalSupport" type="button" ${!booking.valid || !compatible ? 'disabled' : ''}>Add additional support</button>
+            </div>
+          </article>
+          <article class="card service-card">
+            <div class="card-head"><div><h3 class="item-title">Technical Consultation</h3><div class="item-meta"><span>Available by arrangement</span></div></div></div>
+            <p class="item-description">Technical consultation is listed at £100.00 per hour, but must currently be discussed and arranged directly with the Kit Hub.</p>
+            <a class="service-contact-link" href="mailto:thekithub@mdx.ac.uk?subject=Technical%20consultation%20enquiry">Contact the Kit Hub to arrange</a>
+          </article>
+        </div>
+      </section>`;
+    }
+
+    function renderRooms() {
+      const booking = getRoomBookingInfo();
+      const search = els.roomSearch.value.trim();
+      const category = els.roomCategory.value;
+      const visible = ROOMS.filter(room => (!category || room.category === category) && roomSearchMatches(room, search));
+      els.roomResultCount.textContent = visible.length;
+      els.roomTotalCount.textContent = ROOMS.length;
+      els.roomWindowResult.className = `room-window-result${booking.error ? ' is-error' : booking.warning ? ' is-warning' : ''}`;
+      els.roomBookingHelper.textContent = booking.manualInvalid
+        ? 'Enter a whole number of room days, starting from 1.'
+        : booking.source === 'manual'
+          ? `${booking.days || 'The entered'} booking day${booking.days === 1 ? '' : 's'} will override the selected date range for room pricing.`
+          : booking.incompleteDates
+            ? 'Choose both room dates, or enter a number of days, to calculate the room price.'
+            : 'Choose both dates, or enter a number of days. Start and end times must use whole-hour slots.';
+      els.roomWindowResult.textContent = booking.error
+        ? booking.error
+        : `${roomWindowLabel(booking)}. ${booking.source === 'manual' ? `${booking.days} booking day${booking.days === 1 ? '' : 's'} entered manually.` : booking.days === 1 ? `${booking.durationHours} hour${booking.durationHours === 1 ? '' : 's'} selected.` : `${booking.days} booking days selected.`}${booking.warning ? ` ${booking.warning}` : ''}${!currentRoomWindowCompatible(booking) ? ' The basket already uses a different room window.' : ''}`;
+      if (!visible.length) {
+        els.roomsCatalogue.innerHTML = '<div class="empty"><strong>No matching rooms found.</strong><br>Try another search term or reset the room filters.</div>' + renderRoomServices(booking);
+      } else {
+        const grouped = new Map();
+        visible.forEach(room => { if (!grouped.has(room.category)) grouped.set(room.category, []); grouped.get(room.category).push(room); });
+        els.roomsCatalogue.innerHTML = [...grouped.entries()].map(([roomCategory, categoryRooms]) => `<section class="category-block" aria-label="${escapeHtml(roomCategory)}"><h2 class="category-title"><span>${escapeHtml(roomCategory)}</span><small>${categoryRooms.length} room${categoryRooms.length === 1 ? '' : 's'}</small></h2><div class="cards">${categoryRooms.map(room => renderRoomCard(room, booking)).join('')}</div></section>`).join('') + renderRoomServices(booking);
+      }
+      els.roomsCatalogue.querySelectorAll('[data-add-room]').forEach(button => button.addEventListener('click', addRoomFromButton));
+      document.getElementById('addOptionalSupport')?.addEventListener('click', addOptionalSupportToBasket);
+    }
+
+    function addRoomFromButton(event) {
+      const room = ROOM_BY_ID.get(event.currentTarget.dataset.addRoom);
+      const booking = getRoomBookingInfo();
+      if (!room || !booking.valid) { showToast(booking.error || 'Choose a valid room window'); return; }
+      if (!currentRoomWindowCompatible(booking)) {
+        showUiMessage({
+          title: 'Different room request window',
+          message: 'All rooms in one booking request must use the same dates and times. Remove the existing room lines or create a separate booking request for a different room window.',
+          confirmLabel: 'OK'
+        });
+        return;
+      }
+      const calc = calculateRoomHire(room, booking);
+      if (room.id === 'ROOM-001' && booking.days === 1 && booking.durationHours === 4) {
+        showUiMessage({
+          title: 'TV Studio A pricing',
+          message: 'TV Studio A has no half-day rate. This four-hour request is charged at the listed one-day rate.',
+          confirmLabel: 'I understand'
+        });
+      }
+      const stored = {
+        key: `room:${room.id}`,
+        type: 'room',
+        id: room.id,
+        qty: 1,
+        roomBooking: snapshotRoomBooking(booking),
+        basis: calc.basis,
+        explanation: calc.explanation,
+        roomCharge: calc.roomCharge,
+        mandatorySupport: calc.mandatorySupport,
+        supportLabel: calc.supportLabel,
+        line: calc.total
+      };
+      const existing = basket.find(row => row.key === stored.key);
+      if (existing) Object.assign(existing, stored); else basket.push(stored);
+      saveBasket();
+      renderBasket();
+      renderRooms();
+      showToast('Room added to basket');
+    }
+
+    function addOptionalSupportToBasket() {
+      const booking = getRoomBookingInfo();
+      if (!booking.valid) { showToast(booking.error || 'Choose a valid room window'); return; }
+      if (!currentRoomWindowCompatible(booking)) {
+        showUiMessage({
+          title: 'Different support window',
+          message: 'Additional technical support must use the same date and time window as the rooms in this booking request.',
+          confirmLabel: 'OK'
+        });
+        return;
+      }
+      const input = document.getElementById('optionalSupportHours');
+      const hours = Math.max(1, parseInt(input?.value || '1', 10) || 1);
+      const rate = mandatorySupportRate(booking);
+      const stored = {
+        key: 'service:technical-support',
+        type: 'service',
+        id: 'SERVICE-TECH-SUPPORT',
+        name: 'Additional Technical Support',
+        category: 'Technical Support Services',
+        description: rate === 75 ? 'Out-of-hours technical support' : 'Standard-hours technical support',
+        qty: hours,
+        unit: rate,
+        line: rate * hours,
+        basis: rate === 75 ? 'Out-of-hours hourly rate' : 'Standard-hours hourly rate',
+        roomBooking: snapshotRoomBooking(booking)
+      };
+      const existing = basket.find(row => row.key === stored.key);
+      if (existing) {
+        existing.qty += hours;
+        existing.line = existing.unit * existing.qty;
+      } else basket.push(stored);
+      saveBasket();
+      renderBasket();
+      showToast('Additional support added');
+    }
+
+    function basketRows() {
+      const equipmentBooking = getBookingInfo();
+      return basket.map(row => {
+        if (row.type === 'room') {
+          const room = ROOM_BY_ID.get(row.id);
+          if (!room || !row.roomBooking) return null;
+          return { ...row, type: 'room', room, qty: 1, unit: Number(row.line || 0), line: Number(row.line || 0), period: row.basis, rateBand: row.basis, booking: row.roomBooking };
+        }
+        if (row.type === 'service') {
+          const qty = Math.max(1, parseInt(row.qty, 10) || 1);
+          const unit = Number(row.unit || 0);
+          return { ...row, type: 'service', qty, unit, line: unit * qty, period: row.basis, rateBand: row.basis, booking: row.roomBooking };
+        }
+        const item = ITEMS.find(candidate => candidate.id === row.id);
+        const calc = item ? calculateItemHire(item) : { available: false, unit: 0, dailyRate: 0, info: equipmentBooking };
+        const qty = Math.max(1, parseInt(row.qty, 10) || 1);
+        if (!item || !calc.available || calc.info.invalid) return null;
+        return { ...row, type: 'equipment', item, qty, unit: calc.unit, dailyRate: calc.dailyRate, line: calc.unit * qty, period: calc.info.periodLabel, rateBand: calc.info.bandLabel, priceKey: calc.info.priceKey, booking: calc.info };
+      }).filter(Boolean);
+    }
+
+    function equipmentBasketHtml(rows) {
+      return rows.map(row => `<div class="basket-item" data-key="${escapeHtml(row.key)}"><div class="basket-item-top"><div><p class="basket-item-title">${escapeHtml(displayItemName(row.item))}</p>${row.item.description ? `<p class="basket-item-description">${escapeHtml(row.item.description)}</p>` : ''}<p class="basket-item-meta">${escapeHtml(row.item.brand ? row.item.brand + ' · ' : '')}${escapeHtml(row.item.group)} · ${escapeHtml(row.period)} · ${escapeHtml(row.rateBand)} · ${escapeHtml(row.item.id)}</p></div><div class="line-total">${price(row.line)}</div></div><div class="basket-controls"><label class="qty-label">Qty<input data-basket-qty="${escapeHtml(row.key)}" type="number" min="1" step="1" value="${row.qty}" inputmode="numeric"></label><span class="basket-item-meta">${price(row.unit)} each, ex VAT (${price(row.dailyRate)} per day)</span><button class="remove" type="button" data-remove="${escapeHtml(row.key)}" aria-label="Remove ${escapeHtml(displayItemName(row.item))}">×</button></div></div>`).join('');
+    }
+
+    function roomBasketHtml(rows) {
+      return rows.map(row => `<div class="basket-item room-basket-item" data-key="${escapeHtml(row.key)}"><div class="basket-item-top"><div><p class="basket-item-title">${escapeHtml(row.room.name)}</p><p class="basket-item-description">${escapeHtml(row.room.description)}</p><p class="basket-item-meta">${escapeHtml(row.room.category)} · ${escapeHtml(roomWindowLabel(row.roomBooking))} · ${escapeHtml(row.basis)}</p></div><div class="line-total">${price(row.line)}</div></div><div class="room-basket-breakdown"><div><span>Room charge</span><strong>${price(Number(row.roomCharge || 0))}</strong></div>${Number(row.mandatorySupport || 0) ? `<div><span>${escapeHtml(row.supportLabel || 'Mandatory technical support')}</span><strong>${price(Number(row.mandatorySupport))}</strong></div>` : ''}<div><span>Room total, ex VAT</span><strong>${price(row.line)}</strong></div></div><div class="basket-controls"><span></span><span class="basket-item-meta">${escapeHtml(row.explanation || '')}</span><button class="remove" type="button" data-remove="${escapeHtml(row.key)}" aria-label="Remove ${escapeHtml(row.room.name)}">×</button></div></div>`).join('');
+    }
+
+    function serviceBasketHtml(rows) {
+      return rows.map(row => `<div class="basket-item service-basket-item" data-key="${escapeHtml(row.key)}"><div class="basket-item-top"><div><p class="basket-item-title">${escapeHtml(row.name)}</p><p class="basket-item-description">${escapeHtml(row.description || '')}</p><p class="basket-item-meta">${escapeHtml(roomWindowLabel(row.roomBooking))} · ${escapeHtml(row.basis)}</p></div><div class="line-total">${price(row.line)}</div></div><div class="service-basket-controls"><label class="qty-label">Hours<input data-service-hours="${escapeHtml(row.key)}" type="number" min="1" step="1" value="${row.qty}" inputmode="numeric"></label><span class="basket-item-meta">${price(row.unit)} per hour, ex VAT</span><button class="remove" type="button" data-remove="${escapeHtml(row.key)}" aria-label="Remove ${escapeHtml(row.name)}">×</button></div></div>`).join('');
+    }
+
+    function renderBasket() {
+      const rows = basketRows();
+      const equipmentRows = rows.filter(row => row.type === 'equipment');
+      const roomRows = rows.filter(row => row.type === 'room');
+      const serviceRows = rows.filter(row => row.type === 'service');
+      els.basketEmpty.hidden = rows.length > 0;
+      const groups = [];
+      if (equipmentRows.length) groups.push(`<section class="basket-group"><h3 class="basket-group-title">Equipment</h3>${equipmentBasketHtml(equipmentRows)}</section>`);
+      if (roomRows.length) groups.push(`<section class="basket-group"><h3 class="basket-group-title">Rooms &amp; Spaces</h3>${roomBasketHtml(roomRows)}</section>`);
+      if (serviceRows.length) groups.push(`<section class="basket-group"><h3 class="basket-group-title">Optional Services</h3>${serviceBasketHtml(serviceRows)}</section>`);
+      els.basketList.innerHTML = groups.join('');
+      els.basketList.querySelectorAll('[data-basket-qty]').forEach(input => input.addEventListener('input', updateBasketQty));
+      els.basketList.querySelectorAll('[data-service-hours]').forEach(input => input.addEventListener('input', updateServiceHours));
+      els.basketList.querySelectorAll('[data-remove]').forEach(button => button.addEventListener('click', removeBasketItem));
+      const firstRoom = [...roomRows, ...serviceRows][0];
+      els.roomBookingSummary.textContent = firstRoom ? roomWindowLabel(firstRoom.roomBooking) : 'No rooms selected';
+      updateTotals(rows);
+    }
+
+    function updateServiceHours(event) {
+      const row = basket.find(candidate => candidate.key === event.currentTarget.dataset.serviceHours);
+      if (!row || row.type !== 'service') return;
+      row.qty = Math.max(1, parseInt(event.currentTarget.value || '1', 10) || 1);
+      row.line = Number(row.unit || 0) * row.qty;
+      event.currentTarget.value = row.qty;
+      saveBasket();
+      renderBasket();
+    }
+
+    function removeBasketItem(event) {
+      const key = event.currentTarget.dataset.remove;
+      basket = basket.filter(row => row.key !== key);
+      saveBasket();
+      renderBasket();
+      renderRooms();
+    }
+
+    function updateTotals(rows = basketRows()) {
+      const subtotal = rows.reduce((sum, row) => sum + row.line, 0);
+      const vatRate = Math.max(0, parseFloat(els.vatRate.value || '0') || 0) / 100;
+      const vat = subtotal * vatRate;
+      const total = subtotal + vat;
+      const totalQty = rows.reduce((sum, row) => sum + (row.type === 'equipment' ? row.qty : 1), 0);
+      els.subtotal.textContent = price(subtotal);
+      els.vatTotal.textContent = price(vat);
+      els.grandTotal.textContent = price(total);
+      els.mobileCount.textContent = totalQty;
+      els.basketCount.textContent = `${totalQty} item${totalQty === 1 ? '' : 's'}`;
+      els.downloadExcel.disabled = rows.length === 0;
+      els.emailRequest.disabled = rows.length === 0;
+      els.clearBasketTop.disabled = rows.length === 0;
+    }
+
+    function excelStart(row) {
+      if (row.type === 'equipment') return row.booking.hasValidDates ? row.booking.startDisplay : 'Not specified';
+      return row.roomBooking.hasValidDates ? `${row.roomBooking.startDisplay} ${row.roomBooking.startTime}` : `Date not specified, starts ${row.roomBooking.startTime}`;
+    }
+
+    function excelEnd(row) {
+      if (row.type === 'equipment') return row.booking.hasValidDates ? row.booking.endDisplay : 'Not specified';
+      return row.roomBooking.hasValidDates ? `${row.roomBooking.endDisplay} ${row.roomBooking.endTime}` : `Date not specified, ends ${row.roomBooking.endTime}`;
+    }
+
+    function buildWorksheetXml() {
+      const rows = basketRows();
+      const vatRatePercent = Math.max(0, parseFloat(els.vatRate.value || '0') || 0);
+      const subtotal = rows.reduce((sum, row) => sum + row.line, 0);
+      const vat = subtotal * (vatRatePercent / 100);
+      const total = subtotal + vat;
+      const generated = new Date().toLocaleString('en-GB');
+      const headers = ['Item type','Category','Item / room','Description / notes','Start','End','Charging basis','Quantity / hours','Unit or room charge ex VAT','Mandatory tech support ex VAT','Line total ex VAT','Estimated VAT','Estimated line total inc VAT','Reference'];
+      const sheetRows = [];
+      sheetRows.push(`<row r="1">${headers.map((header, index) => worksheetCell(1, index, header, { style: 1 })).join('')}</row>`);
+      rows.forEach((row, index) => {
+        const rowNumber = index + 2;
+        const lineVat = row.line * (vatRatePercent / 100);
+        let values;
+        if (row.type === 'equipment') {
+          values = ['Equipment', row.item.category, displayItemName(row.item), row.item.description || '', excelStart(row), excelEnd(row), `${row.period} (${row.rateBand})`, row.qty, row.unit, 'N/A', row.line, lineVat, row.line + lineVat, row.item.id];
+        } else if (row.type === 'room') {
+          const notes = [row.room.notes, row.explanation, row.roomBooking.warning].filter(Boolean).join(' | ');
+          values = ['Room Hire', row.room.category, row.room.name, `${row.room.description}${notes ? ` | ${notes}` : ''}`, excelStart(row), excelEnd(row), row.basis, 1, Number(row.roomCharge || 0), Number(row.mandatorySupport || 0) || 'N/A', row.line, lineVat, row.line + lineVat, row.room.id];
+        } else {
+          values = ['Technical Support', row.category || 'Technical Support Services', row.name, row.description || '', excelStart(row), excelEnd(row), row.basis, row.qty, row.unit, 'N/A', row.line, lineVat, row.line + lineVat, row.id];
+        }
+        const cells = values.map((value, columnIndex) => {
+          if (columnIndex === 7) return worksheetCell(rowNumber, columnIndex, value, { type: 'number', style: 3, decimals: 0 });
+          if ([8,10,11,12].includes(columnIndex) || (columnIndex === 9 && typeof value === 'number')) return worksheetCell(rowNumber, columnIndex, value, { type: 'number', style: 2, decimals: 2 });
+          return worksheetCell(rowNumber, columnIndex, value);
+        }).join('');
+        sheetRows.push(`<row r="${rowNumber}">${cells}</row>`);
+      });
+      const summaryStart = rows.length + 4;
+      const details = getRequestDetails();
+      const equipmentBooking = getBookingInfo();
+      const roomRow = rows.find(row => row.type === 'room' || row.type === 'service');
+      const summaryRows = [
+        ['Summary', rows.length, 'number'],
+        ['Client name', details.clientName, 'text'],
+        ['Company or production', details.company, 'text'],
+        ['Email address', details.email, 'text'],
+        ['Phone number', details.phone, 'text'],
+        ['Generated', generated, 'text'],
+        ['Equipment booking dates', equipmentBooking.hasValidDates ? `${equipmentBooking.startDisplay} to ${equipmentBooking.endDisplay}` : 'Not specified', 'text'],
+        ['Equipment hire period', equipmentBooking.periodDetail, 'text'],
+        ['Room booking window', roomRow ? roomWindowLabel(roomRow.roomBooking) : 'No rooms selected', 'text'],
+        ['Booking status', 'Submitting this request does not confirm a booking. All equipment and room requests remain subject to availability, staffing, technical approval and written confirmation from the Kit Hub.', 'text'],
+        ['VAT estimate used', `${vatRatePercent}%`, 'text'],
+        ['Estimated subtotal ex VAT', subtotal, 'currency'],
+        ['Estimated VAT', vat, 'currency'],
+        ['Estimated total inc VAT', total, 'currency']
+      ];
+      summaryRows.forEach((row, index) => {
+        const rowNumber = summaryStart + index;
+        const options = row[2] === 'currency' ? { type: 'number', style: 2, decimals: 2 } : row[2] === 'number' ? { type: 'number', style: 3, decimals: 0 } : {};
+        sheetRows.push(`<row r="${rowNumber}">${worksheetCell(rowNumber, 0, row[0], { style: 1 })}${worksheetCell(rowNumber, 1, row[1], options)}</row>`);
+      });
+      return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">
+  <dimension ref="A1:N${summaryStart + summaryRows.length - 1}"/>
+  <sheetViews><sheetView workbookViewId="0"><pane ySplit="1" topLeftCell="A2" activePane="bottomLeft" state="frozen"/></sheetView></sheetViews>
+  <sheetFormatPr defaultRowHeight="15"/>
+  <cols>
+    <col min="1" max="1" width="18" customWidth="1"/><col min="2" max="2" width="26" customWidth="1"/><col min="3" max="3" width="34" customWidth="1"/><col min="4" max="4" width="58" customWidth="1"/>
+    <col min="5" max="6" width="22" customWidth="1"/><col min="7" max="7" width="28" customWidth="1"/><col min="8" max="8" width="16" customWidth="1"/><col min="9" max="13" width="22" customWidth="1"/><col min="14" max="14" width="18" customWidth="1"/>
+  </cols>
+  <sheetData>${sheetRows.join('')}</sheetData>
+</worksheet>`;
+    }
+
+    function buildWorkbookFiles() {
+      const now = new Date().toISOString();
+      return {
+        '[Content_Types].xml': `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/><Override PartName="/docProps/core.xml" ContentType="application/vnd.openxmlformats-package.core-properties+xml"/><Override PartName="/docProps/app.xml" ContentType="application/vnd.openxmlformats-officedocument.extended-properties+xml"/></Types>`,
+        '_rels/.rels': `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties" Target="docProps/core.xml"/><Relationship Id="rId3" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties" Target="docProps/app.xml"/></Relationships>`,
+        'docProps/core.xml': `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dcmitype="http://purl.org/dc/dcmitype/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><dc:title>KitHubRateCardV4.3 Booking Request</dc:title><dc:creator>KitHubRateCardV4.3</dc:creator><cp:lastModifiedBy>KitHubRateCardV4.3</cp:lastModifiedBy><dcterms:created xsi:type="dcterms:W3CDTF">${now}</dcterms:created><dcterms:modified xsi:type="dcterms:W3CDTF">${now}</dcterms:modified></cp:coreProperties>`,
+        'docProps/app.xml': `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Properties xmlns="http://schemas.openxmlformats.org/officeDocument/2006/extended-properties" xmlns:vt="http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes"><Application>KitHubRateCardV4.3</Application><DocSecurity>0</DocSecurity><ScaleCrop>false</ScaleCrop><HeadingPairs><vt:vector size="2" baseType="variant"><vt:variant><vt:lpstr>Worksheets</vt:lpstr></vt:variant><vt:variant><vt:i4>1</vt:i4></vt:variant></vt:vector></HeadingPairs><TitlesOfParts><vt:vector size="1" baseType="lpstr"><vt:lpstr>Booking Request</vt:lpstr></vt:vector></TitlesOfParts></Properties>`,
+        'xl/workbook.xml': `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets><sheet name="Booking Request" sheetId="1" r:id="rId1"/></sheets></workbook>`,
+        'xl/_rels/workbook.xml.rels': `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>`,
+        'xl/styles.xml': `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><numFmts count="1"><numFmt numFmtId="164" formatCode="£#,##0.00"/></numFmts><fonts count="2"><font><sz val="10"/><name val="Arial"/></font><font><b/><sz val="10"/><name val="Arial"/></font></fonts><fills count="2"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill></fills><borders count="1"><border><left/><right/><top/><bottom/><diagonal/></border></borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="4"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/><xf numFmtId="0" fontId="1" fillId="0" borderId="0" xfId="0" applyFont="1"/><xf numFmtId="164" fontId="0" fillId="0" borderId="0" xfId="0" applyNumberFormat="1"/><xf numFmtId="1" fontId="0" fillId="0" borderId="0" xfId="0" applyNumberFormat="1"/></cellXfs><cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles></styleSheet>`,
+        'xl/worksheets/sheet1.xml': buildWorksheetXml()
+      };
+    }
+
+    function buildRequestEmailUrl(filename = getBookingRequestFilename()) {
+      const details = getRequestDetails();
+      const requestName = getRequestDisplayName();
+      const rows = basketRows();
+      const equipmentRows = rows.filter(row => row.type === 'equipment');
+      const roomRow = rows.find(row => row.type === 'room' || row.type === 'service');
+      const equipmentBooking = getBookingInfo();
+      const subject = `Booking request: ${requestName}`;
+      const contactLines = [details.clientName ? `Client name: ${details.clientName}` : '', details.company ? `Company / production: ${details.company}` : '', details.email ? `Email address: ${details.email}` : '', details.phone ? `Phone number: ${details.phone}` : ''].filter(Boolean);
+      const body = [
+        'Hello the Kit Hub team,', '',
+        'Please find my equipment and/or room hire booking request attached.', '',
+        ...contactLines,
+        equipmentRows.length ? `Equipment booking: ${equipmentBooking.hasValidDates ? `${equipmentBooking.startDisplay} to ${equipmentBooking.endDisplay}` : equipmentBooking.periodDetail}` : '',
+        roomRow ? `Room booking: ${roomWindowLabel(roomRow.roomBooking)}` : '',
+        `Booking request file: ${filename}`, '',
+        'Submitting this request does not confirm a booking. I understand that equipment and rooms remain subject to availability, staffing, technical approval and written confirmation from the Kit Hub.', '',
+        'Please could you confirm availability and provide an official quote?', '',
+        'Kind regards,', details.clientName
+      ].filter((line, index, lines) => line !== '' || lines[index - 1] !== '').join('\n');
+      return `mailto:thekithub@mdx.ac.uk?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    }
+
+    function openHtmlDialog(dialog) {
+      if (!dialog) return;
+      if (dialog.open) closeHtmlDialog(dialog);
+      if (typeof dialog.showModal === 'function') dialog.showModal();
+      else {
+        dialog.setAttribute('open', '');
+        dialog.classList.add('dialog-fallback');
+      }
+    }
+
+    function closeHtmlDialog(dialog) {
+      if (!dialog) return;
+      if (typeof dialog.close === 'function' && dialog.open) dialog.close();
+      else dialog.removeAttribute('open');
+      dialog.classList.remove('dialog-fallback');
+    }
+
+    let pendingUiConfirm = null;
+    let pendingUiCancel = null;
+    function showUiMessage({ title = 'Please check', message = '', kicker = 'NOTICE', confirmLabel = 'OK', cancelLabel = '', onConfirm = null, onCancel = null } = {}) {
+      pendingUiConfirm = typeof onConfirm === 'function' ? onConfirm : null;
+      pendingUiCancel = typeof onCancel === 'function' ? onCancel : null;
+      els.uiMessageKicker.textContent = kicker;
+      els.uiMessageTitle.textContent = title;
+      els.uiMessageText.textContent = message;
+      els.uiMessageConfirm.textContent = confirmLabel;
+      els.uiMessageCancel.hidden = !cancelLabel;
+      els.uiMessageCancel.textContent = cancelLabel || 'Cancel';
+      openHtmlDialog(els.uiMessageDialog);
+    }
+
+    let pendingRequestContinuation = null;
+    function showRequestStatusDialog(continuation = null) {
+      pendingRequestContinuation = continuation;
+      els.requestStatusConfirm.textContent = continuation ? 'I understand, continue to email' : 'I understand';
+      openHtmlDialog(els.requestStatusDialog);
+    }
+
+    function triggerBookingRequestDownload(showConfirmation = true) {
+      if (!validateRequestExport()) return null;
+      const blob = makeZip(buildWorkbookFiles());
+      const filename = getBookingRequestFilename();
+      const link = document.createElement('a');
+      const objectUrl = URL.createObjectURL(blob);
+      link.href = objectUrl;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      setTimeout(() => URL.revokeObjectURL(objectUrl), 1000);
+      if (showConfirmation) showRequestStatusDialog();
+      return { filename, requestDetails: getRequestDetails() };
+    }
+
+    function downloadExcelFile() { triggerBookingRequestDownload(true); }
+
+    function downloadAndStartEmail() {
+      const result = triggerBookingRequestDownload(false);
+      if (!result) return;
+      const mailtoUrl = buildRequestEmailUrl(result.filename);
+      showRequestStatusDialog(() => { window.location.href = mailtoUrl; });
+    }
+
+    function clearBasket() {
+      if (!basket.length) return;
+      showUiMessage({
+        title: 'Clear the current basket?',
+        message: 'This will remove all equipment, rooms and optional services from the booking request.',
+        kicker: 'CONFIRM',
+        confirmLabel: 'Clear basket',
+        cancelLabel: 'Keep basket',
+        onConfirm: () => {
+          basket = [];
+          saveBasket();
+          renderBasket();
+          if (typeof renderRooms === 'function') renderRooms();
+          showToast('Basket cleared');
+        }
+      });
+    }
+
+    populateWholeHourTimes();
+    els.roomCategory.innerHTML = '<option value="">All room categories</option>' + ROOM_CATEGORIES.map(category => `<option value="${escapeHtml(category)}">${escapeHtml(category)}</option>`).join('');
+    const today = localDateStamp();
+    els.roomStartDate.min = today;
+    els.roomEndDate.min = today;
+
+    function handleRoomControlsChanged() {
+      if (els.roomStartDate.value) els.roomEndDate.min = els.roomStartDate.value;
+      renderRooms();
+    }
+
+    [els.roomStartDate, els.roomStartTime, els.roomEndDate, els.roomEndTime, els.roomNumberOfDays].forEach(control => control.addEventListener('change', handleRoomControlsChanged));
+    els.roomNumberOfDays.addEventListener('input', handleRoomControlsChanged);
+    els.roomSearch.addEventListener('input', renderRooms);
+    els.roomCategory.addEventListener('change', renderRooms);
+    els.resetRoomFilters.addEventListener('click', () => { els.roomSearch.value = ''; els.roomCategory.value = ''; renderRooms(); showToast('Room filters reset'); });
+    els.requestStatusConfirm.addEventListener('click', () => {
+      const continuation = pendingRequestContinuation;
+      pendingRequestContinuation = null;
+      closeHtmlDialog(els.requestStatusDialog);
+      if (continuation) continuation();
+    });
+    els.uiMessageConfirm.addEventListener('click', () => {
+      const continuation = pendingUiConfirm;
+      pendingUiConfirm = null;
+      pendingUiCancel = null;
+      closeHtmlDialog(els.uiMessageDialog);
+      if (continuation) continuation();
+    });
+    els.uiMessageCancel.addEventListener('click', () => {
+      const continuation = pendingUiCancel;
+      pendingUiConfirm = null;
+      pendingUiCancel = null;
+      closeHtmlDialog(els.uiMessageDialog);
+      if (continuation) continuation();
+    });
+    els.uiMessageDialog.addEventListener('cancel', event => {
+      event.preventDefault();
+      const continuation = pendingUiCancel;
+      pendingUiConfirm = null;
+      pendingUiCancel = null;
+      closeHtmlDialog(els.uiMessageDialog);
+      if (continuation) continuation();
+    });
+
 
     document.addEventListener("click", event => {
       if (event.target.closest(".asset-info")) return;
@@ -3255,8 +4662,16 @@
     els.search.addEventListener('input', renderItems);
     els.searchScope.addEventListener('change', renderItems);
     els.resetFilters.addEventListener('click', resetFilters);
-    els.startDate.addEventListener('change', () => { renderItems(); renderBasket(); });
-    els.endDate.addEventListener('change', () => { renderItems(); renderBasket(); });
+    els.startDate.addEventListener('change', () => {
+      normaliseEquipmentWeekendInput(els.startDate, 'start');
+      renderItems();
+      renderBasket();
+    });
+    els.endDate.addEventListener('change', () => {
+      normaliseEquipmentWeekendInput(els.endDate, 'end');
+      renderItems();
+      renderBasket();
+    });
     els.numberOfDays.addEventListener('change', () => { renderItems(); renderBasket(); });
     els.vatRate.addEventListener('input', () => updateTotals());
     [els.requestClientName, els.requestCompany, els.requestClientEmail, els.requestClientPhone].forEach(input => {
@@ -3265,16 +4680,23 @@
     els.emailRequest.addEventListener('click', downloadAndStartEmail);
     els.downloadExcel.addEventListener('click', downloadExcelFile);
     els.clearBasketTop.addEventListener('click', clearBasket);
-    els.closeBasketPanel.addEventListener('click', closeBasketPanel);
-    function toggleBasketPanel() {
-      const open = !els.basketPanel.classList.contains('open');
-      els.basketPanel.classList.toggle('open', open);
-      els.mobileBasketButton.setAttribute('aria-expanded', String(open));
-      if (els.desktopBasketTab) els.desktopBasketTab.setAttribute('aria-expanded', String(open));
-    }
+    els.equipmentTab.addEventListener('click', () => switchWorkspaceView('equipment', { focusTab: true }));
+    els.roomsTab.addEventListener('click', () => switchWorkspaceView('rooms', { focusTab: true }));
+    els.basketTab.addEventListener('click', () => switchWorkspaceView('basket', { focusTab: true }));
 
-    els.mobileBasketButton.addEventListener('click', toggleBasketPanel);
-    if (els.desktopBasketTab) els.desktopBasketTab.addEventListener('click', toggleBasketPanel);
+    [els.equipmentTab, els.roomsTab, els.basketTab].forEach((tab, index, tabs) => {
+      tab.addEventListener('keydown', event => {
+        if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+        event.preventDefault();
+        let nextIndex = index;
+        if (event.key === 'ArrowLeft') nextIndex = (index - 1 + tabs.length) % tabs.length;
+        if (event.key === 'ArrowRight') nextIndex = (index + 1) % tabs.length;
+        if (event.key === 'Home') nextIndex = 0;
+        if (event.key === 'End') nextIndex = tabs.length - 1;
+        const nextView = tabs[nextIndex].dataset.workspaceView;
+        switchWorkspaceView(nextView, { focusTab: true, scroll: false });
+      });
+    });
 
     els.chooseImportFile.addEventListener('click', () => els.importFileInput.click());
     els.importFileInput.addEventListener('change', event => importEquipmentWorkbook(event.target.files?.[0]));
@@ -3295,6 +4717,8 @@
     setupFilters();
     renderItems();
     renderBasket();
+    renderRooms();
+    switchWorkspaceView('equipment', { scroll: false });
   </script>
 </body>
 </html>
