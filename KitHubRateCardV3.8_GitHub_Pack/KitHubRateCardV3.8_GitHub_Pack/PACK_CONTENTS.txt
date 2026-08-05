@@ -1,6 +1,0 @@
-Kit Hub Rate Card GitHub Pack
-Current release: V3.8
-
-Upload all extracted contents to the repository root.
-Netlify publishes only the site folder, as defined in netlify.toml.
-See README.md first.
