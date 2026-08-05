@@ -1,0 +1,6 @@
+Kit Hub Rate Card repository pack
+Current release: V4.3
+
+Upload the contents of the extracted Rate_Card folder to the GitHub repository root.
+Netlify publishes only the site folder, as defined in netlify.toml.
+Read README.md before uploading or deploying.
