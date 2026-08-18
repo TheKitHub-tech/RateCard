@@ -1,6 +1,61 @@
-Kit Hub Rate Card repository pack
-Current release: V4.3
+Rate_Card repository pack
+Current public release: V4.30
+Prepared: 17 August 2026
 
-Upload the contents of the extracted Rate_Card folder to the GitHub repository root.
-Netlify publishes only the site folder, as defined in netlify.toml.
-Read README.md before uploading or deploying.
+PUBLIC SITE
+  site/index.html
+  site/README.md
+
+RELEASE ARCHIVE
+  archive/KitHubRateCardV4.3.html
+  archive/KitHubRateCardV4.30.html
+  archive/README.md
+
+ROOT DOCUMENTATION AND CONFIGURATION
+  README.md
+  CHANGELOG.md
+  VERSION
+  netlify.toml
+  Dockerfile
+  compose.yaml
+  .dockerignore
+  package.json
+  package-lock.json
+  NOTICE.md
+  SECURITY.md
+  CONTRIBUTING.md
+  PACK_CONTENTS.txt
+  SHA256SUMS.txt
+  .gitignore
+  design.md
+  GUARDIAN_HANDOVER.md
+
+PROJECT DOCUMENTATION
+  docs/README.md
+  docs/QUICK_START.md
+  docs/OPERATIONS_OVERVIEW.md
+  docs/HANDOVER.md
+  docs/DEPLOYMENT.md
+  docs/RELEASE_PROCESS.md
+  docs/TESTING_CHECKLIST.md
+  docs/PRICING_AND_BOOKING_RULES.md
+  docs/DESIGN.md
+  docs/DEVELOPER_GUIDE.md
+  docs/DATA_MAINTENANCE.md
+  docs/DEVELOPMENT_LOG.md
+  docs/DOCKER.md
+  docs/OPEN_DECISIONS.md
+  docs/QUOTE_BUILDER.md
+
+AUTOMATED CHECKS
+  tests/rate-card-regression.test.js
+
+OPTIONAL DOCKER PREVIEW
+  docker/nginx.conf
+
+GITHUB TEMPLATES
+  .github/ISSUE_TEMPLATE/bug_report.md
+  .github/ISSUE_TEMPLATE/feature_request.md
+  .github/pull_request_template.md
+
+The internal KitHubQuoteBuilderV3.2.html is intentionally maintained separately and is not included in the public repository pack.

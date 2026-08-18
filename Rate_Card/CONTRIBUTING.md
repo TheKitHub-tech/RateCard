@@ -1,56 +1,34 @@
 # Contributing
 
-This repository supports a controlled internal service-development project for the Kit Hub.
+This project uses small, versioned releases so the public site can be rolled back safely.
 
-## Before changing the application
+## Before changing anything
 
-- Create an issue or written change note describing the operational need.
-- Confirm the current release in `VERSION`.
-- Work from the current `site/index.html` or matching release in `archive`.
-- Create a new version number for any functional or visible change.
-- Confirm whether the change affects equipment, rooms, services, Booking Request export or Quote Builder compatibility.
+1. Read `docs/HANDOVER.md` and `docs/PRICING_AND_BOOKING_RULES.md`.
+2. Confirm that the requested change has operational approval.
+3. Use the newest approved pricing or catalogue source.
+4. Do not edit an archived release.
 
-## Development rules
+## Making a release
 
-- Preserve the Middlesex University visual system already used by the application.
-- Use Arial for functional interface text and retain the existing display-heading treatment.
-- Keep Middlesex red and indigo as the dominant colours.
-- Avoid excessive rounded cards, decorative effects and unsupported brand treatments.
-- Maintain keyboard access, readable focus states and responsive layouts.
-- Use in-page interface dialogs rather than browser-native alert or confirm pop-ups.
-- Do not add third-party tracking, analytics, advertising or cookies without institutional approval.
-- Do not add secrets, credentials or personal data to client-side code.
-- Do not commit generated Booking Requests, client records or correspondence.
-- Treat the published spreadsheet rates and approved operational rules as authoritative.
+1. Copy the current archived HTML to the next versioned filename.
+2. Make and test the change in the new file.
+3. Add the new versioned file to `archive/`.
+4. Copy the exact approved file to `site/index.html`.
+5. Update `VERSION`, `CHANGELOG.md`, the README and affected documents.
+6. Run `npm test`.
+7. Regenerate `SHA256SUMS.txt`.
+8. Confirm `site/index.html` and the current archive file are identical.
 
-## Required testing
+See `docs/RELEASE_PROCESS.md` for the complete checklist.
 
-Changes must be tested against the relevant sections of `docs/TESTING_CHECKLIST.md`, including:
+## Guardrails
 
-- Equipment search, filters and hire calculations.
-- Equipment weekend adjustment where relevant.
-- Room hourly, half-day and multi-day calculations.
-- Mandatory room technical-support charges.
-- Shared basket behaviour.
-- Excel Booking Request generation.
-- Email workflow.
-- Desktop and mobile layouts.
-- Keyboard and focus behaviour.
-
-## Pull requests
-
-A pull request should state:
-
-- What changed.
-- Why it changed.
-- Which browsers and screen sizes were tested.
-- Which equipment and room calculations were tested.
-- Whether Excel export and Quote Builder import were tested.
-- Whether data handling changed.
-- The proposed new version number.
-
-Use the repository pull request template.
-
-## Approval
-
-A release should not replace `site/index.html` until it has passed the testing checklist and been approved by the nominated Kit Hub service owner or technical reviewer.
+- Refer to the service as **the Kit Hub**.
+- Use **Booking Request**, not Request List.
+- Do not imply that a request confirms availability or a booking.
+- Keep prices exclusive of VAT and clearly indicative.
+- Do not alter room or equipment pricing formulas without approval and regression tests.
+- Do not apply the equipment weekend rule to rooms.
+- Do not add client data or generated files to source control.
+- Avoid em dashes in customer-facing copy.

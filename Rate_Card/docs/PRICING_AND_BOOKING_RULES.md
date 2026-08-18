@@ -1,87 +1,107 @@
 # Pricing and booking rules
 
-This document records the principal operational logic implemented in V4.3. It is a handover reference, not a replacement for approved source rate records.
+This document describes the rules implemented in V4.30. It is not a substitute for approved commercial terms.
 
-## Booking status
+## Universal rules
 
-Submitting a Booking Request does not confirm availability or create a reservation. A booking is confirmed only when the Kit Hub confirms it in writing.
+- Prices are exclusive of VAT and indicative only.
+- A Booking Request does not reserve equipment or rooms.
+- Availability, staffing and technical approval are reviewed by the Kit Hub.
+- The public total is an estimate until the official quote is issued.
 
-All prices shown by the public rate card are exclusive of VAT.
+## Shared booking window
 
-## Equipment hire
+Equipment and Rooms & Spaces share collection/start date, time, return/end date, time and manual number of days during the current browser session.
 
-### Hire period
+Changing the booking window in either tab updates the other tab and refreshes current basket estimates.
 
-Equipment customers may select start and end dates or enter a manual number of chargeable days.
+Room time selectors normally use whole-hour slots. If an equipment time that is not a whole hour is shared into Rooms & Spaces, it is visibly marked as an equipment time and still requires staff review for room suitability.
 
-Equipment pricing uses the embedded 1-day, 3-day and 5-day rate structure and the established incremental calculation for other durations.
+## Equipment duration pricing
 
-### Weekend rule
+Equipment calculations use each item's one-day price as the base daily rate:
 
-The Kit Hub does not operate on weekends.
+| Duration | Daily multiplier | Total method |
+| --- | ---: | --- |
+| 1 day | 100% | Base daily rate x 1 |
+| 2 days | 100% | Base daily rate x 2 |
+| 3 to 4 days | 80% | Base daily rate x days x 0.8 |
+| 5 to 6 days | 60% | Base daily rate x days x 0.6 |
+| 7 or more days | 50% | Base daily rate x days x 0.5 |
 
-- A Saturday or Sunday collection date is adjusted to the preceding Friday.
-- A Saturday or Sunday return date is adjusted to the following Monday.
-- A weekend-only request is therefore Friday to Monday and charged as four calendar days.
-- An equipment request already spanning a weekend continues to count every calendar day.
-- The weekend adjustment applies only to equipment, not rooms.
+The listed 3-day and 5-day values are also displayed in the catalogue and full exports.
 
-## Rooms & Spaces
+### Weekend equipment hire
 
-### Booking controls
+The Kit Hub is closed on Saturdays and Sundays.
 
-- One shared room date and time window applies to all room lines in a Booking Request.
-- Different room windows require separate Booking Requests.
-- Start and end times use whole-hour values only.
-- The current implementation offers starts from 09:00 to 22:00 and end times from 10:00 to 23:00.
-- Same-day end time must be later than start time.
-- A manual number of days can be entered instead of a complete date range.
+- Saturday or Sunday collection is adjusted to the preceding Friday.
+- Saturday or Sunday return is adjusted to the following Monday.
+- A Friday-to-Monday weekend equipment booking is charged as two days at the standard daily rate.
+- Times are retained when weekend dates are adjusted.
+- Longer requests that include a weekend use the normal duration rules.
+- Manual number of days cannot infer weekend use and is reviewed as entered.
 
-### Authoritative prices
+Weekend guidance appears in an in-page pop-up after a weekend choice. It is not permanently displayed in the search panel.
 
-Published hourly, half-day, 1-day, 3-day and 5-day room prices are source values. The site uses these values directly and does not recreate listed package prices from the hourly figure.
+## Room booking window
 
-### Same-day pricing
+One shared room window applies to all room lines in a Booking Request. Different room windows require separate requests unless policy changes.
 
-- 1 hour: hourly rate multiplied by 1.
-- 2 hours: hourly rate multiplied by 2.
-- 3 hours: hourly rate multiplied by 3.
-- 4 hours: listed half-day price.
-- 5 hours or more: listed 1-day price.
+Normal selectable room hours are:
 
-TV Studio A has no listed half-day rate. A four-hour TV Studio A request therefore uses the listed 1-day price.
+- Start: 09:00 to 22:00
+- End: 10:00 to 23:00
 
-### Multi-day pricing
+For a one-day room request, the end must be at least one hour after the start.
 
-- 1 day: listed 1-day price.
-- 2 days: listed 1-day price multiplied by 2.
-- 3 days: listed 3-day price.
-- 4 days: listed 3-day price divided by 3, then multiplied by 4.
-- 5 days: listed 5-day price.
-- 6 days or more: listed 5-day price divided by 5, then multiplied by the requested number of days.
+## Same-day room pricing
 
-### Mandatory technical support
+| Duration | Charge |
+| --- | --- |
+| 1 hour | Hourly rate x 1 |
+| 2 hours | Hourly rate x 2 |
+| 3 hours | Hourly rate x 3 |
+| 4 hours | Listed half-day price |
+| 5 or more hours | Listed one-day price |
 
-The following rooms include one mandatory one-hour technical-support charge per room:
+TV Studio A has no half-day rate. A four-hour request therefore uses its listed one-day rate and shows an explanation.
 
-- Ritterman Dance Studio.
-- Ravensfield Theatre.
-- Grove Dance Theatre.
+## Multi-day room pricing
 
-The charge applies once per affected room, irrespective of booking length. It is combined into the room line total and remains visible in the breakdown.
+Room days are counted inclusively across the date range.
+
+| Duration | Charge |
+| --- | --- |
+| 1 day | Listed 1-day price |
+| 2 days | Listed 1-day price x 2 |
+| 3 days | Listed 3-day price |
+| 4 days | Listed 3-day price / 3 x 4 |
+| 5 days | Listed 5-day price |
+| 6 or more days | Listed 5-day price / 5 x days |
+
+Approved hourly, half-day, 1-day, 3-day and 5-day room prices are used directly. Do not reconstruct those published figures from percentages.
+
+## Mandatory technical support
+
+Some rooms include one mandatory technical-support charge per affected room:
 
 - Weekday start before 18:00: £37 standard-hours support.
 - Weekday start at or after 18:00: £75 out-of-hours support.
 - Weekend start: £75 out-of-hours support.
-- A booking starting before 18:00 keeps the standard mandatory charge even if it finishes later.
 
-Additional technical support remains a separate optional service. Technical Consultation is displayed as contact the Kit Hub to arrange.
+The booking start controls the rate. The charge is not repeated for each day. Removing the room removes its linked mandatory support.
 
-### Closures
+## Optional support
 
-The current static closure calendar includes:
+- Standard Technical Support: £37 per hour.
+- Out-of-hours Technical Support: £75 per hour.
+- Technical Consultation is contact-only in the public site.
 
-- England and Wales bank holidays for 2026, 2027 and 2028.
-- A provisional Christmas closure from 24 December to 2 January for each configured year.
+Optional services remain separate from mandatory support already included with a room.
 
-Known closure dates are blocked. Dates beyond the configured years receive an additional-confirmation warning. The closure list must be reviewed annually by the nominated owner.
+## Closures
+
+Room bookings block England and Wales bank holidays for 2026, 2027 and 2028 and the provisional campus closure from 24 December through 2 January.
+
+Years beyond the configured calendar show a warning for staff confirmation. The closure calendar needs annual maintenance.

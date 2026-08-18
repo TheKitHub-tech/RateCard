@@ -1,55 +1,48 @@
 # Release process
 
-## Versioning
+## Prepare
 
-Use a simple incremental version number:
+1. Confirm the change and its approval source.
+2. Confirm the current release in `VERSION` and the footer of `site/index.html`.
+3. Copy the current archived HTML to the next versioned filename.
+4. Make all changes in the new versioned file.
 
-- Minor changes and fixes: V4.4, V4.5 and so on.
-- Major redesign or architecture change: move to the next major version after stakeholder agreement.
+## Update
 
-Do not overwrite a previously released versioned file.
+1. Update visible and generated version references in the HTML.
+2. Preserve accepted functionality unless the change explicitly replaces it.
+3. Update catalogue or prices only from an approved source.
+4. Update any affected documentation.
+5. Add a clear entry to `CHANGELOG.md`.
+6. Update `VERSION` and `package.json`.
 
-## Prepare a release
+## Validate
 
-1. Copy the current approved HTML file and give it the new versioned filename.
-2. Make the required changes in the new file.
-3. Update visible and generated version references in the application.
-4. Test locally.
-5. Complete `docs/TESTING_CHECKLIST.md`.
-6. Ask the nominated reviewer to approve the release.
+1. Run `npm install` when dependencies are not already installed.
+2. Run `npm test`.
+3. Complete `TESTING_CHECKLIST.md` on desktop and mobile portrait.
+4. Generate and inspect the Excel Booking Request.
+5. Generate and inspect the full rate-card and basket PDFs.
+6. When export schemas change, run an end-to-end import through the current internal Quote Builder.
+7. Check there are no client files, credentials or temporary exports in the repository.
 
-## Publish a release
+## Package
 
-1. Place the approved versioned HTML file in `archive`.
-2. Copy the same approved file to `site/index.html`.
-3. Replace the version number in `VERSION`.
-4. Add a dated entry at the top of `CHANGELOG.md`.
-5. Update README, handover or pricing rules when the documented behaviour changed.
-6. Regenerate `SHA256SUMS.txt`.
-7. Commit using a clear message, for example:
+1. Place the approved versioned HTML in `archive/`.
+2. Copy that exact file to `site/index.html`.
+3. Confirm the two files are identical.
+4. Regenerate `SHA256SUMS.txt` after every file is final.
+5. Build the version-neutral `Rate_Card.zip` with one top-level `Rate_Card/` folder.
+6. Extract the ZIP into a temporary location and rerun the package validation.
 
-```text
-Release rate card V4.4
-```
+## Publish
 
-8. Push or merge to the production branch.
-9. Verify the Netlify deployment.
+1. Commit with a clear message, for example `Release rate card V4.30`.
+2. Push or merge to the production branch.
+3. Confirm the Netlify deployment succeeds.
+4. Force-refresh or use a private window.
+5. Run a short live smoke test.
 
-## Post-release checks
+## Rollback rule
 
-Use a private browser window and confirm:
-
-- The expected version is live.
-- Equipment, Rooms & Spaces and Basket tabs work.
-- Equipment weekend adjustment works.
-- Room calculations and mandatory support work.
-- Excel Booking Request generation works.
-- Contact details and booking lines appear correctly in the workbook.
-- The email draft opens with the correct recipient and request-only wording.
-- The public site exposes only the contents of `site`.
-
-## Rollback
-
-Copy the last approved archived release back to `site/index.html`, update `VERSION`, regenerate checksums and document the rollback in `CHANGELOG.md`.
-
-A previous successful Netlify deploy may also be republished while the repository rollback is prepared.
+Do not delete or overwrite a previous archived release. GitHub and Netlify history are additional recovery routes, not substitutes for the archive.

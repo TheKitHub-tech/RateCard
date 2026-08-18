@@ -1,77 +1,63 @@
 # Changelog
 
-All notable changes to the Kit Hub External Hire Rate Card are recorded here.
+All notable public changes are recorded here.
 
-## [Unreleased]
+## Unreleased
 
-- No changes currently pending.
+- No changes yet.
 
-## [4.3] - 2026-08-05
-
-### Changed
-
-- Added equipment-only weekend hire handling.
-- Equipment requested for Saturday or Sunday is adjusted to collection on Friday and return on Monday.
-- A weekend-only equipment request is therefore charged as a four-day hire.
-- Equipment bookings already spanning a weekend continue to count all calendar days.
-- Room booking dates and room pricing are unchanged.
-
-## [4.2] - 2026-08-05
+## 4.30 - 2026-08-17
 
 ### Added
 
-- Added an "OR: Number of days" option to the Rooms & Spaces tab.
-- Added in-page dialogs for warnings and confirmations.
+- Full rate-card exports in Excel and PDF, with separate Equipment and Rooms sheets in Excel.
+- Selected-basket exports in Excel and PDF.
+- Production/client name field carried into Booking Requests, basket exports, PDFs and generated filenames.
+- Five equipment packages that add their individual components to the basket without package pricing or discounts.
+- Clear expand/collapse controls for every Equipment and Rooms & Spaces category.
+- Session-persistent collection/return dates and times shared across Equipment and Rooms & Spaces.
+- Mobile portrait usability pass covering navigation, filters, booking controls, cards, basket and export controls.
 
 ### Changed
 
-- Replaced remaining browser-native alerts and confirmation pop-ups with dialogs inside the site interface.
-- Room cards now identify out-of-hours mandatory technical support before the room is added to the basket.
-
-## [4.1] - 2026-08-04
+- Equipment weekend hire is charged as two days. Saturday or Sunday choices are adjusted to Friday collection and Monday return.
+- Weekend equipment guidance now appears as an in-page pop-up only when a weekend date is selected.
+- Equipment and Rooms & Spaces use the same compact search/booking-control layout with a clear vertical divider.
+- The main search fields are larger, with filters underneath and Search scope placed last.
+- Equipment status badges and Advanced options now remain within the compact search panel.
+- Advanced options stays in place when expanded and only changes its plus/minus state.
+- The global warning is one concise red bar containing the request warning and the VAT/indicative-pricing notice.
+- Room interface text was simplified and redundant guidance removed.
+- Room names corrected to TV Studio B, Podcast Studio and Radio Studio.
+- Brand metadata was reconciled against the corrected full-rate-card workbook.
+- Category, group, brand and search-scope filtering was tightened without changing desktop layout.
+- Catalogue content now contains 514 equipment items and 37 rooms and spaces.
 
 ### Fixed
 
-- Corrected the basket layout so contact fields and actions no longer overlap the footer.
+- Removed the standalone Cartoni Lightweight Tripod (KPTZ721/100), which is part of the Cartoni KJ-103 Jib kit.
+- Added the Cartoni Lightweight Tripod to the KJ-103 Jib description so it remains visible in catalogue and export information.
+- Removed layout shifts when Equipment advanced options opens.
+- Preserved package references, room prices and export schemas through the catalogue updates.
 
-## [4.0] - 2026-08-03
+### Integration
 
-### Added
+- The current Booking Request format is compatible with internal Quote Builder V3.2.
+- Quote Builder V3.2 preserves imported room charges, mandatory support, production/client details, weekend pricing and collection/return times.
 
-- Added the complete Rooms & Spaces catalogue with 37 rooms across six categories.
-- Added shared room date and whole-hour time controls.
-- Added automatic hourly, half-day, one-day and multi-day room pricing.
-- Added the TV Studio A four-hour restriction, which applies the one-day rate because no half-day rate is available.
-- Added mandatory technical support charges for Ritterman Dance Studio, Ravensfield Theatre and Grove Dance Theatre.
-- Added optional technical support and a contact-only Technical Consultation service.
-- Added bank holiday and known campus closure validation.
-- Added room and service lines to the shared basket, Excel booking request and email workflow.
-- Added request-only wording throughout the site.
+V4.4 through V4.29 were iterative working builds leading to this consolidated public release. They are intentionally not included as public release archives.
 
-### Changed
-
-- Expanded the basket to separate Equipment, Rooms & Spaces and Optional Services.
-- Renamed Production Studio A to TV Studio A in the customer-facing interface.
-
-## [3.9] - 2026-08-03
-
-### Changed
-
-- Replaced "Request List" with "Booking Request" throughout the site and generated Excel file.
-- Reworked navigation into a floating top bar with Equipment, Rooms and Basket tabs.
-- Removed the duplicate basket control and old slide-out basket drawer.
-- Added an empty Rooms tab in preparation for the room-hire implementation.
-
-## [3.8] - 2026-07-30
+## 4.3 - 2026-08-07
 
 ### Added
 
-- Added client name, company or production, email and phone fields.
-- Added a privacy notice explaining that details are not stored by the website.
-- Added contact details to the generated Excel request.
-- Added client and production names to generated filenames.
+- Rooms & Spaces catalogue and shared room booking window.
+- Combined equipment, room and optional-service basket.
+- Room hourly, half-day and multi-day pricing.
+- Campus closure validation and mandatory technical-support calculations.
+- Combined Excel Booking Request and pre-addressed email workflow.
+- Initial equipment weekend adjustment.
 
-### Changed
+### Notes
 
-- Updated the booking-request email workflow and contact-data export.
-
+- V4.3 was the previous stable public baseline and remains included for rollback.

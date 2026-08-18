@@ -1,7 +1,11 @@
 # Notice
 
-This repository contains Middlesex University branding, the Kit Hub service information, equipment catalogue data and room-hire rate data.
+This repository contains the Kit Hub External Hire Rate Card developed for Middlesex University London.
 
-No open-source licence is included with this repository. Do not assume permission to reuse the University logo, branding, catalogue, room information or pricing outside the approved project.
+Middlesex University names, logos, marks and visual identity remain the property of Middlesex University. Their inclusion does not grant permission for reuse outside this project.
 
-Any future decision to publish the source repository publicly should be reviewed by the appropriate Middlesex University stakeholders.
+Equipment and room prices are exclusive of VAT, indicative only and subject to official confirmation by the Kit Hub.
+
+No proprietary font files are distributed. The application uses browser-available fallbacks when an institutional display font is not installed.
+
+No open-source licence or permission to redistribute institutional assets is implied by the presence of this source repository.

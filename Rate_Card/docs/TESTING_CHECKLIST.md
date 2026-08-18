@@ -1,115 +1,59 @@
-# Testing checklist
+# Essential testing checklist
 
-Record the browser versions, device sizes and tester name in the pull request or release note.
+## Landing and navigation
 
-## Core navigation and catalogue
+- [ ] Landing page shows Equipment, Rooms & Spaces, Basket count and both full-list export buttons.
+- [ ] Logo returns to the landing page.
+- [ ] The red warning bar remains one clean line on desktop.
+- [ ] Equipment, Rooms & Spaces and Basket retain the current basket and booking window.
 
-- [ ] Page loads without visible errors.
-- [ ] Equipment, Rooms & Spaces and Basket tabs work.
-- [ ] Tab changes do not clear the current basket or contact details.
-- [ ] Equipment search returns expected items.
-- [ ] Equipment category, group and brand filters work.
-- [ ] Equipment clear filters restores the catalogue.
-- [ ] Asset information popovers open and close correctly.
-- [ ] Room search and category filters work.
+## Equipment
 
-## Equipment hire period
+- [ ] Main search is prominent and search scope is the final filter.
+- [ ] Category, group, brand and scope filters work and reset correctly.
+- [ ] Category expand/collapse buttons are clear and keyboard-operable.
+- [ ] Advanced options opens without moving its button to another line.
+- [ ] Friday-to-Monday equipment hire is charged as two days.
+- [ ] Saturday/Sunday date choices adjust to Friday/Monday.
+- [ ] Weekend guidance appears as an in-page pop-up only after a weekend choice.
+- [ ] KJ-103 Jib includes the Cartoni Lightweight Tripod in its description.
+- [ ] The Cartoni Lightweight Tripod is not a separate item.
+- [ ] All five packages add the intended component quantities and no package discount.
 
-- [ ] Ordinary weekday start and end dates calculate the expected hire period.
-- [ ] Manual equipment number of days works.
-- [ ] Incremental equipment pricing above five days behaves as expected.
-- [ ] Saturday-only equipment request adjusts to Friday through Monday and four days.
-- [ ] Sunday-only equipment request adjusts to Friday through Monday and four days.
-- [ ] Friday-to-Monday equipment request remains four days.
-- [ ] Invalid or incomplete date combinations are handled clearly.
+## Rooms & Spaces
 
-## Rooms & Spaces period and pricing
+- [ ] Search and category filters work and reset correctly.
+- [ ] Category expand/collapse controls work.
+- [ ] The booking window matches Equipment after changing tabs.
+- [ ] Room times remain whole-hour choices.
+- [ ] TV Studio A four-hour requests use its one-day rate.
+- [ ] Mandatory technical support is added once per affected room.
+- [ ] TV Studio B, Podcast Studio and Radio Studio use the correct public names.
+- [ ] Closure dates are blocked and years beyond the configured calendar warn for review.
 
-- [ ] Only whole-hour time values are selectable.
-- [ ] Same-day end time must be later than start time.
-- [ ] Manual room number of days works.
-- [ ] Studio B, 10:00 to 13:00, calculates £240.00.
-- [ ] Studio B, 10:00 to 14:00, calculates £320.00.
-- [ ] Studio B, 10:00 to 15:00, calculates £544.00.
-- [ ] TV Studio A, four hours, calculates £2,856.00 and explains the missing half-day rate.
-- [ ] TV Studio A, four days, calculates £10,752.00.
-- [ ] TV Studio A, seven days, calculates £16,464.00.
-- [ ] Known closure dates are blocked.
-- [ ] Dates beyond the configured closure years produce the intended warning.
+## Basket and exports
 
-## Mandatory and optional support
+- [ ] Production/client name appears in generated filenames and export content.
+- [ ] Booking Request Excel opens and contains equipment and room lines.
+- [ ] Full Excel export contains Equipment and Rooms sheets.
+- [ ] Full PDF contains equipment and rooms without clipped columns.
+- [ ] Basket Excel and PDF contain only selected lines.
+- [ ] The email draft is addressed to `thekithub@mdx.ac.uk` and tells the user to attach the workbook manually.
+- [ ] Empty/invalid states use in-page messages rather than browser-native alerts.
 
-- [ ] Ritterman Dance Studio starting Friday at 17:00 adds £37.00 once.
-- [ ] Ritterman Dance Studio starting Friday at 18:00 adds £75.00 once.
-- [ ] Ravensfield Theatre starting Saturday adds £75.00 once.
-- [ ] Grove Dance Theatre adds the correct mandatory support once.
-- [ ] Mandatory support is visible in the room calculation and basket breakdown.
-- [ ] Removing an affected room removes its linked mandatory support.
-- [ ] Optional additional technical support remains separate.
-- [ ] Technical Consultation displays contact-to-arrange wording.
+## Mobile portrait
 
-## Basket
+- [ ] No horizontal page scrolling at common phone widths.
+- [ ] Navigation and primary buttons are large enough to tap.
+- [ ] Search, filters, dates and times stack in a sensible order.
+- [ ] Cards, quantity inputs and basket controls remain readable.
+- [ ] Dialogs fit within the viewport and can be closed.
+- [ ] Export buttons do not overlap or leave the viewport.
 
-- [ ] Add equipment works.
-- [ ] Add room works.
-- [ ] Add optional service works.
-- [ ] Equipment quantity changes update totals.
-- [ ] Remove item works.
-- [ ] Clear basket uses an in-page confirmation dialog.
-- [ ] Basket count is correct.
-- [ ] Equipment, rooms and services are visually separated.
-- [ ] Basket page expands fully without overlapping the footer.
-- [ ] Basket survives a page refresh during the current browser session.
+## Final release
 
-## Client details and Booking Request
-
-- [ ] Client name exports correctly.
-- [ ] Company or production exports correctly.
-- [ ] Email address exports correctly.
-- [ ] Phone number exports correctly.
-- [ ] At least one naming field is required.
-- [ ] Booking Request filename is safe and readable.
-- [ ] Date is included in the filename.
-- [ ] Excel workbook opens without repair warnings.
-- [ ] Equipment items, quantities, rates and totals are correct.
-- [ ] Room dates, times, charging basis, room charge and mandatory support are correct.
-- [ ] Request-only status wording is included.
-- [ ] Equipment rows import into the current Quote Builder as expected.
-- [ ] Any current limitation on automatic room-line import is documented.
-
-## Email workflow
-
-- [ ] Correct recipient is used: `thekithub@mdx.ac.uk`.
-- [ ] Subject includes the relevant client or production name.
-- [ ] Body contains the expected contact and request details.
-- [ ] Body states that the request is not a confirmed booking.
-- [ ] Attachment reminder is present.
-- [ ] Booking Request downloads before the email application opens.
-- [ ] Status and warning messages use in-page dialogs, not browser-native alerts.
-
-## Responsive and accessibility checks
-
-- [ ] Keyboard navigation reaches all interactive controls.
-- [ ] Focus indicators are visible.
-- [ ] Labels are associated with inputs.
-- [ ] Dialog focus and dismissal behave correctly.
-- [ ] Text remains readable at 200 per cent zoom.
-- [ ] No horizontal page scrolling at common mobile widths.
-- [ ] Desktop layout tested at 1366 by 768 or similar.
-- [ ] Mobile layout tested around 390 by 844.
-
-## Browser coverage
-
-- [ ] Current Chrome on Windows.
-- [ ] Current Edge on Windows.
-- [ ] Current Safari on macOS, where available.
-- [ ] Mobile Safari on iPhone, where available.
-- [ ] Mobile Chrome on Android, where available.
-
-## Deployment
-
-- [ ] Netlify publishes only the `site` folder.
-- [ ] Repository documentation and archive files are not public through the site URL.
-- [ ] Security headers are present.
-- [ ] Live deployment matches the approved release.
-- [ ] Previous Netlify deployment remains available for rollback.
+- [ ] Footer shows the intended version.
+- [ ] `npm test` passes.
+- [ ] `site/index.html` matches the current archived release exactly.
+- [ ] `SHA256SUMS.txt` has been regenerated.
+- [ ] No client data, generated exports, credentials or temporary files are included.

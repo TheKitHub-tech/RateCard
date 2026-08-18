@@ -1,172 +1,99 @@
 # The Kit Hub External Hire Rate Card
 
-A browser-based external hire rate card for the Kit Hub at Middlesex University London.
+Current public release: **V4.30**  
+Release date: **17 August 2026**
 
-**Current release:** V4.3  
-**Status:** Working prototype for stakeholder review and controlled trial use  
-**Live application file:** `site/index.html`
+This repository contains the public external-hire rate card for the Kit Hub at Middlesex University London. It is a self-contained browser application published from `site/index.html`.
 
-## What the tool does
+The site lets prospective clients:
 
-The rate card allows a prospective client to:
+- browse 514 equipment items and 37 rooms and spaces;
+- search and filter the catalogues;
+- add individual items or one of five equipment packages to a basket;
+- use one shared collection/return window across Equipment and Rooms & Spaces;
+- receive the special two-day Friday-to-Monday weekend equipment estimate;
+- export the complete rate card as Excel or PDF;
+- export a selected basket as Excel or PDF;
+- create an Excel Booking Request with production/client details;
+- prepare an email to the Kit Hub.
 
-- Browse, search and filter the Kit Hub equipment catalogue.
-- Choose equipment hire dates or enter a manual number of chargeable days.
-- Request equipment across a weekend using the required Friday collection and Monday return period.
-- Browse 37 rooms and spaces across six categories.
-- Select one shared room date and whole-hour time window, or enter a manual number of room-hire days.
-- See room charges calculated automatically using the published hourly, half-day and multi-day rates.
-- Add equipment, rooms and optional services to one shared basket.
-- Enter client and production contact details.
-- Generate an Excel Booking Request locally in the browser.
-- Open a pre-addressed email to `thekithub@mdx.ac.uk`.
+It is a **request and estimate tool**, not a live booking system. It does not reserve stock, check availability, take payment or confirm a booking.
 
-## Booking status
-
-Submitting a Booking Request does not confirm a booking. Equipment and room requests remain subject to availability, staffing, technical approval and written confirmation from the Kit Hub.
-
-The application does not reserve stock or rooms, take payment, or create a server-side booking record.
-
-## Important pricing and booking rules
-
-### Equipment
-
-- Equipment pricing uses the embedded 1-day, 3-day and 5-day rate structure.
-- A manual number of chargeable days can be used instead of selecting dates.
-- The Kit Hub does not operate at weekends.
-- Equipment requested for Saturday or Sunday is adjusted to collection on Friday and return on Monday.
-- A weekend-only equipment request is therefore charged as a four-day hire.
-- This weekend adjustment applies to equipment only, not rooms.
-
-### Rooms & Spaces
-
-- Customers choose dates and whole-hour times rather than selecting a pricing tier.
-- Same-day requests use hourly pricing for 1 to 3 hours, the listed half-day rate for 4 hours, and the listed 1-day rate for 5 hours or more.
-- TV Studio A has no half-day rate, so a 4-hour request uses its listed 1-day price.
-- Multi-day requests use the published 1-day, 3-day and 5-day rates and the agreed intermediate-day calculations.
-- Ritterman Dance Studio, Ravensfield Theatre and Grove Dance Theatre include one mandatory technical-support charge per affected room.
-- Room requests use one shared date and time window. Different room windows require a separate Booking Request.
-
-More detail is recorded in [`docs/PRICING_AND_BOOKING_RULES.md`](docs/PRICING_AND_BOOKING_RULES.md).
-
-## Data and privacy
-
-The application is a static client-side website. It has no database, account system, payment service or server-side submission process.
-
-- Booking Request spreadsheets are generated on the user's device.
-- Contact fields are used only to prepare the spreadsheet and email draft and are not intentionally stored by the application.
-- Basket contents are stored in browser session storage so they can survive a page refresh during the current browser session.
-- The application does not intentionally use cookies, analytics or advertising trackers.
-- The website cannot attach the downloaded spreadsheet to an email automatically. The user must attach it before sending.
-- Users on shared devices should clear the basket and close the browser after use.
-- Generated Booking Requests and client information must never be committed to this repository.
-
-See [`SECURITY.md`](SECURITY.md) for the repository rules.
-
-## Repository structure
+## Repository layout
 
 ```text
-kit-hub-rate-card/
-├── site/
-│   └── index.html                 # File published by Netlify
-├── archive/
-│   └── KitHubRateCardV4.3.html    # Preserved versioned release
-├── docs/
-│   ├── DEPLOYMENT.md
-│   ├── HANDOVER.md
-│   ├── PRICING_AND_BOOKING_RULES.md
-│   ├── RELEASE_PROCESS.md
-│   └── TESTING_CHECKLIST.md
-├── .github/
-│   ├── ISSUE_TEMPLATE/
-│   └── PULL_REQUEST_TEMPLATE.md
-├── .gitignore
-├── CHANGELOG.md
-├── CONTRIBUTING.md
-├── NOTICE.md
-├── PACK_CONTENTS.txt
-├── SECURITY.md
-├── SHA256SUMS.txt
-├── VERSION
-├── netlify.toml
-└── README.md
+site/                       Netlify publishes this folder
+  index.html                Exact live copy of V4.30
+archive/                    Immutable release and rollback files
+docs/                       Operations, deployment and developer handover
+tests/                      Automated browser-logic regression test
+docker/                     Optional reproducible Nginx configuration
+.github/                    Issue and pull-request templates
+CHANGELOG.md                Release history
+VERSION                     Current release number
+netlify.toml                Netlify publish configuration
+SHA256SUMS.txt              Integrity checks for the packaged files
 ```
 
-The `site` folder is the only folder Netlify publishes. The versioned file in `archive` remains in GitHub and is not part of the public site.
+Start with [docs/README.md](docs/README.md) for the documentation index. A nontechnical release guide is in [docs/QUICK_START.md](docs/QUICK_START.md), while the central handover is [docs/HANDOVER.md](docs/HANDOVER.md).
 
-## Open locally
+## Local preview
 
-Open this file in a modern browser:
-
-```text
-site/index.html
-```
-
-No installation or build process is required for normal use.
-
-For a local web-server test, run this from the repository root:
+No build step is required. Open `site/index.html` directly in a browser, or serve the repository root with a simple local web server.
 
 ```bash
-python3 -m http.server 8000 --directory site
+python3 -m http.server 8000
 ```
 
-Then open:
+Then open `http://localhost:8000/site/`.
 
-```text
-http://localhost:8000
+## Automated check
+
+Node.js 20 or newer is recommended.
+
+```bash
+npm install
+npm test
 ```
 
-## Upload this pack to GitHub
+The test checks catalogue counts, package references, weekend pricing, room names, collapsible categories, shared booking dates, Excel/PDF generation and the V4.30 Cartoni Jib correction.
 
-1. Extract `Rate_Card.zip`.
-2. Open the extracted `Rate_Card` folder.
-3. Upload the contents of that folder to the repository root.
-4. Confirm that `README.md`, `netlify.toml`, `site` and `archive` appear directly at the repository root.
-5. Do not upload the ZIP as the only repository file. GitHub does not unpack it automatically.
+## Optional Docker preview
 
-If replacing the earlier nested repository layout, remove the obsolete version-named pack folders after confirming the new root structure is correct.
+Docker is not required for Netlify, but an optional reproducible static-server setup is included for handover and local testing.
 
-## Deploy to Netlify
-
-The repository is arranged for Netlify with no build command and `site` as the publish directory.
-
-When the repository files sit directly at the GitHub repository root:
-
-```text
-Base directory: blank
-Build command: blank
-Publish directory: site
+```bash
+docker compose up --build
 ```
 
-See [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) for deployment, verification and rollback instructions.
+Then open `http://localhost:8080`. See [docs/DOCKER.md](docs/DOCKER.md).
 
-## Updating the rate card
+## Netlify deployment
 
-Do not edit an archived release in place.
+The intended settings are:
 
-1. Create a new versioned HTML file, for example `KitHubRateCardV4.4.html`.
-2. Make and test the changes in that file.
-3. Add the approved file to `archive`.
-4. Copy the approved file to `site/index.html`.
-5. Update `VERSION`, `CHANGELOG.md` and any affected documentation.
-6. Commit the release with a clear message.
-7. Verify the Netlify deployment.
+- Base directory: blank
+- Build command: blank
+- Publish directory: `site`
+- Production branch: `main`
 
-Full instructions are in [`docs/RELEASE_PROCESS.md`](docs/RELEASE_PROCESS.md).
+`netlify.toml` already defines the publish directory. A push to the connected production branch should therefore publish `site/index.html` without a build.
 
-## Known limitations
+## Release safety
 
-- The catalogue, room data and pricing are embedded in the single HTML application.
-- Published client-side HTML, CSS, JavaScript and rate data can be inspected by visitors.
-- A standard `mailto:` link cannot attach the generated Excel file automatically.
-- The Quote Builder requires a later compatibility pass for automatic room-line importing.
-- Room opening hours, weekend availability and closure dates remain subject to Kit Hub confirmation.
-- The embedded England and Wales bank-holiday and Christmas closure calendar is configured for 2026 to 2028 and must be reviewed annually.
+- Do not edit `site/index.html` without also creating a new versioned file in `archive/`.
+- Do not overwrite an archived release.
+- Keep `site/index.html` byte-for-byte identical to the current archived release.
+- Only update prices or catalogue data from an approved source.
+- Never commit Booking Requests, client details or generated quote files.
+- Keep the internal Quote Builder separate from the public Netlify site.
 
-## Ownership and handover
+The stable pre-update rollback remains `archive/KitHubRateCardV4.3.html`. The current approved release is `archive/KitHubRateCardV4.30.html`.
 
-The permanent repository and Netlify project should not depend on one person's private account. Complete the ownership record in [`docs/HANDOVER.md`](docs/HANDOVER.md), retain at least two authorised maintainers where the selected services allow it, and use institutional contact details for recovery and billing.
+## Internal Quote Builder
 
-## Support
+The current internal tool is **KitHubQuoteBuilderV3.2**. It is not included in this public repository pack. V3.2 has been regression-tested against the current combined Booking Request format, including equipment, rooms, production/client names, collection and return times, weekend pricing and editable PDF reopening. See [docs/QUOTE_BUILDER.md](docs/QUOTE_BUILDER.md).
 
-Operational enquiries: `thekithub@mdx.ac.uk`
+## Rights and branding
+
+This project was developed for the Kit Hub at Middlesex University London. Middlesex University names, logos and visual identity remain protected institutional assets. No font files are distributed in this repository.
