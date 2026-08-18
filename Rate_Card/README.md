@@ -1,6 +1,6 @@
 # The Kit Hub External Hire Rate Card
 
-Current public release: **V4.30**  
+Current public release: **V5**  
 Release date: **17 August 2026**
 
 This repository contains the public external-hire rate card for the Kit Hub at Middlesex University London. It is a self-contained browser application published from `site/index.html`.
