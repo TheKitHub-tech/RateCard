@@ -36,7 +36,7 @@ Equipment, room and package IDs are functional references, not display decoratio
 - Basket rows and exports retain equipment and room references.
 - Remove or replace package references before deleting an item.
 
-V4.30 intentionally has no `RC-0089`. `RC-0098` is the Cartoni KJ-103 Jib and includes the former tripod component in its description.
+V5.0 intentionally has no `RC-0089`. `RC-0098` is the Cartoni KJ-103 Jib and includes the former tripod component in its description.
 
 ## Export architecture
 

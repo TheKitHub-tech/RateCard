@@ -37,7 +37,7 @@
 
 ## Publish
 
-1. Commit with a clear message, for example `Release rate card V4.30`.
+1. Commit with a clear message, for example `Release rate card V5.0`.
 2. Push or merge to the production branch.
 3. Confirm the Netlify deployment succeeds.
 4. Force-refresh or use a private window.

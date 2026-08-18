@@ -1,6 +1,6 @@
 {
   "name": "kit-hub-external-hire-rate-card",
-  "version": "4.30.0",
+  "version": "5.0.0",
   "private": true,
   "description": "Public external hire rate card for the Kit Hub at Middlesex University London.",
   "scripts": {

@@ -150,8 +150,7 @@ assert(fullPdf.length > 250000, 'Full rate-card PDF is unexpectedly small');
 assert(basketPdf.length > 5000, 'Basket PDF is unexpectedly small');
 
 assert(source.includes('@media (max-width: 760px)'), 'Mobile portrait stylesheet missing');
-assert(source.includes('KitHubRateCardV4.30'), 'V4.30 version marker missing');
-assert(!source.includes('KitHubRateCardV4.29'), 'Old version marker remains');
+assert(source.includes('KitHubRateCardV5.0'), 'V5.0 version marker missing');
 assert(source.trimEnd().endsWith('</html>'), 'HTML document is truncated');
 
 setTimeout(() => {

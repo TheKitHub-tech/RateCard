@@ -1,6 +1,6 @@
 # Open management and policy decisions
 
-These items are intentionally not finalised in V4.30. Do not invent public wording.
+These items are intentionally not finalised in V5.0. Do not invent public wording.
 
 | Topic | Information required | Current status |
 | --- | --- | --- |

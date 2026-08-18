@@ -15,7 +15,7 @@ Each item can contain:
 - optional description;
 - duplicate-name flag.
 
-Use the newest approved spreadsheet as the source of truth. V4.30 brand corrections were reconciled against `Kit_Hub_Full_Rate_Card_Corrected_Brands.xlsx`.
+Use the newest approved spreadsheet as the source of truth. V5.0 brand corrections were reconciled against `Kit_Hub_Full_Rate_Card_Corrected_Brands.xlsx`.
 
 When editing:
 
@@ -63,7 +63,7 @@ Before adding a year:
 3. update the configured-year set and tests;
 4. test closed and open dates around every boundary.
 
-## Current V4.30 counts
+## Current V5.0 counts
 
 - Equipment items: 514
 - Rooms and spaces: 37

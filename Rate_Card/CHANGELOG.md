@@ -6,7 +6,7 @@ All notable public changes are recorded here.
 
 - No changes yet.
 
-## Update to V5 - 2026-08-17
+## 5.0 - 2026-08-18
 
 ### Added
 
@@ -45,7 +45,7 @@ All notable public changes are recorded here.
 - The current Booking Request format is compatible with internal Quote Builder V3.2.
 - Quote Builder V3.2 preserves imported room charges, mandatory support, production/client details, weekend pricing and collection/return times.
 
-V4.4 through V4.29 were iterative working builds leading to this consolidated public release. They are intentionally not included as public release archives.
+The later V4 builds were iterative internal versions leading to this consolidated V5.0 public release. They are intentionally not included as public release archives.
 
 ## 4.3 - 2026-08-07
 

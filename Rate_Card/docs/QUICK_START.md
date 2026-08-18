@@ -1,12 +1,12 @@
-# Quick start: publish V4.30 tomorrow
+# Quick start: publish V5.0
 
 This guide assumes the existing GitHub repository is already connected to Netlify.
 
 ## 1. Unpack the delivery
 
-Extract `Rate_Card.zip`.
+Extract `Kit_Hub_Rate_Card_V5.0_GitHub.zip`.
 
-Open the extracted `Rate_Card` folder. Upload or copy the **contents inside that folder** into the GitHub repository root.
+Open the extracted `Kit_Hub_Rate_Card_V5.0_GitHub` folder. Upload or copy the **contents inside that folder** into the GitHub repository root.
 
 Do not upload only the ZIP. GitHub will not unpack it automatically.
 
@@ -23,14 +23,21 @@ docs/
 .github/
 ```
 
-It should not contain an unnecessary second `Rate_Card/Rate_Card/` layer.
+It should not contain an unnecessary second package-folder layer.
+
+Before committing, remove any obsolete archived HTML files left by an earlier upload. The only versioned HTML files in `archive/` should be:
+
+```text
+KitHubRateCardV4.3.html
+KitHubRateCardV5.0.html
+```
 
 ## 2. Commit the release
 
 A suitable commit message is:
 
 ```text
-Release rate card V4.30
+Release rate card V5.0
 ```
 
 Push or merge the change into the Netlify production branch, normally `main`.
@@ -49,7 +56,7 @@ The included `netlify.toml` already sets `site` as the publish directory.
 After Netlify reports a successful deployment:
 
 1. Open the live site in a private browser window or force-refresh it.
-2. Check that the footer says `KitHubRateCardV4.30`.
+2. Check that the footer says `KitHubRateCardV5.0`.
 3. Open Equipment, Rooms & Spaces and Basket.
 4. Search for `KJ-103 Jib`. Its description should include the Cartoni Lightweight Tripod.
 5. Search for `KPTZ721/100`. It should appear only in the Jib description, not as a separate item.

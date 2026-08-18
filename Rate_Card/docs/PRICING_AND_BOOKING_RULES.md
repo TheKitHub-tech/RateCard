@@ -1,6 +1,6 @@
 # Pricing and booking rules
 
-This document describes the rules implemented in V4.30. It is not a substitute for approved commercial terms.
+This document describes the rules implemented in V5.0. It is not a substitute for approved commercial terms.
 
 ## Universal rules
 

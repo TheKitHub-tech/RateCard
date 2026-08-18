@@ -15,7 +15,7 @@ repository root/
     index.html
   archive/
     KitHubRateCardV4.3.html
-    KitHubRateCardV4.30.html
+    KitHubRateCardV5.0.html
 ```
 
 `site/index.html` must be byte-for-byte identical to the current archived release.

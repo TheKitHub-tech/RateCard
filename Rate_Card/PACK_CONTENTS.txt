@@ -1,6 +1,6 @@
-Rate_Card repository pack
-Current public release: V4.30
-Prepared: 17 August 2026
+Kit_Hub_Rate_Card_V5.0_GitHub repository pack
+Current public release: V5.0
+Prepared: 18 August 2026
 
 PUBLIC SITE
   site/index.html
@@ -8,7 +8,7 @@ PUBLIC SITE
 
 RELEASE ARCHIVE
   archive/KitHubRateCardV4.3.html
-  archive/KitHubRateCardV4.30.html
+  archive/KitHubRateCardV5.0.html
   archive/README.md
 
 ROOT DOCUMENTATION AND CONFIGURATION

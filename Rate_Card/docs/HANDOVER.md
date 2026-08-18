@@ -1,21 +1,21 @@
 # Guardian handover
 
-Last reviewed: **17 August 2026**
+Last reviewed: **18 August 2026**
 
 This is the central continuity document for the Kit Hub External Hire Rate Card.
 
 ## Current approved files
 
-- Public rate card: `KitHubRateCardV4.30.html`
+- Public rate card: `KitHubRateCardV5.0.html`
 - Live repository copy: `site/index.html`
-- Current release archive: `archive/KitHubRateCardV4.30.html`
+- Current release archive: `archive/KitHubRateCardV5.0.html`
 - Stable pre-update rollback: `archive/KitHubRateCardV4.3.html`
 - Internal Quote Builder: `KitHubQuoteBuilderV3.2.html`, maintained separately
 - Repository pack: `Rate_Card.zip`, deliberately version-neutral
 
 Do not overwrite archived releases. Future public changes start from a new versioned HTML file.
 
-## What V4.30 contains
+## What V5.0 contains
 
 - 514 equipment items.
 - 37 rooms and spaces.
@@ -69,7 +69,7 @@ The application is one self-contained HTML file containing:
 
 There is no application server, database, package build or API. Basket and booking-window state are stored temporarily in browser session storage. The generated files stay on the user's device until they attach and send them.
 
-## Data sources used during V4.30 development
+## Data sources used during V5.0 development
 
 - Equipment and brand corrections: `Kit_Hub_Full_Rate_Card_Corrected_Brands.xlsx`.
 - Package selections: `Kit_Hub_Package_Planner(1).xlsx`.
@@ -113,7 +113,7 @@ It preserves editable quote data in generated PDFs so staff can reopen a quote. 
 
 ## Outstanding management information
 
-The following items are deliberately not invented in V4.30:
+The following items are deliberately not invented in V5.0:
 
 - eligibility wording for alumni, external clients and other audiences;
 - external terms and conditions link;

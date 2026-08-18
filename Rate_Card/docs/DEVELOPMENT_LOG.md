@@ -1,18 +1,18 @@
 # Development log
 
-## 17 August 2026: V4.30 release package
+## 18 August 2026: V5.0 release package
 
 - Removed standalone `RC-0089`, Cartoni Lightweight Tripod (KPTZ721/100).
 - Added the tripod to the `RC-0098` Cartoni KJ-103 Jib description.
 - Confirmed 514 equipment items, 37 rooms and five packages.
 - Reran catalogue, package, category, shared-window, Excel and PDF regressions.
-- Reran the V4.30 Booking Request through internal Quote Builder V3.2.
+- Reran the V5.0 Booking Request through internal Quote Builder V3.2.
 - Confirmed room import prices remain locked and weekend equipment pricing remains two days.
 - Created the refreshed version-neutral GitHub repository pack.
 - Updated operational, deployment, design, release, data, testing and Quote Builder handover documents.
 - Added optional Docker/Nginx local-preview files for reproducible handover.
 
-## 12 to 17 August 2026: V4.4 to V4.29 working series
+## 12 to 17 August 2026: V4 working series
 
 - Changed weekend equipment pricing to the approved two-day Friday-to-Monday rule.
 - Added collection and return times to the equipment workflow and exports.
