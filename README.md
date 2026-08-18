@@ -1,7 +1,14 @@
 # The Kit Hub External Hire Rate Card
 
-Current public release: **V5**  
-Release date: **17 August 2026**
+Current public release: **V5.0**  
+Release date: **18 August 2026**
+
+Release identifiers are intentionally consistent throughout the repository:
+
+- public release label: `V5.0`;
+- live and archived file: `KitHubRateCardV5.0.html`;
+- `VERSION` value: `5.0`;
+- package version: `5.0.0`.
 
 This repository contains the public external-hire rate card for the Kit Hub at Middlesex University London. It is a self-contained browser application published from `site/index.html`.
 
@@ -23,7 +30,7 @@ It is a **request and estimate tool**, not a live booking system. It does not re
 
 ```text
 site/                       Netlify publishes this folder
-  index.html                Exact live copy of V4.30
+  index.html                Exact live copy of V5.0
 archive/                    Immutable release and rollback files
 docs/                       Operations, deployment and developer handover
 tests/                      Automated browser-logic regression test
@@ -56,7 +63,7 @@ npm install
 npm test
 ```
 
-The test checks catalogue counts, package references, weekend pricing, room names, collapsible categories, shared booking dates, Excel/PDF generation and the V4.30 Cartoni Jib correction.
+The test checks catalogue counts, package references, weekend pricing, room names, collapsible categories, shared booking dates, Excel/PDF generation and the V5.0 Cartoni Jib correction.
 
 ## Optional Docker preview
 
@@ -88,7 +95,7 @@ The intended settings are:
 - Never commit Booking Requests, client details or generated quote files.
 - Keep the internal Quote Builder separate from the public Netlify site.
 
-The stable pre-update rollback remains `archive/KitHubRateCardV4.3.html`. The current approved release is `archive/KitHubRateCardV4.30.html`.
+The stable pre-update rollback remains `archive/KitHubRateCardV4.3.html`. The current approved release is `archive/KitHubRateCardV5.0.html`.
 
 ## Internal Quote Builder
 
