@@ -6,7 +6,7 @@ All notable public changes are recorded here.
 
 - No changes yet.
 
-## V5 - 2026-08-17
+## Update to V5 - 2026-08-17
 
 ### Added
 
