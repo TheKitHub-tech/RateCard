@@ -1,5 +1,11 @@
 # The Kit Hub External Hire Rate Card
 
+## Supporting or taking over the Rate Card?
+
+**Start with [HANDOVER.md](HANDOVER.md).**
+
+It explains everyday support, catalogue maintenance, releases and technical ownership.
+
 Current public release: **V5.0**  
 Release date: **18 August 2026**
 
