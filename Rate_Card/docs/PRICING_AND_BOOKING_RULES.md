@@ -1,6 +1,6 @@
 # Pricing and booking rules
 
-This document describes the rules implemented in V5.0. It is not a substitute for approved commercial terms.
+This document describes the rules implemented in V5.1. It is not a substitute for approved commercial terms.
 
 ## Universal rules
 
@@ -15,7 +15,7 @@ Equipment and Rooms & Spaces share collection/start date, time, return/end date,
 
 Changing the booking window in either tab updates the other tab and refreshes current basket estimates.
 
-Room time selectors normally use whole-hour slots. If an equipment time that is not a whole hour is shared into Rooms & Spaces, it is visibly marked as an equipment time and still requires staff review for room suitability.
+Room start selectors use 30-minute increments. Room booking lengths remain in complete hours, so start and end times must share the same minute value. If an equipment time outside the supported room pattern is shared into Rooms & Spaces, it still requires staff review for room suitability.
 
 ## Equipment duration pricing
 
@@ -50,8 +50,8 @@ One shared room window applies to all room lines in a Booking Request. Different
 
 Normal selectable room hours are:
 
-- Start: 09:00 to 22:00
-- End: 10:00 to 23:00
+- Start: 09:00 to 22:00 in 30-minute increments
+- End: 10:00 to 23:00, with the same minute value as the selected start
 
 For a one-day room request, the end must be at least one hour after the start.
 
@@ -66,6 +66,8 @@ For a one-day room request, the end must be at least one hour after the start.
 | 5 or more hours | Listed one-day price |
 
 TV Studio A has no half-day rate. A four-hour request therefore uses its listed one-day rate and shows an explanation.
+
+TV Studio A currently uses £420 hourly, no half-day rate, £1,200 for one day, £3,600 for three days and £6,000 for five days, all ex VAT.
 
 ## Multi-day room pricing
 

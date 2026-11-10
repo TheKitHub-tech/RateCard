@@ -26,14 +26,14 @@
 - Category, Group and Brand share a row where space permits.
 - Search scope sits beneath those filters.
 - Reset filters stays aligned with search scope.
-- Status badges and Advanced options remain in the unused lower-left panel space.
-- Expanding Advanced options must not move its button to a new row.
+- Status badges and Import kit list remain in the unused lower-left panel space.
+- Expanding Import kit list must not move its button to a new row.
 
 ## Rooms & Spaces panel
 
 - Mirror the Equipment panel structure.
 - Search and room category appear on the left.
-- Shared start/end dates and whole-hour times appear on the right.
+- Shared start/end dates and room-time controls appear on the right. Room starts use `:00` or `:30`; booking lengths remain whole hours.
 - Avoid introductory headings or repeated helper sentences that do not affect a decision.
 
 ## Category controls

@@ -71,6 +71,19 @@ assert(document.getElementById('exportFullPdf'), 'Full PDF export button missing
 assert(document.getElementById('exportBasketList'), 'Basket Excel export button missing');
 assert(document.getElementById('exportBasketPdf'), 'Basket PDF export button missing');
 assert(document.getElementById('requestProductionName'), 'Production/client field missing');
+assert(document.getElementById('downloadImportTemplate'), 'Equipment import template button missing');
+assert(document.getElementById('importPanel').textContent.includes('Import kit list'), 'Equipment import panel label is incorrect');
+assert.strictEqual(document.querySelectorAll('.rooms-kicker').length, 0, 'Redundant THE KIT HUB workspace labels remain');
+
+const importTemplateFiles = window.buildImportTemplateWorkbookFiles();
+const importTemplateXml = importTemplateFiles['xl/worksheets/sheet1.xml'];
+assert(importTemplateXml.includes('<t>Item</t>'), 'Import template item header missing');
+assert(importTemplateXml.includes('<t>Quantity</t>'), 'Import template quantity header missing');
+assert(importTemplateXml.includes('<t>Number of Days (optional)</t>'), 'Import template optional days header missing');
+assert(importTemplateXml.includes('<t>Notes</t>'), 'Import template notes header missing');
+const parsedImportTemplate = window.parseWorksheetRows(importTemplateXml, []);
+assert.strictEqual(parsedImportTemplate[0][0], 'Item', 'Import template is not readable by the site importer');
+assert.strictEqual(parsedImportTemplate[0][1], 'Quantity', 'Import template quantity column is not readable by the site importer');
 
 const warning = document.querySelector('.global-request-warning').textContent.replace(/\s+/g, ' ').trim();
 assert(warning.startsWith('Submitting a request does not confirm a booking.'), 'Global request warning changed');
@@ -119,6 +132,23 @@ assert.strictEqual(document.getElementById('roomEndTime').value, '09:15', 'Share
 assert.strictEqual(document.getElementById('uiMessageTitle').textContent, 'Weekend equipment hire', 'Weekend pop-up did not appear');
 assert(document.getElementById('uiMessageText').textContent.includes('charged as two days'), 'Weekend pop-up wording changed');
 
+const roomStartTime = document.getElementById('roomStartTime');
+const roomEndTime = document.getElementById('roomEndTime');
+assert([...roomStartTime.options].some(option => option.value === '09:30'), 'Room start times do not include half-hour increments');
+document.getElementById('roomStartDate').value = '2026-08-18';
+document.getElementById('roomEndDate').value = '2026-08-18';
+document.getElementById('roomNumberOfDays').value = '';
+roomStartTime.value = '09:30';
+window.updateRoomEndTimeOptions('09:30', '');
+assert([...roomEndTime.options].some(option => option.value === '10:30'), 'A half-hour start does not offer matching half-hour end times');
+assert(![...roomEndTime.options].some(option => option.value === '11:00'), 'A half-hour start incorrectly offers a half-hour booking length');
+roomEndTime.value = '11:30';
+const roomBooking = window.getRoomBookingInfo();
+assert.strictEqual(roomBooking.valid, true, roomBooking.error || 'Half-hour-start room booking is invalid');
+assert.strictEqual(roomBooking.durationHours, 2, 'Whole-hour duration from a half-hour start was not calculated correctly');
+const halfHourStartRoomHire = window.calculateRoomHire(rooms[0], roomBooking);
+assert.strictEqual(halfHourStartRoomHire.roomCharge, rooms[0].rates.hourly * 2, 'Half-hour-start room price was not calculated correctly');
+
 const packageButton = document.querySelector('[data-package-add="PACKAGE-DOCUMENTARY-INTERVIEW"]');
 assert(packageButton, 'Documentary package button missing');
 packageButton.click();
@@ -150,7 +180,10 @@ assert(fullPdf.length > 250000, 'Full rate-card PDF is unexpectedly small');
 assert(basketPdf.length > 5000, 'Basket PDF is unexpectedly small');
 
 assert(source.includes('@media (max-width: 760px)'), 'Mobile portrait stylesheet missing');
-assert(source.includes('KitHubRateCardV5.0'), 'V5.0 version marker missing');
+assert(source.includes('id="compact-laptop-v51"'), 'Compact laptop stylesheet missing');
+assert(source.includes('@media (min-width: 761px) and (max-width: 1280px)'), 'Smaller laptop breakpoint missing');
+assert(source.includes('@media (min-width: 801px) and (max-width: 1440px) and (max-height: 800px)'), 'Short laptop viewport handling missing');
+assert(source.includes('KitHubRateCardV5.1'), 'V5.1 version marker missing');
 assert(source.trimEnd().endsWith('</html>'), 'HTML document is truncated');
 
 setTimeout(() => {
@@ -162,6 +195,8 @@ setTimeout(() => {
     rooms: rooms.length,
     packages: packages.length,
     weekendChargeableDays: booking.days,
+    halfHourRoomStarts: 'passed',
+    responsiveLaptopLayout: 'passed',
     sharedBookingWindow: 'passed',
     collapsibleCategories: 'passed',
     excelExports: 'passed',

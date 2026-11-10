@@ -1,21 +1,22 @@
 # Guardian handover
 
-Last reviewed: **18 August 2026**
+Last reviewed: **10 November 2026**
 
 This is the central continuity document for the Kit Hub External Hire Rate Card.
 
 ## Current approved files
 
-- Public rate card: `KitHubRateCardV5.0.html`
+- Public rate card: `KitHubRateCardV5.1.html`
 - Live repository copy: `site/index.html`
-- Current release archive: `archive/KitHubRateCardV5.0.html`
+- Current release archive: `archive/KitHubRateCardV5.1.html`
+- Previous-release rollback: `archive/KitHubRateCardV5.0.html`
 - Stable pre-update rollback: `archive/KitHubRateCardV4.3.html`
 - Internal Quote Builder: `KitHubQuoteBuilderV3.2.html`, maintained separately
-- Repository pack: `Rate_Card.zip`, deliberately version-neutral
+- Review package: `Kit_Hub_Rate_Card_V5.1_Review.zip`
 
 Do not overwrite archived releases. Future public changes start from a new versioned HTML file.
 
-## What V5.0 contains
+## What V5.1 contains
 
 - 514 equipment items.
 - 37 rooms and spaces.
@@ -24,13 +25,22 @@ Do not overwrite archived releases. Future public changes start from a new versi
 - One shared basket and one shared booking window.
 - Equipment weekend adjustment and two-day weekend pricing.
 - Compact desktop search/date panels and a mobile portrait layout.
+- Responsive layout handling for smaller MacBook and laptop screens.
 - Clear category expand/collapse controls.
+- Equipment-list Excel import with a downloadable blank template.
+- Room starts at `:00` or `:30`, with complete-hour booking lengths.
 - Excel and PDF full-rate-card exports.
 - Excel and PDF selected-basket exports.
 - Excel Booking Request and email preparation.
 - Production/client name in export content and filenames.
 - In-page confirmations and warnings.
 - Static room closure calendar for 2026, 2027 and 2028.
+
+## V5.1 operational notes
+
+- The room end-time list is generated from the selected start time. A `:30` start therefore only offers `:30` end times.
+- The import template is downloaded from **Equipment > Import kit list**. Its required column is `Item`; the other supported columns are `Quantity`, `Number of Days (optional)` and `Notes`.
+- TV Studio A uses £420 hourly, no half-day rate, £1,200 for one day, £3,600 for three days and £6,000 for five days, all ex VAT.
 
 ## Latest catalogue correction
 
@@ -113,7 +123,7 @@ It preserves editable quote data in generated PDFs so staff can reopen a quote. 
 
 ## Outstanding management information
 
-The following items are deliberately not invented in V5.0:
+The following items are deliberately not invented in V5.1:
 
 - eligibility wording for alumni, external clients and other audiences;
 - external terms and conditions link;

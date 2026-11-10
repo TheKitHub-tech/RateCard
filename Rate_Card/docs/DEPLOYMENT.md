@@ -10,24 +10,28 @@ GitHub provides source control, version history and release documentation. Netli
 
 ```text
 repository root/
-  netlify.toml
-  site/
-    index.html
-  archive/
-    KitHubRateCardV4.3.html
-    KitHubRateCardV5.0.html
+  HANDOVER.md
+  README.md
+  Rate_Card/
+    netlify.toml
+    site/
+      index.html
+    archive/
+      KitHubRateCardV4.3.html
+      KitHubRateCardV5.0.html
+      KitHubRateCardV5.1.html
 ```
 
 `site/index.html` must be byte-for-byte identical to the current archived release.
 
 ## Netlify settings
 
-- Base directory: blank
+- Base directory: `Rate_Card` for the current nested repository structure
 - Build command: blank
 - Publish directory: `site`
 - Production branch: normally `main`
 
-Do not point Netlify at `archive/`, the repository root or an old nested pack directory.
+Do not point Netlify at `archive/`, the repository root or an old delivery-package directory. Preserve the existing working base-directory setting unless hosting is deliberately reconfigured.
 
 ## Deployment flow
 

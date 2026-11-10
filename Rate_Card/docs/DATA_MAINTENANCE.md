@@ -63,7 +63,7 @@ Before adding a year:
 3. update the configured-year set and tests;
 4. test closed and open dates around every boundary.
 
-## Current V5.0 counts
+## Current V5.1 counts
 
 - Equipment items: 514
 - Rooms and spaces: 37

@@ -1,5 +1,17 @@
 # Development log
 
+## 10 November 2026: V5.1 release preparation
+
+- Added half-hour room start choices while retaining complete-hour booking lengths.
+- Made room end-time choices follow the selected start-time minutes.
+- Added the downloadable Excel equipment-import template.
+- Renamed Equipment **Advanced options** to **Import kit list**.
+- Removed redundant **THE KIT HUB** labels from the three main workspaces.
+- Added compact laptop and short-viewport handling for smaller MacBook screens.
+- Included the approved TV Studio A daily, three-day and five-day price update.
+- Updated release metadata, documentation, archive and automated tests.
+- Confirmed 514 equipment items, 37 rooms and five packages remain present.
+
 ## 18 August 2026: V5.0 release package
 
 - Removed standalone `RC-0089`, Cartoni Lightweight Tripod (KPTZ721/100).

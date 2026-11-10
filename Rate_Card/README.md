@@ -1,14 +1,14 @@
 # The Kit Hub External Hire Rate Card
 
-Current public release: **V5.0**  
-Release date: **18 August 2026**
+Current public release: **V5.1**  
+Release date: **10 November 2026**
 
 Release identifiers are intentionally consistent throughout the repository:
 
-- public release label: `V5.0`;
-- live and archived file: `KitHubRateCardV5.0.html`;
-- `VERSION` value: `5.0`;
-- package version: `5.0.0`.
+- public release label: `V5.1`;
+- live and archived file: `KitHubRateCardV5.1.html`;
+- `VERSION` value: `5.1`;
+- package version: `5.1.0`.
 
 This repository contains the public external-hire rate card for the Kit Hub at Middlesex University London. It is a self-contained browser application published from `site/index.html`.
 
@@ -17,7 +17,9 @@ The site lets prospective clients:
 - browse 514 equipment items and 37 rooms and spaces;
 - search and filter the catalogues;
 - add individual items or one of five equipment packages to a basket;
+- download an Excel import template and match an uploaded equipment list to catalogue items;
 - use one shared collection/return window across Equipment and Rooms & Spaces;
+- start room bookings on the hour or half hour while retaining whole-hour booking lengths;
 - receive the special two-day Friday-to-Monday weekend equipment estimate;
 - export the complete rate card as Excel or PDF;
 - export a selected basket as Excel or PDF;
@@ -30,7 +32,7 @@ It is a **request and estimate tool**, not a live booking system. It does not re
 
 ```text
 site/                       Netlify publishes this folder
-  index.html                Exact live copy of V5.0
+  index.html                Exact live copy of V5.1
 archive/                    Immutable release and rollback files
 docs/                       Operations, deployment and developer handover
 tests/                      Automated browser-logic regression test
@@ -63,7 +65,7 @@ npm install
 npm test
 ```
 
-The test checks catalogue counts, package references, weekend pricing, room names, collapsible categories, shared booking dates, Excel/PDF generation and the V5.0 Cartoni Jib correction.
+The test checks catalogue counts, package references, weekend pricing, room names, half-hour room starts, responsive laptop rules, the import template, collapsible categories, shared booking dates and Excel/PDF generation.
 
 ## Optional Docker preview
 
@@ -79,12 +81,12 @@ Then open `http://localhost:8080`. See [docs/DOCKER.md](docs/DOCKER.md).
 
 The intended settings are:
 
-- Base directory: blank
+- Base directory: `Rate_Card` in the current GitHub repository structure
 - Build command: blank
 - Publish directory: `site`
 - Production branch: `main`
 
-`netlify.toml` already defines the publish directory. A push to the connected production branch should therefore publish `site/index.html` without a build.
+`netlify.toml` already defines the publish directory. A push to the connected production branch should therefore publish `site/index.html` without a build. Preserve the existing working Netlify base-directory setting unless the repository is deliberately flattened later.
 
 ## Release safety
 
@@ -95,7 +97,7 @@ The intended settings are:
 - Never commit Booking Requests, client details or generated quote files.
 - Keep the internal Quote Builder separate from the public Netlify site.
 
-The stable pre-update rollback remains `archive/KitHubRateCardV4.3.html`. The current approved release is `archive/KitHubRateCardV5.0.html`.
+The stable pre-update rollback remains `archive/KitHubRateCardV4.3.html`. The current approved release is `archive/KitHubRateCardV5.1.html`.
 
 ## Internal Quote Builder
 
