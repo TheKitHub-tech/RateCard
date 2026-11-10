@@ -32,12 +32,12 @@
 2. Copy that exact file to `site/index.html`.
 3. Confirm the two files are identical.
 4. Regenerate `SHA256SUMS.txt` after every file is final.
-5. Build the version-neutral `Rate_Card.zip` with one top-level `Rate_Card/` folder.
+5. Build the review or release ZIP using the current repository structure, without including `.git` or generated client files.
 6. Extract the ZIP into a temporary location and rerun the package validation.
 
 ## Publish
 
-1. Commit with a clear message, for example `Release rate card V5.0`.
+1. Commit with a clear message, for example `Release rate card V5.1`.
 2. Push or merge to the production branch.
 3. Confirm the Netlify deployment succeeds.
 4. Force-refresh or use a private window.

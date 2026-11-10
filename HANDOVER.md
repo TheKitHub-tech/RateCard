@@ -2,8 +2,8 @@
 ## Handover and support guide
 
 **Status:** Pre-launch working draft  
-**Current application:** V5.0  
-**Last updated:** September 2026
+**Current application:** V5.1  
+**Last updated:** 10 November 2026
 
 ---
 
@@ -71,6 +71,9 @@ You do not need to understand GitHub, HTML or JavaScript.
 - use the Basket
 - search for an item
 - add something to the Basket
+- download the Excel equipment-import template
+- import an equipment list for catalogue matching
+- select room starts on the hour or half hour, with whole-hour booking lengths
 - create a test Booking Request
 - recognise when something is not working
 - pass useful information to Level 2 or Level 3
@@ -143,7 +146,7 @@ The aim is simple:
 
 > Routine catalogue updates should not require coding knowledge.
 
-This is planned work and is **not part of V5.0 yet**.
+This is planned work and is **not part of V5.1 yet**.
 
 ---
 
@@ -172,9 +175,9 @@ If you need to change how pricing, dates, exports or the Basket work, go to Leve
 
 ---
 
-# 5. Where the data is in V5.0
+# 5. Where the data is in V5.1
 
-The current V5.0 application keeps its main catalogue data inside `index.html`.
+The current V5.1 application keeps its main catalogue data inside `index.html`.
 
 Use search in the file rather than scrolling through it.
 
@@ -475,9 +478,9 @@ Simple rule:
 
 ---
 
-# 14. How V5.0 works
+# 14. How V5.1 works
 
-V5.0 is a browser-based application.
+V5.1 is a browser-based application.
 
 The current `index.html` contains:
 
@@ -498,6 +501,18 @@ There is no central application database.
 There is no build process needed to run the current file.
 
 The public site is a static website.
+
+## V5.1 interface and booking changes
+
+V5.1 adds or changes the following user-facing behaviour:
+
+- room bookings may start at `:00` or `:30`;
+- room booking lengths remain in complete hours, so the end time keeps the same minute value as the start time;
+- Equipment includes an **Import kit list** panel and a downloadable Excel template;
+- the redundant **THE KIT HUB** label was removed from the Equipment, Rooms & Spaces and Basket headings;
+- responsive behaviour was improved for smaller MacBook and laptop screens.
+
+These changes affect application behaviour and should be treated as Level 3 work if modified further.
 
 ---
 
@@ -694,7 +709,7 @@ Before an updated catalogue is accepted, the editor should check things such as:
 - package references to items that do not exist
 - invalid quantities
 
-This is planned work and not part of V5.0.
+This is planned work and not part of V5.1.
 
 ---
 

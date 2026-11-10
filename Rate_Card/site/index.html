@@ -471,6 +471,7 @@
     .import-drop-zone.dragover { border-color: var(--accent); background: var(--accent-soft); }
     .import-drop-zone strong { display: block; margin-bottom: .3rem; }
     .import-drop-zone p { margin: 0 0 .75rem; color: var(--muted); font-size: .84rem; }
+    .import-file-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: .55rem; }
     .import-file-input { position: absolute; opacity: 0; pointer-events: none; }
     .import-status {
       display: none;
@@ -2685,6 +2686,16 @@
         padding: .75rem;
       }
 
+      .import-file-actions {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+
+      .import-file-actions button {
+        width: 100%;
+        min-height: 48px;
+      }
+
       .import-actions {
         display: grid;
         grid-template-columns: 1fr;
@@ -3029,6 +3040,87 @@
     }
   </style>
 
+  <style id="compact-laptop-v51">
+    /* Prevent rigid controls and long content from forcing horizontal overflow. */
+    html,
+    body {
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+
+    img,
+    svg,
+    canvas,
+    input,
+    select,
+    button {
+      max-width: 100%;
+    }
+
+    .workspace-view,
+    main.shell,
+    .equipment-main,
+    .rooms-page,
+    .basket-page,
+    .controls,
+    .room-controls,
+    .search-row,
+    .room-controls-layout,
+    .search-column,
+    .room-search-column,
+    .date-range,
+    .room-date-grid {
+      min-width: 0;
+    }
+
+    /* Smaller laptop screens need the search and booking panels stacked. */
+    @media (min-width: 761px) and (max-width: 1280px) {
+      .search-row,
+      .room-controls-layout {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .date-range,
+      .room-controls-layout > .room-date-grid {
+        margin-top: .2rem;
+        border-left: 0;
+        border-top: 2px solid rgba(47, 37, 82, .42);
+        padding-top: .9rem;
+        padding-left: 0;
+      }
+
+      .room-controls-layout > .room-date-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    /* Short laptop viewports should scroll instead of clipping the welcome page. */
+    @media (min-width: 801px) and (max-width: 1440px) and (max-height: 800px) {
+      body.landing-active {
+        overflow-y: auto;
+      }
+
+      .landing-page {
+        height: auto;
+        min-height: calc(100dvh - 76px);
+        align-items: flex-start;
+        overflow: visible;
+      }
+
+      .landing-content {
+        height: auto;
+        max-height: none;
+        padding-bottom: 1rem;
+      }
+
+      .landing-title-block,
+      .landing-how-to {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+      }
+    }
+  </style>
+
 </head>
 <body class="landing-active">
   <a class="skip-link" href="#items">Skip to rate card</a>
@@ -3099,7 +3191,6 @@
   <div class="workspace-view is-active" id="equipmentView" role="tabpanel" aria-labelledby="equipmentTab">
   <section class="shell hero equipment-hero" aria-label="Important pricing information">
     <div class="room-title-block equipment-title-block">
-      <p class="rooms-kicker">THE KIT HUB</p>
       <h2>EQUIPMENT</h2>
       <p>Choose your collection and return dates and preferred times, then add equipment to your booking request.</p>
     </div>
@@ -3144,7 +3235,7 @@
             <span class="pill">VAT estimate default: 20%</span>
             <button class="import-panel-toggle" id="importPanel" type="button" aria-expanded="false" aria-controls="importPanelBody">
               <span class="import-summary-copy">
-                <span>Advanced options</span>
+                <span>Import kit list</span>
               </span>
             </button>
             <div class="import-panel-body" id="importPanelBody" hidden>
@@ -3157,7 +3248,10 @@
                     <strong>Drop an Excel equipment list here</strong>
                     <p>The tool will identify item, quantity and number-of-days information, suggest rate-card matches, and let you correct anything uncertain before adding it.</p>
                     <input class="import-file-input" id="importFileInput" type="file" accept=".xlsx,.xlsm,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
-                    <button class="secondary" id="chooseImportFile" type="button">Choose Excel file</button>
+                    <div class="import-file-actions">
+                      <button class="secondary" id="chooseImportFile" type="button">Choose Excel file</button>
+                      <button class="secondary" id="downloadImportTemplate" type="button">Download Excel template</button>
+                    </div>
                   </div>
                 </div>
                 <div class="import-status" id="importStatus" role="status" aria-live="polite"></div>
@@ -3226,9 +3320,8 @@
 
   <section class="shell workspace-view rooms-page" id="roomsView" role="tabpanel" aria-labelledby="roomsTab" hidden>
     <div class="room-title-block">
-      <p class="rooms-kicker">THE KIT HUB</p>
       <h2>ROOMS &amp; SPACES</h2>
-      <p>Choose one shared date and whole-hour time window, then add rooms to the same booking request as your equipment.</p>
+      <p>Choose one shared date and time window. Rooms can start on the hour or half hour, with whole-hour booking lengths.</p>
     </div>
 
     <section class="room-controls" aria-label="Room search and booking controls">
@@ -3244,7 +3337,7 @@
           <div class="meta-row room-meta-row">
             <span class="pill"><span id="roomResultCount">0</span> visible rooms</span>
             <span class="pill"><span id="roomTotalCount">0</span> rooms and spaces</span>
-            <span class="pill">Whole-hour requests only</span>
+            <span class="pill">Start at :00 or :30</span>
             <span class="pill">Prices ex VAT</span>
           </div>
         </div>
@@ -3260,7 +3353,7 @@
               <input id="roomNumberOfDays" type="number" min="1" step="1" inputmode="numeric" placeholder="e.g. 5" />
             </label>
           </div>
-          <p class="booking-helper room-booking-helper" id="roomBookingHelper">Choose both dates, or enter a number of days. Start and end times must use whole-hour slots.</p>
+          <p class="booking-helper room-booking-helper" id="roomBookingHelper">Choose both dates, or enter a number of days. Start on the hour or half hour, then choose a whole-hour booking length.</p>
           <div class="room-window-result" id="roomWindowResult" role="status" aria-live="polite" hidden></div>
         </div>
       </div>
@@ -3271,7 +3364,6 @@
 
 <section class="shell workspace-view basket-page" id="basketPanel" role="tabpanel" aria-labelledby="basketTab" aria-label="Basket" hidden>
       <div class="room-title-block basket-title-block">
-        <p class="rooms-kicker">THE KIT HUB</p>
         <h2>YOUR BASKET</h2>
         <p>Review your equipment and room selections, enter the client and production details, then export your booking request for an official quote.</p>
       </div>
@@ -3354,7 +3446,7 @@
 
   <footer class="site-footer" aria-label="Rate card version and contact information">
     <div class="shell footer-inner">
-      <span>KitHubRateCardV5.0</span>
+      <span>KitHubRateCardV5.1</span>
       <span>Last updated: August 2026</span>
       <span>The Kit Hub, Middlesex University</span>
       <span><a href="mailto:thekithub@mdx.ac.uk">thekithub@mdx.ac.uk</a></span>
@@ -3524,6 +3616,7 @@
       importDropZone: document.getElementById('importDropZone'),
       importFileInput: document.getElementById('importFileInput'),
       chooseImportFile: document.getElementById('chooseImportFile'),
+      downloadImportTemplate: document.getElementById('downloadImportTemplate'),
       importStatus: document.getElementById('importStatus'),
       importReview: document.getElementById('importReview'),
       importRowsBody: document.getElementById('importRowsBody'),
@@ -5035,15 +5128,15 @@
 </Relationships>`,
         'docProps/core.xml': `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dcmitype="http://purl.org/dc/dcmitype/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <dc:title>KitHubRateCardV5.0 Booking Request</dc:title>
-  <dc:creator>KitHubRateCardV5.0</dc:creator>
-  <cp:lastModifiedBy>KitHubRateCardV5.0</cp:lastModifiedBy>
+  <dc:title>KitHubRateCardV5.1 Booking Request</dc:title>
+  <dc:creator>KitHubRateCardV5.1</dc:creator>
+  <cp:lastModifiedBy>KitHubRateCardV5.1</cp:lastModifiedBy>
   <dcterms:created xsi:type="dcterms:W3CDTF">${now}</dcterms:created>
   <dcterms:modified xsi:type="dcterms:W3CDTF">${now}</dcterms:modified>
 </cp:coreProperties>`,
         'docProps/app.xml': `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Properties xmlns="http://schemas.openxmlformats.org/officeDocument/2006/extended-properties" xmlns:vt="http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes">
-  <Application>KitHubRateCardV5.0</Application>
+  <Application>KitHubRateCardV5.1</Application>
   <DocSecurity>0</DocSecurity>
   <ScaleCrop>false</ScaleCrop>
   <HeadingPairs><vt:vector size="2" baseType="variant"><vt:variant><vt:lpstr>Worksheets</vt:lpstr></vt:variant><vt:variant><vt:i4>1</vt:i4></vt:variant></vt:vector></HeadingPairs>
@@ -5496,7 +5589,7 @@
       els.roomStartDate.value = next.startDate;
       ensureRoomTimeValue(els.roomStartTime, next.startTime);
       els.roomEndDate.value = next.endDate;
-      ensureRoomTimeValue(els.roomEndTime, next.endTime);
+      updateRoomEndTimeOptions(next.startTime, next.endTime, source === 'equipment' || source === 'restore');
       els.roomNumberOfDays.value = next.numberOfDays;
       els.roomEndDate.min = next.startDate || localDateStamp();
     }
@@ -5548,19 +5641,44 @@
       try { localStorage.removeItem(STORAGE_KEY); } catch {}
     }
 
-    function populateWholeHourTimes() {
-      const startOptions = [];
-      const endOptions = [];
-      for (let hour = 9; hour <= 22; hour++) startOptions.push(`${String(hour).padStart(2, '0')}:00`);
-      for (let hour = 10; hour <= 23; hour++) endOptions.push(`${String(hour).padStart(2, '0')}:00`);
-      els.roomStartTime.innerHTML = '<option value="">Select time</option>' + startOptions.map(value => `<option value="${value}">${value}</option>`).join('');
-      els.roomEndTime.innerHTML = '<option value="">Select time</option>' + endOptions.map(value => `<option value="${value}">${value}</option>`).join('');
-      els.roomStartTime.value = '';
-      els.roomEndTime.value = '';
+    function formatTimeMinutes(totalMinutes) {
+      const hours = Math.floor(totalMinutes / 60);
+      const minutes = totalMinutes % 60;
+      return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
     }
 
-    function parseHour(value) { return Number(String(value || '').split(':')[0]); }
-    function isWholeHourTime(value) { return /^\d{2}:00$/.test(String(value || '')); }
+    function populateHalfHourTimes() {
+      const startOptions = [];
+      for (let minutes = 9 * 60; minutes <= 22 * 60; minutes += 30) startOptions.push(formatTimeMinutes(minutes));
+      els.roomStartTime.innerHTML = '<option value="">Select time</option>' + startOptions.map(value => `<option value="${value}">${value}</option>`).join('');
+      els.roomStartTime.value = '';
+      updateRoomEndTimeOptions('', '');
+    }
+
+    function updateRoomEndTimeOptions(startTime, selectedValue = '', allowSharedValue = false) {
+      const minuteSuffix = isHalfHourTime(startTime) ? startTime.slice(-2) : '';
+      const endOptions = [];
+      if (minuteSuffix) {
+        for (let minutes = 10 * 60; minutes <= 23 * 60; minutes += 30) {
+          const value = formatTimeMinutes(minutes);
+          if (value.slice(-2) === minuteSuffix) endOptions.push(value);
+        }
+      }
+      const placeholder = minuteSuffix ? 'Select time' : 'Select start time first';
+      els.roomEndTime.innerHTML = `<option value="">${placeholder}</option>` + endOptions.map(value => `<option value="${value}">${value}</option>`).join('');
+      if (allowSharedValue && selectedValue && !endOptions.includes(selectedValue)) {
+        ensureRoomTimeValue(els.roomEndTime, selectedValue);
+      } else {
+        els.roomEndTime.value = endOptions.includes(selectedValue) ? selectedValue : '';
+      }
+      els.roomEndTime.disabled = !minuteSuffix;
+    }
+
+    function parseTimeHours(value) {
+      const [hours, minutes] = String(value || '').split(':').map(Number);
+      return Number.isFinite(hours) && Number.isFinite(minutes) ? hours + (minutes / 60) : NaN;
+    }
+    function isHalfHourTime(value) { return /^\d{2}:(?:00|30)$/.test(String(value || '')); }
 
     function roomDateRange(start, end) {
       const dates = [];
@@ -5607,11 +5725,15 @@
         signature: ''
       };
       if (!startTime || !endTime) {
-        result.error = 'Choose whole-hour start and end times.';
+        result.error = 'Choose start and end times. Rooms may start on the hour or half hour.';
         return result;
       }
-      if (!isWholeHourTime(startTime) || !isWholeHourTime(endTime)) {
-        result.error = 'Room requests use whole-hour times. Choose a whole-hour start and end time.';
+      if (!isHalfHourTime(startTime) || !isHalfHourTime(endTime)) {
+        result.error = 'Room requests use 30-minute increments. Choose a start and end time ending in :00 or :30.';
+        return result;
+      }
+      if (startTime.slice(-2) !== endTime.slice(-2)) {
+        result.error = 'Room booking lengths must use whole hours. Choose an end time with the same minutes as the start time.';
         return result;
       }
 
@@ -5649,8 +5771,8 @@
         result.days = calendarDays;
       }
 
-      const startHour = parseHour(startTime);
-      const endHour = parseHour(endTime);
+      const startHour = parseTimeHours(startTime);
+      const endHour = parseTimeHours(endTime);
       if (result.days === 1) {
         const duration = endHour - startHour;
         if (duration < 1) {
@@ -5681,7 +5803,7 @@
     function mandatorySupportRate(booking) {
       const start = parseDateOnly(booking.startValue);
       const weekend = start && (start.getDay() === 0 || start.getDay() === 6);
-      return weekend || parseHour(booking.startTime) >= 18 ? 75 : 37;
+      return weekend || parseTimeHours(booking.startTime) >= 18 ? 75 : 37;
     }
 
     function calculateRoomHire(room, booking = getRoomBookingInfo()) {
@@ -5881,7 +6003,7 @@
           ? `${booking.days || 'The entered'} booking day${booking.days === 1 ? '' : 's'} will override the selected date range for room pricing.`
           : booking.incompleteDates
             ? 'Choose both room dates, or enter a number of days, to calculate the room price.'
-            : 'Choose both dates, or enter a number of days. Start and end times must use whole-hour slots.';
+            : 'Choose both dates, or enter a number of days. Start on the hour or half hour, then choose a whole-hour booking length.';
       els.roomWindowResult.textContent = showRoomWindowResult
         ? booking.error
           ? booking.error
@@ -6157,13 +6279,49 @@
       return {
         '[Content_Types].xml': `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/><Override PartName="/docProps/core.xml" ContentType="application/vnd.openxmlformats-package.core-properties+xml"/><Override PartName="/docProps/app.xml" ContentType="application/vnd.openxmlformats-officedocument.extended-properties+xml"/></Types>`,
         '_rels/.rels': `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties" Target="docProps/core.xml"/><Relationship Id="rId3" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties" Target="docProps/app.xml"/></Relationships>`,
-        'docProps/core.xml': `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dcmitype="http://purl.org/dc/dcmitype/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><dc:title>KitHubRateCardV5.0 Booking Request</dc:title><dc:creator>KitHubRateCardV5.0</dc:creator><cp:lastModifiedBy>KitHubRateCardV5.0</cp:lastModifiedBy><dcterms:created xsi:type="dcterms:W3CDTF">${now}</dcterms:created><dcterms:modified xsi:type="dcterms:W3CDTF">${now}</dcterms:modified></cp:coreProperties>`,
-        'docProps/app.xml': `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Properties xmlns="http://schemas.openxmlformats.org/officeDocument/2006/extended-properties" xmlns:vt="http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes"><Application>KitHubRateCardV5.0</Application><DocSecurity>0</DocSecurity><ScaleCrop>false</ScaleCrop><HeadingPairs><vt:vector size="2" baseType="variant"><vt:variant><vt:lpstr>Worksheets</vt:lpstr></vt:variant><vt:variant><vt:i4>1</vt:i4></vt:variant></vt:vector></HeadingPairs><TitlesOfParts><vt:vector size="1" baseType="lpstr"><vt:lpstr>Booking Request</vt:lpstr></vt:vector></TitlesOfParts></Properties>`,
+        'docProps/core.xml': `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dcmitype="http://purl.org/dc/dcmitype/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><dc:title>KitHubRateCardV5.1 Booking Request</dc:title><dc:creator>KitHubRateCardV5.1</dc:creator><cp:lastModifiedBy>KitHubRateCardV5.1</cp:lastModifiedBy><dcterms:created xsi:type="dcterms:W3CDTF">${now}</dcterms:created><dcterms:modified xsi:type="dcterms:W3CDTF">${now}</dcterms:modified></cp:coreProperties>`,
+        'docProps/app.xml': `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Properties xmlns="http://schemas.openxmlformats.org/officeDocument/2006/extended-properties" xmlns:vt="http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes"><Application>KitHubRateCardV5.1</Application><DocSecurity>0</DocSecurity><ScaleCrop>false</ScaleCrop><HeadingPairs><vt:vector size="2" baseType="variant"><vt:variant><vt:lpstr>Worksheets</vt:lpstr></vt:variant><vt:variant><vt:i4>1</vt:i4></vt:variant></vt:vector></HeadingPairs><TitlesOfParts><vt:vector size="1" baseType="lpstr"><vt:lpstr>Booking Request</vt:lpstr></vt:vector></TitlesOfParts></Properties>`,
         'xl/workbook.xml': `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets><sheet name="Booking Request" sheetId="1" r:id="rId1"/></sheets></workbook>`,
         'xl/_rels/workbook.xml.rels': `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>`,
         'xl/styles.xml': `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><numFmts count="1"><numFmt numFmtId="164" formatCode="£#,##0.00"/></numFmts><fonts count="2"><font><sz val="10"/><name val="Arial"/></font><font><b/><sz val="10"/><name val="Arial"/></font></fonts><fills count="2"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill></fills><borders count="1"><border><left/><right/><top/><bottom/><diagonal/></border></borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="4"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/><xf numFmtId="0" fontId="1" fillId="0" borderId="0" xfId="0" applyFont="1"/><xf numFmtId="164" fontId="0" fillId="0" borderId="0" xfId="0" applyNumberFormat="1"/><xf numFmtId="1" fontId="0" fillId="0" borderId="0" xfId="0" applyNumberFormat="1"/></cellXfs><cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles></styleSheet>`,
         'xl/worksheets/sheet1.xml': buildWorksheetXml()
       };
+    }
+
+    function buildImportTemplateSheetXml() {
+      const headers = ['Item', 'Quantity', 'Number of Days (optional)', 'Notes'];
+      return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">
+  <dimension ref="A1:D1"/>
+  <sheetViews><sheetView workbookViewId="0"><pane ySplit="1" topLeftCell="A2" activePane="bottomLeft" state="frozen"/></sheetView></sheetViews>
+  <sheetFormatPr defaultRowHeight="18"/>
+  <cols><col min="1" max="1" width="44" customWidth="1"/><col min="2" max="2" width="12" customWidth="1"/><col min="3" max="3" width="24" customWidth="1"/><col min="4" max="4" width="48" customWidth="1"/></cols>
+  <sheetData><row r="1" ht="22" customHeight="1">${headers.map((header, index) => worksheetCell(1, index, header, { style: 1 })).join('')}</row></sheetData>
+  <autoFilter ref="A1:D1"/>
+</worksheet>`;
+    }
+
+    function buildImportTemplateWorkbookFiles() {
+      const files = buildWorkbookFiles();
+      const now = new Date().toISOString();
+      files['docProps/core.xml'] = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dcmitype="http://purl.org/dc/dcmitype/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><dc:title>Kit Hub Equipment Import Template</dc:title><dc:creator>KitHubRateCardV5.1</dc:creator><cp:lastModifiedBy>KitHubRateCardV5.1</cp:lastModifiedBy><dcterms:created xsi:type="dcterms:W3CDTF">${now}</dcterms:created><dcterms:modified xsi:type="dcterms:W3CDTF">${now}</dcterms:modified></cp:coreProperties>`;
+      files['docProps/app.xml'] = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Properties xmlns="http://schemas.openxmlformats.org/officeDocument/2006/extended-properties" xmlns:vt="http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes"><Application>KitHubRateCardV5.1</Application><DocSecurity>0</DocSecurity><ScaleCrop>false</ScaleCrop><HeadingPairs><vt:vector size="2" baseType="variant"><vt:variant><vt:lpstr>Worksheets</vt:lpstr></vt:variant><vt:variant><vt:i4>1</vt:i4></vt:variant></vt:vector></HeadingPairs><TitlesOfParts><vt:vector size="1" baseType="lpstr"><vt:lpstr>Equipment Import</vt:lpstr></vt:vector></TitlesOfParts></Properties>`;
+      files['xl/workbook.xml'] = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets><sheet name="Equipment Import" sheetId="1" r:id="rId1"/></sheets></workbook>`;
+      files['xl/worksheets/sheet1.xml'] = buildImportTemplateSheetXml();
+      return files;
+    }
+
+    function downloadImportTemplate() {
+      const blob = makeZip(buildImportTemplateWorkbookFiles());
+      const link = document.createElement('a');
+      const objectUrl = URL.createObjectURL(blob);
+      link.href = objectUrl;
+      link.download = 'Kit_Hub_Equipment_Import_Template.xlsx';
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      setTimeout(() => URL.revokeObjectURL(objectUrl), 1000);
+      showToast('Excel import template downloaded');
     }
 
     function fullRateCardPriceCell(rowNumber, columnIndex, value) {
@@ -6255,8 +6413,8 @@
       return {
         '[Content_Types].xml': `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/><Override PartName="/xl/worksheets/sheet2.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/><Override PartName="/docProps/core.xml" ContentType="application/vnd.openxmlformats-package.core-properties+xml"/><Override PartName="/docProps/app.xml" ContentType="application/vnd.openxmlformats-officedocument.extended-properties+xml"/></Types>`,
         '_rels/.rels': `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties" Target="docProps/core.xml"/><Relationship Id="rId3" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties" Target="docProps/app.xml"/></Relationships>`,
-        'docProps/core.xml': `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dcmitype="http://purl.org/dc/dcmitype/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><dc:title>Kit Hub Full Rate Card</dc:title><dc:creator>KitHubRateCardV5.0</dc:creator><cp:lastModifiedBy>KitHubRateCardV5.0</cp:lastModifiedBy><dcterms:created xsi:type="dcterms:W3CDTF">${now}</dcterms:created><dcterms:modified xsi:type="dcterms:W3CDTF">${now}</dcterms:modified></cp:coreProperties>`,
-        'docProps/app.xml': `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Properties xmlns="http://schemas.openxmlformats.org/officeDocument/2006/extended-properties" xmlns:vt="http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes"><Application>KitHubRateCardV5.0</Application><DocSecurity>0</DocSecurity><ScaleCrop>false</ScaleCrop><HeadingPairs><vt:vector size="2" baseType="variant"><vt:variant><vt:lpstr>Worksheets</vt:lpstr></vt:variant><vt:variant><vt:i4>2</vt:i4></vt:variant></vt:vector></HeadingPairs><TitlesOfParts><vt:vector size="2" baseType="lpstr"><vt:lpstr>Equipment</vt:lpstr><vt:lpstr>Rooms</vt:lpstr></vt:vector></TitlesOfParts></Properties>`,
+        'docProps/core.xml': `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dcmitype="http://purl.org/dc/dcmitype/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><dc:title>Kit Hub Full Rate Card</dc:title><dc:creator>KitHubRateCardV5.1</dc:creator><cp:lastModifiedBy>KitHubRateCardV5.1</cp:lastModifiedBy><dcterms:created xsi:type="dcterms:W3CDTF">${now}</dcterms:created><dcterms:modified xsi:type="dcterms:W3CDTF">${now}</dcterms:modified></cp:coreProperties>`,
+        'docProps/app.xml': `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Properties xmlns="http://schemas.openxmlformats.org/officeDocument/2006/extended-properties" xmlns:vt="http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes"><Application>KitHubRateCardV5.1</Application><DocSecurity>0</DocSecurity><ScaleCrop>false</ScaleCrop><HeadingPairs><vt:vector size="2" baseType="variant"><vt:variant><vt:lpstr>Worksheets</vt:lpstr></vt:variant><vt:variant><vt:i4>2</vt:i4></vt:variant></vt:vector></HeadingPairs><TitlesOfParts><vt:vector size="2" baseType="lpstr"><vt:lpstr>Equipment</vt:lpstr><vt:lpstr>Rooms</vt:lpstr></vt:vector></TitlesOfParts></Properties>`,
         'xl/workbook.xml': `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets><sheet name="Equipment" sheetId="1" r:id="rId1"/><sheet name="Rooms" sheetId="2" r:id="rId2"/></sheets></workbook>`,
         'xl/_rels/workbook.xml.rels': `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet2.xml"/><Relationship Id="rId3" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>`,
         'xl/styles.xml': `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><numFmts count="1"><numFmt numFmtId="164" formatCode="£#,##0.00"/></numFmts><fonts count="4"><font><sz val="10"/><name val="Arial"/></font><font><b/><color rgb="FFFFFFFF"/><sz val="10"/><name val="Arial"/></font><font><b/><color rgb="FFFFFFFF"/><sz val="16"/><name val="Arial"/></font><font><i/><color rgb="FF4A4854"/><sz val="9"/><name val="Arial"/></font></fonts><fills count="5"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill><fill><patternFill patternType="solid"><fgColor rgb="FF2F2552"/><bgColor indexed="64"/></patternFill></fill><fill><patternFill patternType="solid"><fgColor rgb="FFE30613"/><bgColor indexed="64"/></patternFill></fill><fill><patternFill patternType="solid"><fgColor rgb="FFF4F3F8"/><bgColor indexed="64"/></patternFill></fill></fills><borders count="2"><border><left/><right/><top/><bottom/><diagonal/></border><border><left style="thin"><color rgb="FFD4D2DD"/></left><right style="thin"><color rgb="FFD4D2DD"/></right><top style="thin"><color rgb="FFD4D2DD"/></top><bottom style="thin"><color rgb="FFD4D2DD"/></bottom><diagonal/></border></borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="8"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/><xf numFmtId="0" fontId="1" fillId="2" borderId="1" xfId="0" applyFont="1" applyFill="1" applyBorder="1"><alignment vertical="center" wrapText="1"/></xf><xf numFmtId="164" fontId="0" fillId="0" borderId="1" xfId="0" applyNumberFormat="1" applyBorder="1"><alignment vertical="top"/></xf><xf numFmtId="1" fontId="0" fillId="0" borderId="1" xfId="0" applyNumberFormat="1" applyBorder="1"/><xf numFmtId="0" fontId="2" fillId="2" borderId="0" xfId="0" applyFont="1" applyFill="1"><alignment vertical="center"/></xf><xf numFmtId="0" fontId="1" fillId="3" borderId="0" xfId="0" applyFont="1" applyFill="1"><alignment vertical="center"/></xf><xf numFmtId="0" fontId="3" fillId="4" borderId="0" xfId="0" applyFont="1" applyFill="1"><alignment vertical="center" wrapText="1"/></xf><xf numFmtId="0" fontId="0" fillId="0" borderId="1" xfId="0" applyBorder="1"><alignment vertical="top" wrapText="1"/></xf></cellXfs><cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles></styleSheet>`,
@@ -6386,8 +6544,8 @@
       return {
         '[Content_Types].xml': `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/><Override PartName="/docProps/core.xml" ContentType="application/vnd.openxmlformats-package.core-properties+xml"/><Override PartName="/docProps/app.xml" ContentType="application/vnd.openxmlformats-officedocument.extended-properties+xml"/></Types>`,
         '_rels/.rels': `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties" Target="docProps/core.xml"/><Relationship Id="rId3" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties" Target="docProps/app.xml"/></Relationships>`,
-        'docProps/core.xml': `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dcmitype="http://purl.org/dc/dcmitype/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><dc:title>Kit Hub Basket List</dc:title><dc:creator>KitHubRateCardV5.0</dc:creator><cp:lastModifiedBy>KitHubRateCardV5.0</cp:lastModifiedBy><dcterms:created xsi:type="dcterms:W3CDTF">${now}</dcterms:created><dcterms:modified xsi:type="dcterms:W3CDTF">${now}</dcterms:modified></cp:coreProperties>`,
-        'docProps/app.xml': `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Properties xmlns="http://schemas.openxmlformats.org/officeDocument/2006/extended-properties" xmlns:vt="http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes"><Application>KitHubRateCardV5.0</Application><DocSecurity>0</DocSecurity><ScaleCrop>false</ScaleCrop><HeadingPairs><vt:vector size="2" baseType="variant"><vt:variant><vt:lpstr>Worksheets</vt:lpstr></vt:variant><vt:variant><vt:i4>1</vt:i4></vt:variant></vt:vector></HeadingPairs><TitlesOfParts><vt:vector size="1" baseType="lpstr"><vt:lpstr>Basket List</vt:lpstr></vt:vector></TitlesOfParts></Properties>`,
+        'docProps/core.xml': `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dcmitype="http://purl.org/dc/dcmitype/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><dc:title>Kit Hub Basket List</dc:title><dc:creator>KitHubRateCardV5.1</dc:creator><cp:lastModifiedBy>KitHubRateCardV5.1</cp:lastModifiedBy><dcterms:created xsi:type="dcterms:W3CDTF">${now}</dcterms:created><dcterms:modified xsi:type="dcterms:W3CDTF">${now}</dcterms:modified></cp:coreProperties>`,
+        'docProps/app.xml': `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Properties xmlns="http://schemas.openxmlformats.org/officeDocument/2006/extended-properties" xmlns:vt="http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes"><Application>KitHubRateCardV5.1</Application><DocSecurity>0</DocSecurity><ScaleCrop>false</ScaleCrop><HeadingPairs><vt:vector size="2" baseType="variant"><vt:variant><vt:lpstr>Worksheets</vt:lpstr></vt:variant><vt:variant><vt:i4>1</vt:i4></vt:variant></vt:vector></HeadingPairs><TitlesOfParts><vt:vector size="1" baseType="lpstr"><vt:lpstr>Basket List</vt:lpstr></vt:vector></TitlesOfParts></Properties>`,
         'xl/workbook.xml': `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets><sheet name="Basket List" sheetId="1" r:id="rId1"/></sheets></workbook>`,
         'xl/_rels/workbook.xml.rels': `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>`,
         'xl/styles.xml': fullRateCardFiles['xl/styles.xml'],
@@ -6869,14 +7027,15 @@
       });
     }
 
-    populateWholeHourTimes();
+    populateHalfHourTimes();
     els.roomCategory.innerHTML = '<option value="">All room categories</option>' + ROOM_CATEGORIES.map(category => `<option value="${escapeHtml(category)}">${escapeHtml(category)}</option>`).join('');
     const today = localDateStamp();
     els.roomStartDate.min = today;
     els.roomEndDate.min = today;
     restoreSharedBookingWindow();
 
-    function handleRoomControlsChanged() {
+    function handleRoomControlsChanged(event) {
+      if (event?.target === els.roomStartTime) updateRoomEndTimeOptions(els.roomStartTime.value, '');
       syncSharedBookingWindow('rooms');
       if (els.roomStartDate.value) els.roomEndDate.min = els.roomStartDate.value;
       refreshRoomBasketForSharedWindow();
@@ -7010,6 +7169,7 @@
     });
 
     els.chooseImportFile.addEventListener('click', () => els.importFileInput.click());
+    els.downloadImportTemplate.addEventListener('click', downloadImportTemplate);
     els.importPanel.addEventListener('click', () => setImportPanelOpen(els.importPanel.getAttribute('aria-expanded') !== 'true'));
     els.importFileInput.addEventListener('change', event => importEquipmentWorkbook(event.target.files?.[0]));
     ['dragenter', 'dragover'].forEach(type => els.importDropZone.addEventListener(type, event => {

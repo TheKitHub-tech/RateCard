@@ -6,6 +6,29 @@ All notable public changes are recorded here.
 
 - No changes yet.
 
+## 5.1 - 2026-11-10
+
+### Added
+
+- Downloadable Excel equipment-import template with Item, Quantity, optional Number of Days and Notes columns.
+- Automated checks covering the import template, half-hour room starts and compact laptop layout.
+- Level 1, Level 2 and Level 3 handover documentation for continuity and support.
+- Human-readable V5.0 pricing reference workbook for catalogue and room-price handover.
+
+### Changed
+
+- Room bookings may start on the hour or half hour while retaining complete-hour booking lengths.
+- The room end-time choices now follow the selected start-time minutes, for example `09:30` to `10:30` or `11:30`.
+- TV Studio A one-day price changed to £1,200 ex VAT, with three-day and five-day prices set to £3,600 and £6,000. The £420 hourly rate and unavailable half-day rate remain unchanged.
+- Equipment **Advanced options** renamed to **Import kit list**.
+- Removed the redundant **THE KIT HUB** label above Equipment, Rooms & Spaces and Basket.
+- Improved overflow, panel stacking and landing-page scrolling on smaller MacBook and laptop screens.
+
+### Documentation
+
+- Updated README, handover, deployment, release, testing and archive references for V5.1.
+- Preserved V5.0 and earlier archived HTML files as immutable rollback points.
+
 ## 5.0 - 2026-08-18
 
 ### Added
